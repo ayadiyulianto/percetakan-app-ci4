@@ -1,37 +1,41 @@
-## Welcome to GitHub Pages
+## Selamat datang di Belajar Membuat Website dengan CodeIgniter 4
 
-You can use the [editor on GitHub](https://github.com/ayadiyulianto/ci-belajar/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+_** docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+CodeIgniter merupakan framework untuk membuat website dengan PHP, selengkapnya kunjungi website resmi [CodeIgniter](https://codeigniter.com/)
 
-### Markdown
+### Glosarium
+- CI : CodeIniter
+- CRUD : singkatan Create, Read, Update, Delete
+- 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Studi Kasus
+Studi kasus yang akan dibuat websitenya adalah sistem manajemen usaha percetakan. Sistem ini membutuhkan :
+1. Authentication dan Authorization : Login dan Hak Akses
+2. Manajemen User
+3. Manajemen Produk
+4. Manajemen Pesanan
+5. Laporan Usaha
+6. dst
 
-```markdown
-Syntax highlighted code block
+Database yang akan digunakan adalah MySQL.
+- users : menyimpan informasi user dan login info
+- 
 
-# Header 1
-## Header 2
-### Header 3
+### Perkenalan
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
+### Persyaratan
 
-[Link](url) and ![Image](src)
-```
+- Mengetahui dasar bahasa pemrograman dengan PHP
+- Laptop/PC dengan Windows
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Instalasi
 
-### Jekyll Themes
+Pada tutorial ini kita akan menggunakan CodeIgniter versi 4, silahkan download [starter project](https://codeigniter.com/download)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ayadiyulianto/ci-belajar/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+### About this Pages
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Halaman ini dibangun dengan Jekyll Powered By GitHun Pages.
