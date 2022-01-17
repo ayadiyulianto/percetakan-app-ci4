@@ -10,8 +10,8 @@ defaults:
 
 title: Codeigniter 4
 description: Belajar Membuat Website dengan CodeIgniter 4
-# baseurl: "/percetakan-app-ci4"
-# url: "https://ayadiyulianto.github.io"
+baseurl: "/percetakan-app-ci4"
+url: "https://ayadiyulianto.github.io"
 # logo: "https://codeigniter.com/favicons/favicon-32x32.png"
 
 permalink: pretty
