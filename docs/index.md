@@ -8,21 +8,25 @@ nav_order: 1
 
 _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki._
 
-Halaman ini dibuat sebagai tutorial dasar membuat website dengan CodeIgniter 4. CodeIgniter (CI) merupakan framework untuk membuat website dengan PHP, selengkapnya kunjungi website resmi [CodeIgniter](https://codeigniter.com/).
+Halaman ini dibuat sebagai tutorial dasar membuat website dengan CodeIgniter 4. CodeIgniter (CI) merupakan _framework_ untuk membuat website dengan PHP, selengkapnya kunjungi website resmi [CodeIgniter](https://codeigniter.com/).
 
 ## Glosarium
 
 - **Client** : yang meminta akses website (misal web browser Chrome/Firefox).
-- **CLI (Command Line Interface)** : menjalankan perintah di terminal (Command Prompt, Powershell, Git Bash, dsb).
+- **CLI (Command Line Interface)** : menjalankan perintah di terminal/console.
 - **CRUD** : singkatan Create, Read, Update, Delete.
+- **Framework** : Kerangka kerja, suatu set alat pengembangan software siap pakai dengan aturan-aturan yang jelas sehingga bisa membantu mempercepat pembuatan software.
 - **Migrasi** : skema pembuatan struktur database oleh sistem, kumpulan instruksi migrasi akan berurutan berdasarkan waktu dan di rekam riwayat migrasinya.
+- **Terminal/Console** : tempat menjalankan baris perintah, seperti Windows Command Prompt (CMD), Powershell, Git Bash, Linux shell, dsb.
 - **Web Server** : software (perangkat lunak) yang melayani permintaan akses resource sebuah website dari komputer server melalui HTTP atau HTTPS, contoh Apache, Nginx (_baca: engine x_).
 
 ## Persyaratan
 
 - Mengetahui dasar bahasa pemrograman dengan PHP.
+- Mengetahui dasar database dengan MySQL.
 - Laptop/PC dengan Windows, atau menyesuaikan.
 - Web browser versi terbaru, dapat menggunakan Chrome, Edge, atau Mozilla, silahkan update agar mempermudah pengembangan website.
+- Memahami bahasa Inggris (reading), kemampuan (atau kemauan belajar jika belum bisa) berbahasa Inggris sangat diperlukan dalam pemrograman karena _sintax_ bahasa pemrograman yang menggunakan bahasa Inggris, dokumentasi teknologi banyak tersedia dalam bahasa inggris, tutorial atau wacana belajar banyak berbahasa inggris, serta diharapkan pembaca bisa mencari solusi error dengan _googling_ dalam bahasa Inggris.
 
 ## Tips dalam mengikuti tutorial ini
 

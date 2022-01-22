@@ -9,6 +9,8 @@ comments: true
 
 _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_.
 
+Halaman ini menjelaskan tentang _tools_ apa saja yang perlu diinstall untuk mengembangkan CodeIginiter 4.
+
 ## Instalasi
 
 ### XAMPP
@@ -20,7 +22,7 @@ _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_.
 - _Gambar: XAMPP Control Panel_.
 - ![XAMPP Control Panel](/assets/img/xampp-control-panel.JPG)
 
-- Untuk memaksimalkan CodeIgniter 4, PHP harus ditambahkan ke **PATH** di _system environment Windows_, caranya dapat pembaca pelajari sendiri dengan pencarian di google ["xampp menambahkan php ke path windows"](https://www.google.com/search?q=xampp+menambahkan+php+ke+path+windows). Langkah ini diperlukan karena akan digunakan untuk menjalankan PHP di terminal (CLI). Pastikan command _php -v_ memunculkan versi php saat dijalankan di terminal.
+- :warning: Untuk memaksimalkan CodeIgniter 4, PHP harus ditambahkan ke **PATH** di _system environment Windows_, caranya dapat pembaca pelajari sendiri dengan pencarian di google ["xampp menambahkan php ke path windows"](https://www.google.com/search?q=xampp+menambahkan+php+ke+path+windows). Langkah ini diperlukan karena akan digunakan untuk menjalankan PHP di terminal (CLI). Pastikan perintah _php -v_ memunculkan versi php saat dijalankan di terminal.
 
 ### CodeIgniter 4
 
@@ -30,6 +32,6 @@ _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_.
 
 ### Visual Studio Code
 
-- Text editor yang disarankan, download [_di sini_](https://code.visualstudio.com/download), namun bisa menggunakan text editor lain seperti Notepad++, Sublime Text, dsb.
+- Text editor yang disarankan, download [_di sini_](https://code.visualstudio.com/download), namun bisa menggunakan text editor lain seperti Notepad++, Sublime Text, dsb. Kelebihan yang ada dengan menggunakan VS Code adalah gratis, sudah tersedia terminal, dan banyak tools yang dapat mempermudah penulisan kode.
 
 {% include disqus.html %}

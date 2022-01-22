@@ -2,18 +2,38 @@
 
 ## Diskusi
 
+<button id="show-comments-button" type="button" name="button" class="btn btn-blue" onclick="disqus();return false;">Show Comments</button>
+
 <div id="disqus_thread"></div>
 <script>
+    var disqus_loaded = false;
     /* var disqus_config = function () {
         this.page.url = "https://ayadiyulianto.github.io/percetakan-app-ci4/installation.html";
         this.page.identifier = PAGE_IDENTIFIER; 
     }; */
-    (function() { /* DON'T EDIT BELOW THIS LINE */
-        var d = document, s = d.createElement('script');
-        s.src = 'https://ayadiyulianto-github-io.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
+    function disqus() {
+        if (!disqus_loaded)  {
+            disqus_loaded = true;
+            /* DON'T EDIT BELOW THIS LINE */
+            var d = document, s = d.createElement('script');
+            s.src = 'https://ayadiyulianto-github-io.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            /* Hide the button after opening */
+            document.getElementById("show-comments-button").style.display = "none";
+        }
+    }
+    /* Opens comments when linked to directly */
+    var hash = window.location.hash.substr(1);
+    if (hash.length > 8) {
+        if (hash.substring(0, 8) == "comment-") {
+            disqus();
+        }
+    }
+    /* Remove this if you don't want to load comments for search engines */
+    if(/bot|google|baidu|bing|msn|duckduckgo|slurp|yandex/i.test(navigator.userAgent)) {
+       disqus();
+    }
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
