@@ -4,6 +4,8 @@ title: Markdown kitchen sink
 nav_exclude: true
 ---
 
+<!-- markdownlint-disable -->
+
 Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Link to another page](another-page).

@@ -5,6 +5,8 @@ nav_order: 2
 comments: true
 ---
 
+<!-- markdownlint-disable MD025 MD036 -->
+
 # Instalasi dan Persiapan Proyek
 
 _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_.
@@ -19,6 +21,7 @@ Halaman ini menjelaskan tentang _tools_ apa saja yang perlu diinstall untuk meng
 - Download [_di sini_](https://www.apachefriends.org/download.html). Pilih installer dengan PHP 8.0.
 - Install secara default di Windows (akan terinstall di direktori _C:\xampp_).
 - Setelah terinstall, jalankan XAMPP Control Panel, kemudian jalankan Apache dan MySQL dengan klik tombol start.
+- Ingat bahwa Apache dan MySQL harus selalu dijalankan saat mengembangkan website dengan PHP, untuk itu apabila kita mematikan komputer, besok harinya jangan lupa jalankan kembali Apache dan MySQL di XAMPP Control Panel saat ingin melanjutkan pengembangan website.
 - _Gambar: XAMPP Control Panel_.
 - ![XAMPP Control Panel](/assets/img/xampp-control-panel.JPG)
 

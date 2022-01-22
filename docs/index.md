@@ -4,6 +4,8 @@ title: Selamat datang
 nav_order: 1
 ---
 
+<!-- markdownlint-disable MD025 MD036 -->
+
 # Selamat datang di Belajar Membuat Website dengan CodeIgniter 4
 
 _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki._
