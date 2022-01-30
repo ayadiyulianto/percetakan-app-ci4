@@ -13,6 +13,8 @@ _\*\* docs ini masih dalam pengembangan, materi akan ditambah dan diperbaiki_.
 
 CodeIgniter 4 sebagai _framework_ PHP memiliki aturan dan struktur folder tersendiri untuk menjalankan tugasnya. Folder dan file dalam _starter project_ (berkas zip yang didownload pertama kali saat memulai proyek ini) sudah disediakan oleh _framework_ CodeIgniter untuk menjalankan fungsi yang membantu mempercepat pembuatan proyek. Bila tidak menggunakan _framework_, kita harus membuat fungsi-fungsi tersebut dari awal agar bisa membuat website dengan performa yang bagus. Struktur folder ini sudah baku dan kita hanya akan mengubah konfigurasi dan membuat file baru untuk menjalankan alur proses sesuai kebutuhan website. Disini kita akan belajar apa saja fungsi-fungsi folder tersebut.
 
+Untuk mempelajari lebih lanjut Migrasi di CodeIgniter 4 bisa baca di [dokumentasi resmi](https://codeigniter4.github.io/userguide/concepts/structure.html).
+
 ## Struktur folder utama
 
 ![Struktur folder utama CI4](/assets/img/folder-structure.JPG)
