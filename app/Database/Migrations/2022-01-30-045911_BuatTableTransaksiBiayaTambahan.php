@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Database\Migrations;
+
+use CodeIgniter\Database\Migration;
+
+class BuatTableTransaksiBiayaTambahan extends Migration
+{
+    public function up()
+    {
+        $this->forge->addField([
+            'id' => [
+                'type'              => 'INT',
+                'constraint'        => '10',
+                'unsigned'          => true,
+                'auto_increment'    => true,
+            ],
+            'id_transaksi' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+            ],
+            'biaya_tambahan' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
+            ],
+            'keterangan' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255'
+            ],
+            'created_at' => [
+                'type'          => 'DATETIME',
+                'null'          => true
+            ],
+        ]);
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('id_transaksi', 'tb_transaksi', 'id_transaksi', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('tb_transaksi_biaya_tambahan');
+    }
+
+    public function down()
+    {
+        $this->forge->dropTable('tb_transaksi_biaya_tambahan');
+    }
+}

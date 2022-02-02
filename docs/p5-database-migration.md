@@ -57,7 +57,7 @@ php spark migrate
 command ini untuk membuat file migrasi, dengan nama file sesuasi timestamps saat ini.
 
 ```powershell
-php spark make:migration "nama_migrasi"
+php spark make:migration "nama migrasi"
 ```
 
 **migrate:rollback**
