@@ -13,8 +13,7 @@
     "kint-php/kint": "^4.0",
     "laminas/laminas-escaper": "^2.9",
     "psr/log": "^1.1",
-    "benedmunds/codeigniter-ion-auth": "4.x-dev",
-    "almasaeed2010/adminlte": "~3.1"
+    "benedmunds/codeigniter-ion-auth": "4.x-dev"
   },
   "require-dev": {
     "codeigniter/coding-standard": "^1.1",
@@ -23,7 +22,8 @@
     "mikey179/vfsstream": "^1.6",
     "nexusphp/cs-config": "^3.3",
     "phpunit/phpunit": "^9.1",
-    "predis/predis": "^1.1"
+    "predis/predis": "^1.1",
+    "almasaeed2010/adminlte": "~3.1"
   },
   "suggest": {
     "ext-fileinfo": "Improves mime type detection for files"
