@@ -4,42 +4,42 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class BuatTablePelanggan extends Migration
+class BuatTableBarang extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'id_pelanggan' => [
+            'id_barang' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-            'tipe' => [
+            'jenis' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],
-            'nama_pelanggan' => [
+            'nama_barang' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'constraint'    => '255'
             ],
-            'no_hp' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '50',
-                'null'          => true
+            'deskripsi' => [
+                'type'  => 'TEXT',
+                'null'  => true
             ],
-            'no_wa' => [
+            'gambar_file_path' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '50',
-                'null'          => true
+                'constraint'    => '255'
             ],
-            'alamat' => [
+            'satuan' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255',
-                'null'          => true,
+                'constraint'    => '50'
             ],
-            'perusahaan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
-                'null'          => true
+            'harga_jual_umum' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
+            ],
+            'harga_jual_reseller' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
             ],
             'created_at' => [
                 'type'          => 'DATETIME',
@@ -72,12 +72,12 @@ class BuatTablePelanggan extends Migration
                 'null'          => true
             ]
         ]);
-        $this->forge->addKey('id_pelanggan', true);
-        $this->forge->createTable('tb_pelanggan');
+        $this->forge->addKey('id_barang', true);
+        $this->forge->createTable('tb_barang');
     }
 
     public function down()
     {
-        $this->forge->dropTable('tb_pelanggan');
+        $this->forge->dropTable('tb_barang');
     }
 }

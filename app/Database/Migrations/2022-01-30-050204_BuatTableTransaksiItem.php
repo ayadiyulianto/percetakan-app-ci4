@@ -19,25 +19,24 @@ class BuatTableTransaksiItem extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255',
             ],
+            'nama_item' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+            ],
             'kuantiti' => [
                 'type'          => 'INT',
                 'constraint'    => '10'
             ],
             'satuan' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '10'
-            ],
-            'nama_item' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'constraint'    => '50'
             ],
             'total_harga' => [
                 'type'          => 'INT',
                 'constraint'    => '10'
             ],
             'keterangan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'type'          => 'TEXT',
                 'null'          => true
             ],
             'status' => [

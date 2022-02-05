@@ -25,7 +25,7 @@ class BuatTableTransaksi extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-            'nomor_wa' => [
+            'no_wa' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50',
             ],
@@ -34,11 +34,6 @@ class BuatTableTransaksi extends Migration
             ],
             'keterangan' => [
                 'type'          => 'TEXT',
-                'null'          => true
-            ],
-            'id_user' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
                 'null'          => true
             ],
             'upah_design' => [
@@ -70,11 +65,29 @@ class BuatTableTransaksi extends Migration
             'deleted_at' => [
                 'type'          => 'DATETIME',
                 'null'          => true
+            ],
+            'created_by' => [
+                'type'          => 'MEDIUMINT',
+                'constraint'    => '8',
+                'unsigned'      => true,
+                'null'          => true
+            ],
+            'updated_by' => [
+                'type'          => 'MEDIUMINT',
+                'constraint'    => '8',
+                'unsigned'      => true,
+                'null'          => true
+            ],
+            'deleted_by' => [
+                'type'          => 'MEDIUMINT',
+                'constraint'    => '8',
+                'unsigned'      => true,
+                'null'          => true
             ]
         ]);
         $this->forge->addKey('id_transaksi', true);
-        $this->forge->addForeignKey('id_pelanggan', 'tb_pelanggan', 'id_pelanggan', 'SET NULL', 'CASCADE');
-        // $this->forge->addForeignKey('id_user', 'tb_users', 'id', 'SET NULL', 'CASCADE');
+        $this->forge->addForeignKey('id_pelanggan', 'tb_pelanggan', 'id_pelanggan', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('created_by', 'users', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('tb_transaksi');
     }
 

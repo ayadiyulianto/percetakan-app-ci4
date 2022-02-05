@@ -24,11 +24,16 @@ class BuatTableTransaksiBiayaTambahan extends Migration
                 'constraint'    => '10'
             ],
             'keterangan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'type'          => 'TEXT',
             ],
             'created_at' => [
                 'type'          => 'DATETIME',
+                'null'          => true
+            ],
+            'created_by' => [
+                'type'          => 'MEDIUMINT',
+                'constraint'    => '8',
+                'unsigned'      => true,
                 'null'          => true
             ],
         ]);

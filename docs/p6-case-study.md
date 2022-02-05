@@ -24,10 +24,12 @@ Studi kasus yang akan dibuat websitenya adalah sistem manajemen usaha percetakan
 Database yang akan digunakan adalah MySQL. Berikut tabel yang akan dibuat
 
 | **users...** | menyimpan info user dan login (skema disediakan oleh library IonAuth 4). |
-| **pelanggan** | menyimpan info pelanggan. |
-| **produk** | menyimpan info jenis-jenis printing dan harganya. |
-| **bahan** | menyimpan info bahan modal percetakanan. |
-| **transaksi** | menyimpan info transaksi (invoice). |
-| **pesanan** | menyimpan info per barang per transaksi. |
-| **logs** | menyimpan aktivitas user dalam sistem. |
+| **tb_pelanggan** | menyimpan info pelanggan. |
+| **tb_bahan** | menyimpan info bahan modal percetakanan. |
+| **tb_barang** | menyimpan info jenis-jenis printing dan harganya. |
+| **tb_bahan_barang** | tabel bantu untuk menyimpan barang A membutuhkan barang apa saja. |
+| **tb_transaksi** | menyimpan info transaksi (invoice). |
+| **tb_transaksi_biaya_tambahan** | menyimpan biaya-biaya tambahan dalam transaksi. |
+| **tb_transaksi_item** | menyimpan info "barang custom" per transaksi. "Barang custom" karena tiap barang yang dipesan pelanggan membutuhkan bahan berbeda-beda. |
+| **tb_transaksi_item_barang** | menyimpan barang apa saja yang dibutuhkan untuk membuat "barang custom". |
 | ... | table lain menyusul menyesuaikan kebutuhan. |

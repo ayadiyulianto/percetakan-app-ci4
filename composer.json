@@ -1,48 +1,59 @@
 {
-    "name": "codeigniter4/framework",
-    "type": "project",
-    "description": "The CodeIgniter framework v4",
-    "homepage": "https://codeigniter.com",
-    "license": "MIT",
-    "require": {
-        "php": "^7.3 || ^8.0",
-        "ext-curl": "*",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "kint-php/kint": "^4.0",
-        "laminas/laminas-escaper": "^2.9",
-        "psr/log": "^1.1"
+  "name": "codeigniter4/framework",
+  "type": "project",
+  "description": "The CodeIgniter framework v4",
+  "homepage": "https://codeigniter.com",
+  "license": "MIT",
+  "require": {
+    "php": "^7.3 || ^8.0",
+    "ext-curl": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "kint-php/kint": "^4.0",
+    "laminas/laminas-escaper": "^2.9",
+    "psr/log": "^1.1",
+    "benedmunds/codeigniter-ion-auth": "4.x-dev",
+    "almasaeed2010/adminlte": "~3.1"
+  },
+  "require-dev": {
+    "codeigniter/coding-standard": "^1.1",
+    "fakerphp/faker": "^1.9",
+    "friendsofphp/php-cs-fixer": "^3.1",
+    "mikey179/vfsstream": "^1.6",
+    "nexusphp/cs-config": "^3.3",
+    "phpunit/phpunit": "^9.1",
+    "predis/predis": "^1.1"
+  },
+  "suggest": {
+    "ext-fileinfo": "Improves mime type detection for files"
+  },
+  "autoload": {
+    "psr-4": {
+      "CodeIgniter\\": "system/"
     },
-    "require-dev": {
-        "codeigniter/coding-standard": "^1.1",
-        "fakerphp/faker": "^1.9",
-        "friendsofphp/php-cs-fixer": "^3.1",
-        "mikey179/vfsstream": "^1.6",
-        "nexusphp/cs-config": "^3.3",
-        "phpunit/phpunit": "^9.1",
-        "predis/predis": "^1.1"
-    },
-    "suggest": {
-        "ext-fileinfo": "Improves mime type detection for files"
-    },
-    "autoload": {
-        "psr-4": {
-            "CodeIgniter\\": "system/"
-        },
-        "exclude-from-classmap": [
-            "**/Database/Migrations/**"
-        ]
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "CodeIgniter\\ComposerScripts::postUpdate"
-        ],
-        "test": "phpunit"
-    },
-    "support": {
-        "forum": "http://forum.codeigniter.com/",
-        "source": "https://github.com/codeigniter4/CodeIgniter4",
-        "slack": "https://codeigniterchat.slack.com"
+    "exclude-from-classmap": [
+      "**/Database/Migrations/**"
+    ]
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "CodeIgniter\\ComposerScripts::postUpdate"
+    ],
+    "test": "phpunit",
+    "ionauth:migrate": "php spark migrate -n IonAuth",
+    "ionauth:seed": "php spark db:seed IonAuth\\Database\\Seeds\\IonAuthSeeder"
+  },
+  "support": {
+    "forum": "http://forum.codeigniter.com/",
+    "source": "https://github.com/codeigniter4/CodeIgniter4",
+    "slack": "https://codeigniterchat.slack.com"
+  },
+  "minimum-stability": "dev",
+  "repositories": {
+    "ionAuth": {
+      "type": "vcs",
+      "url": "git@github.com:benedmunds/CodeIgniter-Ion-Auth.git"
     }
+  }
 }

@@ -4,42 +4,30 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class BuatTablePelanggan extends Migration
+class BuatTableBahan extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'id_pelanggan' => [
+            'id_bahan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-            'tipe' => [
+            'nama_bahan' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255'
+            ],
+            'satuan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],
-            'nama_pelanggan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
+            'modal_bahan' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
             ],
-            'no_hp' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '50',
-                'null'          => true
-            ],
-            'no_wa' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '50',
-                'null'          => true
-            ],
-            'alamat' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
-                'null'          => true,
-            ],
-            'perusahaan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
-                'null'          => true
+            'stok' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
             ],
             'created_at' => [
                 'type'          => 'DATETIME',
@@ -72,12 +60,12 @@ class BuatTablePelanggan extends Migration
                 'null'          => true
             ]
         ]);
-        $this->forge->addKey('id_pelanggan', true);
-        $this->forge->createTable('tb_pelanggan');
+        $this->forge->addKey('id_bahan', true);
+        $this->forge->createTable('tb_bahan');
     }
 
     public function down()
     {
-        $this->forge->dropTable('tb_pelanggan');
+        $this->forge->dropTable('tb_bahan');
     }
 }
