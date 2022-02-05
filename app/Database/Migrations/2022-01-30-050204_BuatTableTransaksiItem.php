@@ -35,6 +35,11 @@ class BuatTableTransaksiItem extends Migration
                 'type'          => 'INT',
                 'constraint'    => '10'
             ],
+            'file_gambar' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+                'null'          => true
+            ],
             'keterangan' => [
                 'type'          => 'TEXT',
                 'null'          => true

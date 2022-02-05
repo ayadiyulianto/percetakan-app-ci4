@@ -25,10 +25,6 @@ class BuatTableBarang extends Migration
                 'type'  => 'TEXT',
                 'null'  => true
             ],
-            'gambar_file_path' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
-            ],
             'satuan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
