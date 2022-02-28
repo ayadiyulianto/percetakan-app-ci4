@@ -277,6 +277,9 @@
 
 <!-- page script -->
 <script>
+  //Initialize Select2 Elements
+  $('.select2').select2();
+
   $(function() {
     $('#data_table').DataTable({
       "paging": true,
@@ -294,8 +297,6 @@
       }
     });
 
-    //Initialize Select2 Elements
-    $('.select2').select2();
   });
 
   function add() {

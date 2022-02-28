@@ -27,7 +27,7 @@ class KategoriBarang extends BaseController
 			'title'     		=> 'Kategori Barang'
 		];
 
-		return view('kategori/daftar_kategori', $data);
+		return view('barang/daftar_kategori', $data);
 	}
 
 	public function getAll()

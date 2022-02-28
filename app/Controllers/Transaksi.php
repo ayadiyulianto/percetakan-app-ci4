@@ -4,7 +4,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BarangModel;
 use App\Models\PelangganModel;
+use App\Models\SatuanModel;
 use App\Models\TransaksiModel;
 
 class Transaksi extends BaseController
@@ -13,12 +15,16 @@ class Transaksi extends BaseController
     protected $transaksiModel;
     protected $validation;
     protected $pelangganModel;
+    protected $satuanModel;
+    protected $barangModel;
 
     public function __construct()
     {
         $this->auth = service('auth');
         $this->pelangganModel = new PelangganModel();
         $this->transaksiModel = new TransaksiModel();
+        $this->satuanModel = new SatuanModel();
+        $this->barangModel = new BarangModel();
         $this->validation =  \Config\Services::validation();
     }
 
@@ -27,7 +33,7 @@ class Transaksi extends BaseController
 
         $data = [
             'menu'              => 'transaksi',
-            'title'             => 'Transaksi'
+            'title'             => 'Transaksi',
         ];
 
         return view('transaksi/daftar_transaksi', $data);
@@ -78,9 +84,10 @@ class Transaksi extends BaseController
 
         if ($this->validation->check($id, 'required|numeric')) {
 
-            $data = $this->transaksiModel->where('id_transaksi', $id)->first();
+            $data = $this->getTransaksiOr404($id);
 
             $data->token = csrf_hash();
+            $data->success = true;
             return $this->response->setJSON($data);
         } else {
 
@@ -225,12 +232,18 @@ class Transaksi extends BaseController
 
     public function detail($id_transaksi)
     {
-        $pelanggan = $this->pelangganModel
-            ->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
+
+        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+
         $data = [
             'menu'              => 'transaksi',
             'title'             => 'Transaksi Baru',
-            'pelanggan'         => $pelanggan
+            'pelanggan'         => $pelanggan,
+            'transaksi'         => $transaksi,
+            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
+            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll()
         ];
         return view('transaksi/detail', $data);
     }
@@ -239,17 +252,44 @@ class Transaksi extends BaseController
     {
         $response = array();
 
-        $id = $this->request->getPost('idPelanggan');
+        $id_transaksi = $this->request->getPost('idTransaksi');
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
 
-        if ($this->validation->check($id, 'required|numeric')) {
+        $id_pelanggan = $this->request->getPost('idPelanggan');
+        if ($this->validation->check($id_pelanggan, 'required|numeric')) {
+            $pelanggan = $this->pelangganModel->find($id_pelanggan);
+        } else {
+            $pelanggan = new \App\Entities\Pelanggan();
+            $pelanggan->id_pelanggan = null;
+            $pelanggan->nama_pelanggan = $id_pelanggan;
+            $pelanggan->no_wa = null;
+        }
 
-            $data = $this->pelangganModel->where('id_pelanggan', $id)->first();
+        $transaksi->id_pelanggan = $pelanggan->id_pelanggan;
+        $transaksi->nama_pelanggan = $pelanggan->nama_pelanggan;
+        $transaksi->no_wa = $pelanggan->no_wa;
 
-            $data->token = csrf_hash();
-            return $this->response->setJSON($data);
+        if ($this->transaksiModel->save($transaksi)) {
+
+            $response['success'] = true;
+            $response['messages'] = 'Berhasil memilih pelanggan';
         } else {
 
-            throw new \CodeIgniter\Exceptions\PageNotFoundException();
+            $response['success'] = false;
+            $response['messages'] = 'Pilih pelanggan gagal!';
         }
+
+        $response['token'] = csrf_hash();
+        return $this->response->setJSON($response);
+    }
+
+    private function getTransaksiOr404($id_transaksi)
+    {
+        $transaksi = $this->transaksiModel->find($id_transaksi);
+
+        if ($transaksi === null) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
+        }
+        return $transaksi;
     }
 }

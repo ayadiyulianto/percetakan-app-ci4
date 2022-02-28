@@ -62,11 +62,17 @@ $routes->group('barang', ['filter' => 'login'], function ($routes) {
 $routes->group('transaksi', ['filter' => 'login'], function ($routes) {
     $routes->get('/', 'Transaksi::index');
 });
+$routes->group('transaksiItem', ['filter' => 'login'], function ($routes) {
+    // $routes->get('/', 'Transaksi::index');
+});
 $routes->group('satuan', ['filter' => 'login'], function ($routes) {
     $routes->get('/', 'Satuan::index');
 });
 $routes->group('kategori', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Satuan::index');
+    $routes->get('/', 'Kategori::index');
+});
+$routes->group('bank', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Bank::index');
 });
 
 /*

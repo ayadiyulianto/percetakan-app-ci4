@@ -157,7 +157,7 @@
                 </li>
                 <li class="nav-item <?php if ($menu == "bank") echo "menu-open"; ?>">
                     <a href="<?= site_url("/bank") ?>" class="nav-link <?php if ($menu == "bank") echo "active"; ?>">
-                        <i class="nav-icon fas fa-piggy-bank"></i>
+                        <i class="nav-icon fas fa-university"></i>
                         <p>
                             BANK
                         </p>
