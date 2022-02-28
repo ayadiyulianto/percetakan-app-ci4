@@ -10,48 +10,78 @@ class BuatTableTransaksi extends Migration
     {
         $this->forge->addField([
             'id_transaksi' => [
+                'type'              => 'INT',
+                'constraint'        => '10',
+                'unsigned'          => true,
+                'auto_increment'    => true,
+            ],
+            'no_faktur' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'constraint'    => '50',
+                'unique'        => true,
+                'null'          => true
             ],
             'tgl_order' => [
-                'type'          => 'DATETIME'
+                'type'          => 'DATETIME',
+                'null'          => true
             ],
             'id_pelanggan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'unsigned'      => true,
                 'null'          => true
             ],
             'nama_pelanggan' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'constraint'    => '255',
+                'null'          => true
             ],
             'no_wa' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50',
+                'null'          => true
             ],
             'tgl_deadline' => [
                 'type'          => 'DATETIME',
-            ],
-            'keterangan' => [
-                'type'          => 'TEXT',
                 'null'          => true
             ],
-            'upah_design' => [
-                'type'          => 'INT',
-                'constraint'    => '10',
-                'default'       => '0'
+            'kasir' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
             ],
-            'upah_finishing' => [
-                'type'          => 'INT',
-                'constraint'    => '10',
-                'default'       => '0'
+            'pembayaran_jenis' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
+            'pembayaran_nama_bank' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
+            'pembayaran_norek' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
+            'pembayaran_atas_nama' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
             ],
             'total_bayar' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'null'          => true
             ],
-            'tgl_diambil' => [
-                'type'          => 'DATETIME',
+            'keterangan' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+                'null'          => true
+            ],
+            'status_transaksi' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
                 'null'          => true
             ],
             'created_at' => [
@@ -87,7 +117,6 @@ class BuatTableTransaksi extends Migration
         ]);
         $this->forge->addKey('id_transaksi', true);
         $this->forge->addForeignKey('id_pelanggan', 'tb_pelanggan', 'id_pelanggan', 'CASCADE', 'SET NULL');
-        $this->forge->addForeignKey('created_by', 'users', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('tb_transaksi');
     }
 

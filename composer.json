@@ -1,5 +1,6 @@
 {
   "name": "codeigniter4/framework",
+  "version": "4.1.7",
   "type": "project",
   "description": "The CodeIgniter framework v4",
   "homepage": "https://codeigniter.com",

@@ -21,13 +21,38 @@ class BuatTableTransaksiItemBarang extends Migration
                 'unsigned'      => true,
             ],
             'id_barang' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'unsigned'      => true,
                 'null'          => true
             ],
             'nama_barang' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'constraint'    => '255',
+                'null'          => true
+            ],
+            'satuan_kecil' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
+            'panjang' => [
+                'type'          => 'DECIMAL',
+                'constraint'    => '6,2',
+                'unsigned'      => true,
+                'null'          => true
+            ],
+            'lebar' => [
+                'type'          => 'DECIMAL',
+                'constraint'    => '6,2',
+                'unsigned'      => true,
+                'null'          => true
+            ],
+            'luas' => [
+                'type'          => 'DECIMAL',
+                'constraint'    => '6,2',
+                'unsigned'      => true,
+                'default'       => '1.0'
             ],
             'jumlah' => [
                 'type'           => 'INT',

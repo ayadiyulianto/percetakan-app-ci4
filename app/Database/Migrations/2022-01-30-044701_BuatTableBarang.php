@@ -10,10 +10,12 @@ class BuatTableBarang extends Migration
     {
         $this->forge->addField([
             'id_barang' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'type'              => 'INT',
+                'constraint'        => '10',
+                'unsigned'          => true,
+                'auto_increment'    => true,
             ],
-            'jenis' => [
+            'kategori_barang' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],
@@ -22,10 +24,11 @@ class BuatTableBarang extends Migration
                 'constraint'    => '255'
             ],
             'deskripsi' => [
-                'type'  => 'TEXT',
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
                 'null'  => true
             ],
-            'satuan' => [
+            'satuan_kecil' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],
@@ -34,6 +37,10 @@ class BuatTableBarang extends Migration
                 'constraint'    => '10'
             ],
             'harga_jual_reseller' => [
+                'type'          => 'INT',
+                'constraint'    => '10'
+            ],
+            'harga_jual_terendah' => [
                 'type'          => 'INT',
                 'constraint'    => '10'
             ],

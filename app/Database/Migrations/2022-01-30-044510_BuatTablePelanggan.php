@@ -10,10 +10,12 @@ class BuatTablePelanggan extends Migration
     {
         $this->forge->addField([
             'id_pelanggan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'type'              => 'INT',
+                'constraint'        => '10',
+                'unsigned'          => true,
+                'auto_increment'    => true,
             ],
-            'tipe' => [
+            'tipe_pelanggan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],

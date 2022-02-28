@@ -16,17 +16,28 @@ class BuatTableTransaksiBiayaTambahan extends Migration
                 'auto_increment'    => true,
             ],
             'id_transaksi' => [
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'unsigned'      => true,
+            ],
+            'nama_biaya' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'constraint'    => '50',
             ],
             'biaya_tambahan' => [
                 'type'          => 'INT',
                 'constraint'    => '10'
             ],
             'keterangan' => [
-                'type'          => 'TEXT',
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+                'null'          => true
             ],
             'created_at' => [
+                'type'          => 'DATETIME',
+                'null'          => true
+            ],
+            'updated_at' => [
                 'type'          => 'DATETIME',
                 'null'          => true
             ],

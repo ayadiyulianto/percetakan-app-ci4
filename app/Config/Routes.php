@@ -31,12 +31,13 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Landing::index');
 $routes->group('auth', function ($routes) {
+    $routes->get('/', 'Auth::index');
     $routes->add('login', 'Auth::login');
     $routes->get('logout', 'Auth::logout');
-    $routes->add('forgot_password', 'Auth::forgot_password');
-    // $routes->get('/', 'Auth::index');
+    // $routes->add('forgot_password', 'Auth::forgot_password');
+    // $routes->get('users', 'Auth::users');
     // $routes->add('create_user', 'Auth::create_user');
     // $routes->add('edit_user/(:num)', 'Auth::edit_user/$1');
     // $routes->add('create_group', 'Auth::create_group');
@@ -45,6 +46,27 @@ $routes->group('auth', function ($routes) {
     // $routes->add('deactivate/(:num)', 'Auth::deactivate/$1');
     // $routes->get('reset_password/(:hash)', 'Auth::reset_password/$1');
     // $routes->post('reset_password/(:hash)', 'Auth::reset_password/$1');
+});
+$routes->group('dashboard', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Dashboard::index');
+});
+$routes->group('pelanggan', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Pelanggan::index');
+});
+$routes->group('bahan', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Bahan::index');
+});
+$routes->group('barang', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Barang::index');
+});
+$routes->group('transaksi', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Transaksi::index');
+});
+$routes->group('satuan', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Satuan::index');
+});
+$routes->group('kategori', ['filter' => 'login'], function ($routes) {
+    $routes->get('/', 'Satuan::index');
 });
 
 /*

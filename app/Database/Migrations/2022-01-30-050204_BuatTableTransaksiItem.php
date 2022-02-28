@@ -16,24 +16,49 @@ class BuatTableTransaksiItem extends Migration
                 'auto_increment'    => true,
             ],
             'id_transaksi' => [
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'unsigned'      => true,
+            ],
+            'no_spk' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '255',
+                'constraint'    => '50',
+                'unique'        => true
             ],
             'nama_item' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255',
             ],
+            'rangkuman' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
+                'null'          => true
+            ],
+            'ukuran' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
             'kuantiti' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'unsigned'      => true,
+                'null'          => true
             ],
             'satuan' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '50'
+                'constraint'    => '50',
+                'null'          => true
             ],
-            'total_harga' => [
+            'harga_satuan' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'null'          => true
+            ],
+            'sub_total_harga' => [
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'null'          => true
             ],
             'file_gambar' => [
                 'type'          => 'VARCHAR',
@@ -41,13 +66,19 @@ class BuatTableTransaksiItem extends Migration
                 'null'          => true
             ],
             'keterangan' => [
-                'type'          => 'TEXT',
+                'type'          => 'VARCHAR',
+                'constraint'    => '255',
                 'null'          => true
             ],
-            'status' => [
+            'status_desain' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50',
-                'default'       => 'dipesan'
+                'null'          => true
+            ],
+            'status_produksi' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
             ]
         ]);
         $this->forge->addKey('id_transaksi_item', true);

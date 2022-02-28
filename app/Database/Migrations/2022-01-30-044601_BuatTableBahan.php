@@ -10,24 +10,38 @@ class BuatTableBahan extends Migration
     {
         $this->forge->addField([
             'id_bahan' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
+                'type'              => 'INT',
+                'constraint'        => '10',
+                'unsigned'          => true,
+                'auto_increment'    => true,
             ],
             'nama_bahan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-            'satuan' => [
+            'satuan_kecil' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50'
             ],
-            'modal_bahan' => [
+            'stok_satuan_kecil' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'default'       => '0'
             ],
-            'stok' => [
+            'satuan_besar' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
+            'isi_satuan_besar' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'null'          => true
+            ],
+            'modal_bahan_satuan_kecil' => [
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'default'       => '0'
             ],
             'created_at' => [
                 'type'          => 'DATETIME',
