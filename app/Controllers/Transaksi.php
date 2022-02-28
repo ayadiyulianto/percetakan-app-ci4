@@ -4,7 +4,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-
+use App\Models\PelangganModel;
 use App\Models\TransaksiModel;
 
 class Transaksi extends BaseController
@@ -12,10 +12,12 @@ class Transaksi extends BaseController
     protected $auth;
     protected $transaksiModel;
     protected $validation;
+    protected $pelangganModel;
 
     public function __construct()
     {
         $this->auth = service('auth');
+        $this->pelangganModel = new PelangganModel();
         $this->transaksiModel = new TransaksiModel();
         $this->validation =  \Config\Services::validation();
     }
@@ -42,8 +44,7 @@ class Transaksi extends BaseController
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            // $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_transaksi . ')"><i class="fa fa-edit"></i></button>';
-            $ops .= '	<a class="btn btn-sm btn-info" href="' . site_url('transaksi/' . $value->id_transaksi) . '"><i class="fa fa-edit"></i></a>';
+            $ops .= '	<a class="btn btn-sm btn-info" href="' . site_url('transaksi/detail/' . $value->id_transaksi) . '"><i class="fa fa-edit"></i></a>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
@@ -224,10 +225,31 @@ class Transaksi extends BaseController
 
     public function detail($id_transaksi)
     {
+        $pelanggan = $this->pelangganModel
+            ->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
         $data = [
             'menu'              => 'transaksi',
-            'title'             => 'Transaksi'
+            'title'             => 'Transaksi Baru',
+            'pelanggan'         => $pelanggan
         ];
-        return view('transaksi/detail');
+        return view('transaksi/detail', $data);
+    }
+
+    public function pilihPelanggan()
+    {
+        $response = array();
+
+        $id = $this->request->getPost('idPelanggan');
+
+        if ($this->validation->check($id, 'required|numeric')) {
+
+            $data = $this->pelangganModel->where('id_pelanggan', $id)->first();
+
+            $data->token = csrf_hash();
+            return $this->response->setJSON($data);
+        } else {
+
+            throw new \CodeIgniter\Exceptions\PageNotFoundException();
+        }
     }
 }

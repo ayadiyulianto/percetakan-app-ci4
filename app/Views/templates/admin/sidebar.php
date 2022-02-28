@@ -155,6 +155,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item <?php if ($menu == "bank") echo "menu-open"; ?>">
+                    <a href="<?= site_url("/bank") ?>" class="nav-link <?php if ($menu == "bank") echo "active"; ?>">
+                        <i class="nav-icon fas fa-piggy-bank"></i>
+                        <p>
+                            BANK
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

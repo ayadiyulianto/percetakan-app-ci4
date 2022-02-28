@@ -21,12 +21,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Transaksi</h1>
+                    <h1><?= $title ?></h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Transaksi</li>
+                        <li class="breadcrumb-item active"><?= $title ?></li>
                     </ol>
                 </div>
             </div>
@@ -129,19 +129,6 @@
 
                 } else {
 
-                    // if (response.messages instanceof Object) {
-                    //     $.each(response.messages, function(index, value) {
-                    //         var id = $("#" + index);
-
-                    //         id.closest('.form-control')
-                    //             .removeClass('is-invalid')
-                    //             .removeClass('is-valid')
-                    //             .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
-
-                    //         id.after(value);
-
-                    //     });
-                    // } else {
                     Swal.fire({
                         position: 'bottom-end',
                         icon: 'error',
@@ -150,7 +137,6 @@
                         timer: 1500
                     })
 
-                    // }
                 }
             }
         });
