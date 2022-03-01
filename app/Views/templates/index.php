@@ -59,15 +59,15 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
             }
         });
-        $(document).ajaxSuccess(function(e, x) {
-            var result = $.parseJSON(x.responseText);
-            $('input:hidden[name="<?= csrf_token() ?>"]').val(result.token);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': result.token
-                }
-            });
-        });
+        // $(document).ajaxSuccess(function(e, x) {
+        //     var result = $.parseJSON(x.responseText);
+        //     $('input:hidden[name="<?= csrf_token() ?>"]').val(result.token);
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': result.token
+        //         }
+        //     });
+        // });
     </script>
 
     <!-- ADDITIONAL JAVASCRIPT -->

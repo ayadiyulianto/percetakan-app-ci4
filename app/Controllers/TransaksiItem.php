@@ -42,6 +42,7 @@ class TransaksiItem extends BaseController
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
+            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="addItemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-plus"></i></button>';
             $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
@@ -55,6 +56,7 @@ class TransaksiItem extends BaseController
             //'<button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
 
             $data['data'][$key] = array(
+                $value->id_transaksi_item,
                 $value->nama_item,
                 $value->ukuran,
                 $value->kuantiti,
@@ -99,8 +101,8 @@ class TransaksiItem extends BaseController
         $fields['ukuran'] = $this->request->getPost('ukuran');
         $fields['kuantiti'] = $this->request->getPost('kuantiti');
         $fields['satuan'] = $this->request->getPost('satuan');
-        $fields['harga_satuan'] = $this->request->getPost('hargaSatuan');
-        $fields['sub_total_harga'] = $this->request->getPost('subTotalHarga');
+        // $fields['harga_satuan'] = $this->request->getPost('hargaSatuan');
+        // $fields['sub_total_harga'] = $this->request->getPost('subTotalHarga');
         $fields['status_desain'] = $this->request->getPost('statusDesain');
         $fields['file_gambar'] = $this->request->getPost('fileGambar');
         $fields['keterangan'] = $this->request->getPost('keterangan');
@@ -111,8 +113,8 @@ class TransaksiItem extends BaseController
             'ukuran' => ['label' => 'Ukuran', 'rules' => 'permit_empty|max_length[50]'],
             'kuantiti' => ['label' => 'Kuantiti', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'satuan' => ['label' => 'Satuan', 'rules' => 'permit_empty|max_length[50]'],
-            'harga_satuan' => ['label' => 'Harga satuan', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'sub_total_harga' => ['label' => 'Sub total harga', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            // 'harga_satuan' => ['label' => 'Harga satuan', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            // 'sub_total_harga' => ['label' => 'Sub total harga', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'status_desain' => ['label' => 'Status desain', 'rules' => 'permit_empty|max_length[50]'],
             'file_gambar' => ['label' => 'File gambar', 'rules' => 'permit_empty|max_length[255]'],
             'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
@@ -150,8 +152,8 @@ class TransaksiItem extends BaseController
         $fields['ukuran'] = $this->request->getPost('ukuran');
         $fields['kuantiti'] = $this->request->getPost('kuantiti');
         $fields['satuan'] = $this->request->getPost('satuan');
-        $fields['harga_satuan'] = $this->request->getPost('hargaSatuan');
-        $fields['sub_total_harga'] = $this->request->getPost('subTotalHarga');
+        // $fields['harga_satuan'] = $this->request->getPost('hargaSatuan');
+        // $fields['sub_total_harga'] = $this->request->getPost('subTotalHarga');
         $fields['status_desain'] = $this->request->getPost('statusDesain');
         $fields['file_gambar'] = $this->request->getPost('fileGambar');
         $fields['keterangan'] = $this->request->getPost('keterangan');
@@ -162,8 +164,8 @@ class TransaksiItem extends BaseController
             'ukuran' => ['label' => 'Ukuran', 'rules' => 'permit_empty|max_length[50]'],
             'kuantiti' => ['label' => 'Kuantiti', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'satuan' => ['label' => 'Satuan', 'rules' => 'permit_empty|max_length[50]'],
-            'harga_satuan' => ['label' => 'Harga satuan', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'sub_total_harga' => ['label' => 'Sub total harga', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            // 'harga_satuan' => ['label' => 'Harga satuan', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            // 'sub_total_harga' => ['label' => 'Sub total harga', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'status_desain' => ['label' => 'Status desain', 'rules' => 'permit_empty|max_length[50]'],
             'file_gambar' => ['label' => 'File gambar', 'rules' => 'permit_empty|max_length[255]'],
             'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
@@ -213,6 +215,28 @@ class TransaksiItem extends BaseController
             }
         }
 
+        $response['token'] = csrf_hash();
+        return $this->response->setJSON($response);
+    }
+
+    public function getBarang()
+    {
+
+        $response = array();
+        $id = $this->request->getPost('id_transaksi_item');
+
+        $response['html'] = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' .
+            '<tr>' .
+            '   <th>Nama barang</th>' .
+            '   <th>Satuan</td>' .
+            '   <th>Panjang</td>' .
+            '   <th>Lebar</td>' .
+            '   <th>Jumlah</td>' .
+            '   <th>Total Harga</td>' .
+            '</tr>' .
+            '<tr>' .
+            '</tr>' .
+            '</table>';
         $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }

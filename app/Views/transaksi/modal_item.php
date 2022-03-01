@@ -28,7 +28,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="kuantiti"> Kuantiti: <span class="text-danger">*</span> </label>
-                                <input type="number" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true">
+                                <input type="number" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true" required>
                             </div>
                         </div>
                     </div>
@@ -44,20 +44,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="hargaSatuan"> Harga satuan: </label>
-                                <input type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="subTotalHarga"> Sub total harga: </label>
-                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="statusDesain"> Status desain: <span class="text-danger">*</span></label>
@@ -76,6 +62,20 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="hargaSatuan"> Harga satuan: </label>
+                                <input  type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="subTotalHarga"> Sub total harga: </label>
+                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="keterangan"> Keterangan: </label>
@@ -146,20 +146,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="hargaSatuan"> Harga satuan: </label>
-                                <input type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="subTotalHarga"> Sub total harga: </label>
-                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label for="statusDesain"> Status desain: </label>
                                 <select id="statusDesain" name="statusDesain" class="form-control" placeholder="Status desain">
                                     <option value="belum">Belum</option>
@@ -176,10 +162,24 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="hargaSatuan"> Harga satuan: </label>
+                                <input type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="subTotalHarga"> Sub total harga: </label>
+                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="keterangan"> Keterangan: </label>
-                                <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255">
+                                <textarea id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
                             </div>
                         </div>
                     </div>

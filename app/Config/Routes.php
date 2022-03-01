@@ -47,33 +47,34 @@ $routes->group('auth', function ($routes) {
     // $routes->get('reset_password/(:hash)', 'Auth::reset_password/$1');
     // $routes->post('reset_password/(:hash)', 'Auth::reset_password/$1');
 });
-$routes->group('dashboard', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Dashboard::index');
-});
-$routes->group('pelanggan', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Pelanggan::index');
-});
-$routes->group('bahan', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Bahan::index');
-});
-$routes->group('barang', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Barang::index');
-});
-$routes->group('transaksi', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Transaksi::index');
-});
-$routes->group('transaksiItem', ['filter' => 'login'], function ($routes) {
-    // $routes->get('/', 'Transaksi::index');
-});
-$routes->group('satuan', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Satuan::index');
-});
-$routes->group('kategori', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Kategori::index');
-});
-$routes->group('bank', ['filter' => 'login'], function ($routes) {
-    $routes->get('/', 'Bank::index');
-});
+// $routes->group('dashboard', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Dashboard::index');
+// });
+// $routes->group('pelanggan', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Pelanggan::index');
+// });
+// $routes->group('bahan', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Bahan::index');
+// });
+// $routes->group('barang', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Barang::index');
+// });
+// $routes->group('transaksi', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Transaksi::index');
+//     $routes->get('detail/(:num)', 'Transaksi::detail/$1');
+// });
+// $routes->group('transaksiItem', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'TransaksiItem::index');
+// });
+// $routes->group('satuan', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Satuan::index');
+// });
+// $routes->group('kategori', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Kategori::index');
+// });
+// $routes->group('bank', ['filter' => 'login'], function ($routes) {
+//     $routes->get('/', 'Bank::index');
+// });
 
 /*
  * --------------------------------------------------------------------

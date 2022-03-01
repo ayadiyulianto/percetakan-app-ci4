@@ -65,5 +65,12 @@ class Filters extends BaseConfig
      *
      * @var array
      */
-    public $filters = [];
+    public $filters = [
+        'login' => [
+            'before' => [
+                'dashboard(/*)?', 'bahan(/*)?', 'bank(/*)?', 'barang(/*)?', 'kategoriBarang(/*)?',
+                'pelanggan(/*)?', 'satuan(/*)?', 'transaksi(/*)?', 'transaksiItem(/*)?'
+            ]
+        ]
+    ];
 }

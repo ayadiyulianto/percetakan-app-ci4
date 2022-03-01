@@ -13,6 +13,17 @@
 <!-- Ekko Lightbox -->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.css">
 
+<style>
+    /* modal backdrop fix */
+    .modal:nth-of-type(even) {
+        z-index: 1052 !important;
+    }
+
+    .modal-backdrop.show:nth-of-type(even) {
+        z-index: 1051 !important;
+    }
+</style>
+
 <?= $this->endSection() ?>
 
 <!-- PAGE-CONTENT -->
@@ -120,6 +131,7 @@
                             <table id="table_item" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
+                                        <th>Id Item</th>
                                         <th>Nama Item</th>
                                         <th>Ukuran</th>
                                         <th>Qty</th>
@@ -298,22 +310,50 @@
     });
 
     $(function() {
-        $('#table_item').DataTable({
+        var table_item = $('#table_item').DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
             "ordering": true,
             "info": false,
             "autoWidth": false,
-            "responsive": true,
+            "responsive": false,
             "ajax": {
                 "url": '<?php echo base_url('transaksiItem/getAll') ?>',
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
             }
+        }).on('draw.dt', function() {
+            table_item.rows().every(function() {
+                this.child(format(this.data())).show();
+                this.nodes().to$().addClass('shown');
+            });
         });
     })
+
+    function format(rowData) {
+        var div = $('<div/>')
+            .addClass('loading')
+            .text('Loading...');
+
+        console.log(rowData[0]);
+        $.ajax({
+            url: '<?= site_url('transaksiItem/getBarang') ?>',
+            data: {
+                id_transaksi_item: rowData[0]
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function(json) {
+                div
+                    .html(json.html)
+                    .removeClass('loading');
+            }
+        });
+
+        return div;
+    }
 
     function addItem() {
         // reset the form 
@@ -481,7 +521,7 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(function() {
-                                        $('#data_table').DataTable().ajax.reload(null, false).draw(false);
+                                        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
                                         $('#edit-modal-item').modal('hide');
                                     })
 
@@ -553,7 +593,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
-                                $('#data_table').DataTable().ajax.reload(null, false).draw(false);
+                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
                             })
                         } else {
                             Swal.fire({
@@ -563,8 +603,6 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             })
-
-
                         }
                     }
                 });
