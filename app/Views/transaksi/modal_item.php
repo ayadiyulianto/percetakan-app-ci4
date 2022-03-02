@@ -35,8 +35,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="satuan"> Satuan: <span class="text-danger">*</span> </label>
-                                <select id="satuan" name="satuan" class="form-control select2" style="width: 100%;" required>
+                                <label for="satuann"> Satuan: <span class="text-danger">*</span> </label>
+                                <select id="satuann" name="satuan" class="form-control select2" style="width: 100%;" required>
                                     <option></option>
                                     <?php foreach ($satuan as $stn) : ?>
                                         <option value="<?= $stn->nama_satuan ?>"><?= $stn->nama_satuan ?></option>
@@ -162,18 +162,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="hargaSatuan"> Harga satuan: </label>
-                                <input type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="subTotalHarga"> Sub total harga: </label>
-                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
-                            </div>
-                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -182,8 +170,18 @@
                                 <textarea id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="hargaSatuan"> Harga satuan: </label>
+                                <input type="number" disabled id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="subTotalHarga"> Sub total harga: </label>
+                                <input type="number" disabled id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group text-center">

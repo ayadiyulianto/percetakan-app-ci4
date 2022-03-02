@@ -31,6 +31,11 @@ class BuatTableTransaksi extends Migration
                 'unsigned'      => true,
                 'null'          => true
             ],
+            'tipe_pelanggan' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '50',
+                'null'          => true
+            ],
             'nama_pelanggan' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255',

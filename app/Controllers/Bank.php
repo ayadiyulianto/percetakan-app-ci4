@@ -55,7 +55,6 @@ class Bank extends BaseController
 			);
 		}
 
-		$data['token'] = csrf_hash();
 		return $this->response->setJSON($data);
 	}
 
@@ -69,7 +68,6 @@ class Bank extends BaseController
 
 			$data = $this->bankModel->where('id_bank', $id)->first();
 
-			$data->token = csrf_hash();
 			return $this->response->setJSON($data);
 		} else {
 
@@ -112,7 +110,6 @@ class Bank extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -151,7 +148,6 @@ class Bank extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -177,7 +173,6 @@ class Bank extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 }

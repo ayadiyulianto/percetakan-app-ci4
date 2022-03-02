@@ -8,18 +8,22 @@ use App\Controllers\BaseController;
 use App\Models\BarangModel;
 use App\Models\KategoriBarangModel;
 use App\Models\SatuanModel;
+use App\Models\TransaksiModel;
 
 class Barang extends BaseController
 {
 
 	protected $barangModel;
 	protected $validation;
+	protected $satuanModel;
+	protected $transaksiModel;
 
 	public function __construct()
 	{
 		$this->kategoriBarangModel = new KategoriBarangModel();
 		$this->satuanModel = new SatuanModel();
 		$this->barangModel = new BarangModel();
+		$this->transaksiModel = new TransaksiModel();
 		$this->validation =  \Config\Services::validation();
 	}
 
@@ -63,7 +67,6 @@ class Barang extends BaseController
 			);
 		}
 
-		$data['token'] = csrf_hash();
 		return $this->response->setJSON($data);
 	}
 
@@ -77,7 +80,29 @@ class Barang extends BaseController
 
 			$data = $this->barangModel->where('id_barang', $id)->first();
 
-			$data->token = csrf_hash();
+			return $this->response->setJSON($data);
+		} else {
+
+			throw new \CodeIgniter\Exceptions\PageNotFoundException();
+		}
+	}
+
+	public function getOneByTransaksi()
+	{
+		$response = array();
+
+		$id_barang = $this->request->getPost('id_barang');
+		$id_transaksi = $this->request->getPost('id_transaksi');
+
+		if ($this->validation->check($id_barang, 'required|numeric') && $this->validation->check($id_transaksi, 'required|numeric')) {
+
+			$data = $this->barangModel->where('id_barang', $id_barang)->first();
+			$transaksi = $this->transaksiModel->find($id_transaksi);
+			if ($transaksi->tipe_pelanggan == 'agent') {
+				$data->harga_by_transaksi = $data->harga_jual_reseller;
+			} else {
+				$data->harga_by_transaksi = $data->harga_jual_umum;
+			}
 			return $this->response->setJSON($data);
 		} else {
 
@@ -128,7 +153,6 @@ class Barang extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -175,7 +199,6 @@ class Barang extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -201,7 +224,6 @@ class Barang extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 }

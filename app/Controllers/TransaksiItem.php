@@ -35,14 +35,18 @@ class TransaksiItem extends BaseController
     {
         $response = array();
 
+        $id_transaksi = $this->request->getPost('id_transaksi');
+
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')->findAll();
+        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
+            ->where(array('id_transaksi' => $id_transaksi))
+            ->findAll();
 
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="addItemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-plus"></i></button>';
+            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
             $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
@@ -56,7 +60,6 @@ class TransaksiItem extends BaseController
             //'<button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
 
             $data['data'][$key] = array(
-                $value->id_transaksi_item,
                 $value->nama_item,
                 $value->ukuran,
                 $value->kuantiti,
@@ -68,7 +71,6 @@ class TransaksiItem extends BaseController
             );
         }
 
-        $data['token'] = csrf_hash();
         return $this->response->setJSON($data);
     }
 
@@ -82,7 +84,6 @@ class TransaksiItem extends BaseController
 
             $data = $this->transaksiItemModel->where('id_transaksi_item', $id)->first();
 
-            $data->token = csrf_hash();
             return $this->response->setJSON($data);
         } else {
 
@@ -138,7 +139,6 @@ class TransaksiItem extends BaseController
             }
         }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 
@@ -189,7 +189,6 @@ class TransaksiItem extends BaseController
             }
         }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 
@@ -215,29 +214,6 @@ class TransaksiItem extends BaseController
             }
         }
 
-        $response['token'] = csrf_hash();
-        return $this->response->setJSON($response);
-    }
-
-    public function getBarang()
-    {
-
-        $response = array();
-        $id = $this->request->getPost('id_transaksi_item');
-
-        $response['html'] = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' .
-            '<tr>' .
-            '   <th>Nama barang</th>' .
-            '   <th>Satuan</td>' .
-            '   <th>Panjang</td>' .
-            '   <th>Lebar</td>' .
-            '   <th>Jumlah</td>' .
-            '   <th>Total Harga</td>' .
-            '</tr>' .
-            '<tr>' .
-            '</tr>' .
-            '</table>';
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 }

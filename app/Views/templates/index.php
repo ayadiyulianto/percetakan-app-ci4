@@ -59,6 +59,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
             }
         });
+        // Digunakan apabila csrf token regenerate true
         // $(document).ajaxSuccess(function(e, x) {
         //     var result = $.parseJSON(x.responseText);
         //     $('input:hidden[name="<?= csrf_token() ?>"]').val(result.token);

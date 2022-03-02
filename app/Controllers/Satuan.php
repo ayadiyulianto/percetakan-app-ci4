@@ -53,7 +53,6 @@ class Satuan extends BaseController
 			);
 		}
 
-		$data['token'] = csrf_hash();
 		return $this->response->setJSON($data);
 	}
 
@@ -67,7 +66,6 @@ class Satuan extends BaseController
 
 			$data = $this->satuanModel->where('id', $id)->first();
 
-			$data->token = csrf_hash();
 			return $this->response->setJSON($data);
 		} else {
 
@@ -106,7 +104,6 @@ class Satuan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -141,7 +138,6 @@ class Satuan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -167,7 +163,6 @@ class Satuan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 }

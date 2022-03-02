@@ -13,7 +13,7 @@
 <!-- Ekko Lightbox -->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.css">
 
-<style>
+<!-- <style>
     /* modal backdrop fix */
     .modal:nth-of-type(even) {
         z-index: 1052 !important;
@@ -22,7 +22,7 @@
     .modal-backdrop.show:nth-of-type(even) {
         z-index: 1051 !important;
     }
-</style>
+</style> -->
 
 <?= $this->endSection() ?>
 
@@ -97,6 +97,7 @@
                                         <label for="idPelanggan"> Pelanggan: </label>
                                         <select id="idPelanggan" name="idPelanggan" class="form-control select2pelanggan" style="width: 100%;" required>
                                             <option value=""></option>
+                                            <!-- <option value="guest">Guest</option> -->
                                             <?php foreach ($pelanggan as $plg) : ?>
                                                 <option value="<?= $plg->id_pelanggan ?>">
                                                     <?= $plg->nama_pelanggan . ' (' . $plg->tipe_pelanggan . ')' ?>
@@ -108,7 +109,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="namaPelanggan"> Nama pelanggan: </label>
-                                        <input type="text" disabled id="namaPelanggan" name="namaPelanggan" class="form-control" placeholder="Nama pelanggan" maxlength="255">
+                                        <input type="text" disabled id="namaPelanggan" name="namaPelanggan" class="form-control" required placeholder="Nama pelanggan" maxlength="255">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -131,7 +132,6 @@
                             <table id="table_item" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id Item</th>
                                         <th>Nama Item</th>
                                         <th>Ukuran</th>
                                         <th>Qty</th>
@@ -152,29 +152,56 @@
                                         <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
                                         <input type="date" id="tglDeadline" name="tglDeadline" class="form-control" dateISO="true">
                                     </div>
-                                </div>
-                                <div class="col-md-4">
+
                                     <div class="form-group">
                                         <label for="keterangan"> Keterangan tambahan: </label>
                                         <textarea cols="40" rows="5" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pembayaranJenis"> Jenis Pembayaran: </label>
+                                        <select id="pembayaranJenis" name="pembayaranJenis" class="form-control" style="width: 100%;" required>
+                                            <option value="cash">Cash</option>
+                                            <option value="transfer">Transfer</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="pilihBank" style="display:none;">
+                                        <label for="pembayaranId"> Pilih Bank: </label>
+                                        <select id="pembayaranId" name="pembayaranId" class="form-control select2" style="width: 100%;" required>
+                                            <option></option>
+                                            <?php foreach ($bank as $bnk) : ?>
+                                                <option value="<?= $bnk->id_bank ?>">
+                                                    <?= $bnk->nama_bank . ' - ' . $bnk->atas_nama . ' (' . $bnk->norek . ')' ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="namaBank" style="display:none;">
+                                        <label for="pembayaranNamaBank"> Nama Bank: </label>
+                                        <textarea disabled id="pembayaranNamaBank" name="pembayaranNamaBank" class="form-control" placeholder="Nama pelanggan" maxlength="255"></textarea>
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="totalBayar"> Total bayar: <span class="text-danger">*</span> </label>
-                                        <input type="number" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                                        <input type="number" disabled id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span> </label>
+                                        <input type="number" id="dibayar" name="dibayar" class="form-control" placeholder="Dibayar" maxlength="10" number="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kembalian"> Kembalian: <span class="text-danger">*</span> </label>
+                                        <input type="number" disabled id="kembalian" name="kembalian" class="form-control" placeholder="Kembalian" maxlength="10" number="true">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                             </div>
 
                             <div class="form-group text-center">
                                 <div class="btn-group">
-                                    <button type="submit" class="btn btn-success" id="add-form-btn">Simpan</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-lg btn-success" id="add-form-btn">Simpan</button>
+                                    <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Batal</button>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +216,10 @@
     </div>
     <!-- /.content -->
 
+    <!-- Include modal for Item CRUD -->
     <?= $this->include('transaksi/modal_item') ?>
+    <!-- Include modal for Item Barang CRUD -->
+    <?= $this->include('transaksi/modal_item_barang') ?>
 
 </div>
 <!-- /.content-wrapper -->
@@ -254,6 +284,16 @@
                     if (response.tgl_deadline) $('#tglDeadline').val(response.tgl_deadline.substring(0, 10));
                     $('#kasir').val(response.kasir);
                     $('#keterangan').val(response.keterangan);
+                    $('#pembayaranJenis').val(response.pembayaran_jenis);
+                    if (response.pembayaran_jenis == 'transfer') {
+                        var nama_bank = response.pembayaran_nama_bank + ' - ' + response.pembayaran + ' (' + response.pembayaran_atas_nama + ')'
+                        $('#pilihBank').show();
+                        $('#namaBank').show();
+                        $('#pembayaranNamaBank').val(nama_bank);
+                    } else {
+                        $('#pilihBank').hide();
+                        $('#namaBank').hide();
+                    }
 
                 } else {
 
@@ -271,11 +311,12 @@
     }
 
     $('#idPelanggan').change(function() {
+        var idPelanggan = $(this).val();
         $.ajax({
             url: "<?= site_url('transaksi/pilihPelanggan') ?>",
             data: {
                 idTransaksi: $("#idTransaksi").val(),
-                idPelanggan: $("#idPelanggan").val()
+                idPelanggan: idPelanggan
             },
             dataType: "json",
             type: "post",
@@ -309,6 +350,8 @@
         });
     });
 
+    // ITEM
+
     $(function() {
         var table_item = $('#table_item').DataTable({
             "paging": false,
@@ -317,139 +360,67 @@
             "ordering": true,
             "info": false,
             "autoWidth": false,
-            "responsive": false,
+            "responsive": true,
             "ajax": {
                 "url": '<?php echo base_url('transaksiItem/getAll') ?>',
+                "data": {
+                    "id_transaksi": "<?= $transaksi->id_transaksi ?>"
+                },
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
             }
-        }).on('draw.dt', function() {
-            table_item.rows().every(function() {
-                this.child(format(this.data())).show();
-                this.nodes().to$().addClass('shown');
-            });
+        })
+        // .on('draw.dt', function() {
+        //     table_item.rows().every(function() {
+        //         this.child(format(this.data())).show();
+        //         this.nodes().to$().addClass('shown');
+        //     });
+        // });
+    })
+
+    // function format(rowData) {
+    //     var div = $('<div/>')
+    //         .addClass('loading')
+    //         .text('Loading...');
+
+    //     console.log(rowData[0]);
+    //     $.ajax({
+    //         url: '<?= site_url('transaksiItem/getBarang') ?>',
+    //         data: {
+    //             id_transaksi_item: rowData[0]
+    //         },
+    //         type: 'POST',
+    //         dataType: 'json',
+    //         success: function(json) {
+    //             div
+    //                 .html(json.html)
+    //                 .removeClass('loading');
+    //         }
+    //     });
+
+    //     return div;
+    // }
+
+    // END ITEM
+
+    // ITEM BARANG
+
+    $(function() {
+        $('#table_item_barang').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "responsive": true,
         });
     })
 
-    function format(rowData) {
-        var div = $('<div/>')
-            .addClass('loading')
-            .text('Loading...');
-
-        console.log(rowData[0]);
-        $.ajax({
-            url: '<?= site_url('transaksiItem/getBarang') ?>',
-            data: {
-                id_transaksi_item: rowData[0]
-            },
-            type: 'POST',
-            dataType: 'json',
-            success: function(json) {
-                div
-                    .html(json.html)
-                    .removeClass('loading');
-            }
-        });
-
-        return div;
-    }
-
-    function addItem() {
-        // reset the form 
-        $("#add-form-item")[0].reset();
-        $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-        $('#add-modal-item').modal('show');
-        // submit the add from 
-        $.validator.setDefaults({
-            highlight: function(element) {
-                $(element).addClass('is-invalid').removeClass('is-valid');
-            },
-            unhighlight: function(element) {
-                $(element).removeClass('is-invalid').addClass('is-valid');
-            },
-            errorElement: 'div ',
-            errorClass: 'invalid-feedback',
-            errorPlacement: function(error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else if ($(element).is('.select')) {
-                    element.next().after(error);
-                } else if (element.hasClass('select2')) {
-                    //error.insertAfter(element);
-                    error.insertAfter(element.next());
-                } else if (element.hasClass('selectpicker')) {
-                    error.insertAfter(element.next());
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-
-            submitHandler: function(form) {
-
-                var form = $('#add-form-item');
-                // remove the text-danger
-                $(".text-danger").remove();
-
-                $.ajax({
-                    url: '<?php echo base_url('transaksiItem/add') ?>',
-                    type: 'post',
-                    data: form.serialize(), // /converting the form data into array and sending it to server
-                    dataType: 'json',
-                    beforeSend: function() {
-                        $('#add-form-item-btn').html('<i class="fa fa-spinner fa-spin"></i>');
-                    },
-                    success: function(response) {
-
-                        if (response.success === true) {
-
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'success',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
-                                $('#add-modal-item').modal('hide');
-                            })
-
-                        } else {
-
-                            if (response.messages instanceof Object) {
-                                $.each(response.messages, function(index, value) {
-                                    var id = $("#" + index);
-
-                                    id.closest('.form-control')
-                                        .removeClass('is-invalid')
-                                        .removeClass('is-valid')
-                                        .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
-
-                                    id.after(value);
-
-                                });
-                            } else {
-                                Swal.fire({
-                                    position: 'bottom-end',
-                                    icon: 'error',
-                                    title: response.messages,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-
-                            }
-                        }
-                        $('#add-form-item-btn').html('Tambah');
-                    }
-                });
-
-                return false;
-            }
-        });
-        $('#add-form-item').validate();
-    }
-
-    function editItem(id_transaksi_item) {
+    function itemBarang(id_transaksi_item) {
+        $('#modal-item-barang').modal('show');
+        $('#modal-item-barang #idTransaksiItem').val(id_transaksi_item);
         $.ajax({
             url: '<?php echo base_url('transaksiItem/getOne') ?>',
             type: 'post',
@@ -458,157 +429,18 @@
             },
             dataType: 'json',
             success: function(response) {
-                // reset the form 
-                $("#edit-form-item")[0].reset();
-                $(".form-control").removeClass('is-invalid').removeClass('is-valid');
-                $('#edit-modal-item').modal('show');
-
-                $("#edit-form-item #idTransaksiItem").val(response.id_transaksi_item);
-                $("#edit-form-item #namaItem").val(response.nama_item);
-                $("#edit-form-item #ukuran").val(response.ukuran);
-                $("#edit-form-item #kuantiti").val(response.kuantiti);
-                $("#edit-form-item #satuan").val(response.satuan).trigger('change');
-                $("#edit-form-item #hargaSatuan").val(response.harga_satuan);
-                $("#edit-form-item #subTotalHarga").val(response.sub_total_harga);
-                $("#edit-form-item #statusDesain").val(response.status_desain);
-                $("#edit-form-item #fileGambar").val(response.file_gambar);
-                $("#edit-form-item #keterangan").val(response.keterangan);
-
-                // submit the edit from 
-                $.validator.setDefaults({
-                    highlight: function(element) {
-                        $(element).addClass('is-invalid').removeClass('is-valid');
-                    },
-                    unhighlight: function(element) {
-                        $(element).removeClass('is-invalid').addClass('is-valid');
-                    },
-                    errorElement: 'div ',
-                    errorClass: 'invalid-feedback',
-                    errorPlacement: function(error, element) {
-                        if (element.parent('.input-group').length) {
-                            error.insertAfter(element.parent());
-                        } else if ($(element).is('.select')) {
-                            element.next().after(error);
-                        } else if (element.hasClass('select2')) {
-                            //error.insertAfter(element);
-                            error.insertAfter(element.next());
-                        } else if (element.hasClass('selectpicker')) {
-                            error.insertAfter(element.next());
-                        } else {
-                            error.insertAfter(element);
-                        }
-                    },
-
-                    submitHandler: function(form) {
-                        var form = $('#edit-form-item');
-                        $(".text-danger").remove();
-                        $.ajax({
-                            url: '<?php echo base_url('transaksiItem/edit') ?>',
-                            type: 'post',
-                            data: form.serialize(),
-                            dataType: 'json',
-                            beforeSend: function() {
-                                $('#edit-form-item-btn').html('<i class="fa fa-spinner fa-spin"></i>');
-                            },
-                            success: function(response) {
-
-                                if (response.success === true) {
-
-                                    Swal.fire({
-                                        position: 'bottom-end',
-                                        icon: 'success',
-                                        title: response.messages,
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(function() {
-                                        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
-                                        $('#edit-modal-item').modal('hide');
-                                    })
-
-                                } else {
-
-                                    if (response.messages instanceof Object) {
-                                        $.each(response.messages, function(index, value) {
-                                            var id = $("#" + index);
-
-                                            id.closest('.form-control')
-                                                .removeClass('is-invalid')
-                                                .removeClass('is-valid')
-                                                .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
-
-                                            id.after(value);
-
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            position: 'bottom-end',
-                                            icon: 'error',
-                                            title: response.messages,
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        })
-
-                                    }
-                                }
-                                $('#edit-form-item-btn').html('Update');
-                            }
-                        });
-
-                        return false;
-                    }
-                });
-                $('#edit-form-item').validate();
-
-            }
-        });
-    }
-
-    function removeItem(id_transaksi_item) {
-        Swal.fire({
-            title: 'Are you sure of the deleting process?',
-            text: "You cannot back after confirmation",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-
-            if (result.value) {
-                $.ajax({
-                    url: '<?php echo base_url('transaksiItem/remove') ?>',
-                    type: 'post',
-                    data: {
-                        id_transaksi_item: id_transaksi_item
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-
-                        if (response.success === true) {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'success',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
-                            })
-                        } else {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'error',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    }
-                });
+                $('#modal-item-barang #namaItemModalTitle').val(response.nama_item);
             }
         })
+
+        $('#table_item_barang').DataTable().ajax.url("<?= site_url('transaksiItemBarang/getAll/') ?>" + id_transaksi_item).load();
     }
 </script>
+
+<!-- Include modal for Item CRUD -->
+<?= $this->include('transaksi/js_modal_item') ?>
+
+<!-- Include modal for Item Barang CRUD -->
+<?= $this->include('transaksi/js_modal_item_barang') ?>
 
 <?= $this->endSection() ?>

@@ -54,7 +54,6 @@ class Pelanggan extends BaseController
 			);
 		}
 
-		$data['token'] = csrf_hash();
 		return $this->response->setJSON($data);
 	}
 
@@ -68,7 +67,6 @@ class Pelanggan extends BaseController
 
 			$data = $this->pelangganModel->where('id_pelanggan', $id)->first();
 
-			$data->token = csrf_hash();
 			return $this->response->setJSON($data);
 		} else {
 
@@ -117,7 +115,6 @@ class Pelanggan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -162,7 +159,6 @@ class Pelanggan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -188,7 +184,6 @@ class Pelanggan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 }

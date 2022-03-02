@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BankModel;
 use App\Models\BarangModel;
 use App\Models\PelangganModel;
 use App\Models\SatuanModel;
@@ -17,6 +18,7 @@ class Transaksi extends BaseController
     protected $pelangganModel;
     protected $satuanModel;
     protected $barangModel;
+    protected $bankModel;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class Transaksi extends BaseController
         $this->transaksiModel = new TransaksiModel();
         $this->satuanModel = new SatuanModel();
         $this->barangModel = new BarangModel();
+        $this->bankModel = new BankModel();
         $this->validation =  \Config\Services::validation();
     }
 
@@ -72,7 +75,6 @@ class Transaksi extends BaseController
             );
         }
 
-        $data['token'] = csrf_hash();
         return $this->response->setJSON($data);
     }
 
@@ -86,7 +88,6 @@ class Transaksi extends BaseController
 
             $data = $this->getTransaksiOr404($id);
 
-            $data->token = csrf_hash();
             $data->success = true;
             return $this->response->setJSON($data);
         } else {
@@ -144,7 +145,6 @@ class Transaksi extends BaseController
         }
         // }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 
@@ -195,7 +195,6 @@ class Transaksi extends BaseController
             }
         }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 
@@ -221,7 +220,6 @@ class Transaksi extends BaseController
             }
         }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 
@@ -243,7 +241,8 @@ class Transaksi extends BaseController
             'pelanggan'         => $pelanggan,
             'transaksi'         => $transaksi,
             'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
-            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll()
+            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
+            'bank'              => $this->bankModel->findAll()
         ];
         return view('transaksi/detail', $data);
     }
@@ -261,11 +260,13 @@ class Transaksi extends BaseController
         } else {
             $pelanggan = new \App\Entities\Pelanggan();
             $pelanggan->id_pelanggan = null;
+            $pelanggan->tipe_pelanggan = null;
             $pelanggan->nama_pelanggan = $id_pelanggan;
             $pelanggan->no_wa = null;
         }
 
         $transaksi->id_pelanggan = $pelanggan->id_pelanggan;
+        $transaksi->tipe_pelanggan = $pelanggan->tipe_pelanggan;
         $transaksi->nama_pelanggan = $pelanggan->nama_pelanggan;
         $transaksi->no_wa = $pelanggan->no_wa;
 
@@ -279,7 +280,6 @@ class Transaksi extends BaseController
             $response['messages'] = 'Pilih pelanggan gagal!';
         }
 
-        $response['token'] = csrf_hash();
         return $this->response->setJSON($response);
     }
 

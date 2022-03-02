@@ -62,7 +62,6 @@ class Bahan extends BaseController
 			);
 		}
 
-		$data['token'] = csrf_hash();
 		return $this->response->setJSON($data);
 	}
 
@@ -76,7 +75,6 @@ class Bahan extends BaseController
 
 			$data = $this->bahanModel->where('id_bahan', $id)->first();
 
-			$data->token = csrf_hash();
 			return $this->response->setJSON($data);
 		} else {
 
@@ -125,7 +123,6 @@ class Bahan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -170,7 +167,6 @@ class Bahan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 
@@ -196,7 +192,6 @@ class Bahan extends BaseController
 			}
 		}
 
-		$response['token'] = csrf_hash();
 		return $this->response->setJSON($response);
 	}
 }
