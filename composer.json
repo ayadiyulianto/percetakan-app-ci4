@@ -43,7 +43,12 @@
     ],
     "test": "phpunit",
     "ionauth:migrate": "php spark migrate -n IonAuth",
-    "ionauth:seed": "php spark db:seed IonAuth\\Database\\Seeds\\IonAuthSeeder"
+    "ionauth:seed": "php spark db:seed IonAuth\\Database\\Seeds\\IonAuthSeeder",
+    "migrate:refresh": [
+      "php spark migrate:refresh",
+      "@ionauth:migrate",
+      "@ionauth:seed"
+    ]
   },
   "support": {
     "forum": "http://forum.codeigniter.com/",
