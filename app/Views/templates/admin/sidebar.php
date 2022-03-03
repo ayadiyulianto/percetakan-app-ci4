@@ -146,7 +146,7 @@
                 </li>
 
                 <li class="nav-item <?php if ($menu == "transaksi") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "transaksi") echo "active"; ?>">
+                    <a href="<?= site_url('/piutang') ?>" class="nav-link <?php if ($menu == "transaksi") echo "active"; ?>">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             TRANSAKSI PIUTANG
