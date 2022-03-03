@@ -55,7 +55,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                updateTableItem()
                                 $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                                 $('#add-modal-item-barang').modal('hide');
                             })
@@ -175,7 +175,7 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(function() {
-                                        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                        updateTableItem();
                                         $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                                         $('#edit-modal-item-barang').modal('hide');
                                     })
@@ -248,7 +248,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                updateTableItem();
                                 $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                             })
                         } else {
@@ -373,7 +373,6 @@
         var luas = $('#' + modalId + ' #luas').val();
         var jumlah = $('#' + modalId + ' #jumlah').val();
         var harga = $('#' + modalId + ' #harga').val();
-        console.log('luas=' + luas + '; jumlah:' + jumlah + '; harga:' + harga);
         if (luas && jumlah) {
             var totalHarga = Math.ceil(luas * jumlah * harga);
             $('#' + modalId + ' #totalHarga').val(totalHarga);
