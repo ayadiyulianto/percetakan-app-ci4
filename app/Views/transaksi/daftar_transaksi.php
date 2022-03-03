@@ -53,7 +53,7 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Id transaksi</th>
+                                    <!-- <th>Id transaksi</th> -->
                                     <th>No faktur</th>
                                     <th>Tgl order</th>
                                     <th>Nama pelanggan</th>
@@ -189,6 +189,41 @@
                 });
             }
         })
+    }
+
+    function detail(id_transaksi) {
+        $.ajax({
+            url: '<?php echo base_url('transaksi/detail') ?>',
+            type: 'post',
+            data: {
+                id_transaksi: id_transaksi
+            },
+            dataType: 'json',
+            success: function(response) {
+
+                if (response.success === true) {
+                    Swal.fire({
+                        position: 'bottom-end',
+                        icon: 'success',
+                        title: response.messages,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        $('#data_table').DataTable().ajax.reload(null, false).draw(false);
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'bottom-end',
+                        icon: 'error',
+                        title: response.messages,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+
+                }
+            }
+        });
     }
 </script>
 

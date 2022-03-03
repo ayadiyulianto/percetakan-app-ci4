@@ -61,7 +61,8 @@ class Transaksi extends BaseController
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<a class="btn btn-sm btn-info" href="' . site_url('transaksi/detail/' . $value->id_transaksi) . '"><i class="fa fa-edit"></i></a>';
+            $ops .= '	<form method= "post" action="' . site_url('Transaksi/detail') . '" > ';
+            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
@@ -77,7 +78,7 @@ class Transaksi extends BaseController
             }
 
             $data['data'][$key] = array(
-                $value->id_transaksi,
+                // $value->id_transaksi,
                 $no_faktur,
                 $value->tgl_order,
                 $pelanggan,
@@ -325,9 +326,9 @@ class Transaksi extends BaseController
         }
     }
 
-    public function detail($id_transaksi)
+    public function detail()
     {
-
+        $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
 
         $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();

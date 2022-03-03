@@ -145,6 +145,15 @@
                     </ul>
                 </li>
 
+                <li class="nav-item <?php if ($menu == "transaksi") echo "menu-open"; ?>">
+                    <a href="#" class="nav-link <?php if ($menu == "transaksi") echo "active"; ?>">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            TRANSAKSI PIUTANG
+                            <i class="right fas "></i>
+                        </p>
+                    </a>
+
                 <li class="nav-header">TOOLS</li>
 
                 <li class="nav-item <?php if ($menu == "satuan") echo "menu-open"; ?>">
