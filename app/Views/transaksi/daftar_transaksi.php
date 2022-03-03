@@ -41,9 +41,11 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-8 mt-2">
-                                <h3 class="card-title">Piutang</h3>
+                                <h3 class="card-title">Transaksi</h3>
                             </div>
-
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
+                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -98,7 +100,7 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('piutang/getAll') ?>',
+                "url": '<?php echo base_url('transaksi/getAll') ?>',
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
@@ -108,7 +110,7 @@
 
     function add() {
         $.ajax({
-            url: '<?php echo base_url('piutang/add') ?>',
+            url: '<?php echo base_url('transaksi/add') ?>',
             type: 'post',
             dataType: 'json',
             success: function(response) {
@@ -122,7 +124,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function() {
-                        location.href = "<?= site_url('piutang/baru') ?>"
+                        location.href = "<?= site_url('transaksi/baru') ?>"
                     })
 
                 } else {
@@ -154,7 +156,7 @@
 
             if (result.value) {
                 $.ajax({
-                    url: '<?php echo base_url('piutang/remove') ?>',
+                    url: '<?php echo base_url('transaksi/remove') ?>',
                     type: 'post',
                     data: {
                         id_transaksi: id_transaksi
@@ -191,7 +193,7 @@
 
     function detail(id_transaksi) {
         $.ajax({
-            url: '<?php echo base_url('piutang/detail') ?>',
+            url: '<?php echo base_url('transaksi/detail') ?>',
             type: 'post',
             data: {
                 id_transaksi: id_transaksi
