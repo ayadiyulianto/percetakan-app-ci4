@@ -95,7 +95,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
-                                    <input readonly type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
+                                    <input type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -182,7 +182,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
-                                    <input readonly type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
+                                    <input type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">

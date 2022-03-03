@@ -365,6 +365,9 @@
     $('#edit-modal-item-barang #jumlah').change(function() {
         calculateTotalHarga("edit-modal-item-barang")
     })
+    $('#edit-modal-item-barang #harga').change(function() {
+        calculateTotalHarga("edit-modal-item-barang")
+    })
 
     function calculateTotalHarga(modalId) {
         var luas = $('#' + modalId + ' #luas').val();
