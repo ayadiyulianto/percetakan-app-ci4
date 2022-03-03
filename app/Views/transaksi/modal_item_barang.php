@@ -7,7 +7,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-8" id="namaItemModalTitle"></div>
+                    <div class="col-md-8">
+                        <h5 id="namaItemModalTitle"></h5>
+                    </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-block btn-success" onclick="addItemBarang()" title="Tambah"> <i class="fa fa-plus"></i> Tambah Barang</button>
                     </div>

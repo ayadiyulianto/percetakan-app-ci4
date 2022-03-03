@@ -56,7 +56,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                updateTableItem()
                                 $('#add-modal-item').modal('hide');
                             })
 
@@ -175,7 +175,7 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(function() {
-                                        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                        updateTableItem()
                                         $('#edit-modal-item').modal('hide');
                                     })
 
@@ -247,7 +247,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
-                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+                                updateTableItem();
                             })
                         } else {
                             Swal.fire({
@@ -269,4 +269,9 @@
         var hargaSatuan = $('#edit-modal-item #hargaSatuan').val();
         $('#edit-modal-item #subTotalHarga').val(kuantiti * hargaSatuan);
     })
+
+    function updateTableItem() {
+        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
+        updateTotalBayar();
+    }
 </script>

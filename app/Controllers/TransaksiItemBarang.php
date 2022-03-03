@@ -261,14 +261,4 @@ class TransaksiItemBarang extends BaseController
 
 		$this->transaksiItemModel->save($transaksiItem);
 	}
-
-	public function try()
-	{
-		$itemBarang = $this->transaksiItemBarangModel->select('nama_barang')->where('id_transaksi_item', 2)->findAll();
-		$output = array_map(function ($object) {
-			return $object->nama_barang;
-		}, $itemBarang);
-		echo join(', ', $output);
-		// echo $rangkuman = join(", ", $itemBarang);
-	}
 }

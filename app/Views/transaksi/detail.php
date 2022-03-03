@@ -311,8 +311,8 @@
                         // $('#namaBank').hide();
                         // $('#pembayaranNamaBank').val("");
                     }
-                    $('#totalBayar').val(response.total_bayar);
-                    $('#totalBayarRupiah').val(currencyFormatter.format(response.total_bayar));
+                    $('#totalBayar').val(response.harus_bayar);
+                    $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
 
                 } else {
 
@@ -387,7 +387,7 @@
         if (kembalian > 0) {
             kembalianRupiah = currencyFormatter.format(kembalian);
         } else {
-            kembalianRupiah = undefined
+            kembalianRupiah = currencyFormatter.format(0);
         }
         $('#kembalian').val(kembalianRupiah);
     })
@@ -481,6 +481,35 @@
         $('#form-transaksi').validate();
     }
 
+    function updateTotalBayar() {
+        $.ajax({
+            url: "<?= site_url('transaksi/getOne') ?>",
+            data: {
+                id_transaksi: "<?= $transaksi->id_transaksi ?>"
+            },
+            dataType: "json",
+            type: "post",
+            success: function(response) {
+                if (response.success === true) {
+
+                    $('#totalBayar').val(response.harus_bayar);
+                    $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
+
+                } else {
+
+                    Swal.fire({
+                        position: 'bottom-end',
+                        icon: 'error',
+                        title: "Terjadi kesalahan saat mengambil data.",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+                }
+            }
+        });
+    }
+
     // ITEM
 
     $(function() {
@@ -531,7 +560,8 @@
             },
             dataType: 'json',
             success: function(response) {
-                $('#modal-item-barang #namaItemModalTitle').html(response.nama_item);
+                var namaItem = "Nama item : " + response.nama_item;
+                $('#modal-item-barang #namaItemModalTitle').html();
             }
         })
 

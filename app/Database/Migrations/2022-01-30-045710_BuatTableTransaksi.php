@@ -59,6 +59,11 @@ class BuatTableTransaksi extends Migration
                 'constraint'    => '50',
                 'null'          => true
             ],
+            'pembayaran_id_bank' => [
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'null'          => true
+            ],
             'pembayaran_nama_bank' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50',
