@@ -77,7 +77,8 @@ class BuatTableTransaksi extends Migration
             'total_bayar' => [
                 'type'          => 'INT',
                 'constraint'    => '10',
-                'null'          => true
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'keterangan' => [
                 'type'          => 'VARCHAR',

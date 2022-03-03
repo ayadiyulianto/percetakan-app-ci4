@@ -31,15 +31,17 @@
 
             submitHandler: function(form) {
 
-                var form = $('#add-form-item');
+                var form = new FormData($('#add-form-item')[0]);
                 // remove the text-danger
                 $(".text-danger").remove();
 
                 $.ajax({
                     url: '<?php echo base_url('transaksiItem/add') ?>',
                     type: 'post',
-                    data: form.serialize(), // /converting the form data into array and sending it to server
+                    data: form, //.serialize(), // /converting the form data into array and sending it to server
                     dataType: 'json',
+                    processData: false,
+                    contentType: false,
                     beforeSend: function() {
                         $('#add-form-item-btn').html('<i class="fa fa-spinner fa-spin"></i>');
                     },
@@ -115,7 +117,13 @@
                 $("#edit-form-item #hargaSatuan").val(response.harga_satuan);
                 $("#edit-form-item #subTotalHarga").val(response.sub_total_harga);
                 $("#edit-form-item #statusDesain").val(response.status_desain);
-                $("#edit-form-item #fileGambar").val(response.file_gambar);
+                if (response.file_gambar) {
+                    $("#edit-form-item #uploadedFileGambar").show();
+                    $("#edit-form-item #uploadedFileGambar").attr('href', "<?= base_url() ?>/" + response.file_gambar);
+                } else {
+                    $("#edit-form-item #uploadedFileGambar").hide();
+                    $("#edit-form-item #uploadedFileGambar").href = "";
+                }
                 $("#edit-form-item #keterangan").val(response.keterangan);
 
                 // submit the edit from 
@@ -144,12 +152,14 @@
                     },
 
                     submitHandler: function(form) {
-                        var form = $('#edit-form-item');
+                        var form = new FormData($('#edit-form-item')[0]);
                         $(".text-danger").remove();
                         $.ajax({
                             url: '<?php echo base_url('transaksiItem/edit') ?>',
                             type: 'post',
-                            data: form.serialize(),
+                            data: form, //.serialize(),
+                            processData: false,
+                            contentType: false,
                             dataType: 'json',
                             beforeSend: function() {
                                 $('#edit-form-item-btn').html('<i class="fa fa-spinner fa-spin"></i>');
@@ -253,4 +263,10 @@
             }
         })
     }
+
+    $('#edit-modal-item #kuantiti').change(function() {
+        var kuantiti = $(this).val();
+        var hargaSatuan = $('#edit-modal-item #hargaSatuan').val();
+        $('#edit-modal-item #subTotalHarga').val(kuantiti * hargaSatuan);
+    })
 </script>

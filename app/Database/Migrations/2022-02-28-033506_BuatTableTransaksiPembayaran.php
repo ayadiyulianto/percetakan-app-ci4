@@ -47,7 +47,9 @@ class BuatTableTransaksiPembayaran extends Migration
             ],
             'jumlah_dibayar' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'kasir' => [
                 'type'          => 'VARCHAR',

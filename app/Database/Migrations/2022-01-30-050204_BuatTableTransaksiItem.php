@@ -23,7 +23,8 @@ class BuatTableTransaksiItem extends Migration
             'no_spk' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '50',
-                'unique'        => true
+                'unique'        => true,
+                'null'          => true
             ],
             'nama_item' => [
                 'type'          => 'VARCHAR',
@@ -43,7 +44,7 @@ class BuatTableTransaksiItem extends Migration
                 'type'          => 'INT',
                 'constraint'    => '10',
                 'unsigned'      => true,
-                'null'          => true
+                'default'       => '0'
             ],
             'satuan' => [
                 'type'          => 'VARCHAR',
@@ -53,12 +54,14 @@ class BuatTableTransaksiItem extends Migration
             'harga_satuan' => [
                 'type'          => 'INT',
                 'constraint'    => '10',
-                'null'          => true
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'sub_total_harga' => [
                 'type'          => 'INT',
                 'constraint'    => '10',
-                'null'          => true
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'file_gambar' => [
                 'type'          => 'VARCHAR',

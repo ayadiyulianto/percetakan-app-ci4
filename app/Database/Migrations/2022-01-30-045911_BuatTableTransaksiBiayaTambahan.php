@@ -26,7 +26,9 @@ class BuatTableTransaksiBiayaTambahan extends Migration
             ],
             'biaya_tambahan' => [
                 'type'          => 'INT',
-                'constraint'    => '10'
+                'constraint'    => '10',
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'keterangan' => [
                 'type'          => 'VARCHAR',

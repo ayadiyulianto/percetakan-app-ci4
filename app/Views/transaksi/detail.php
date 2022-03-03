@@ -69,7 +69,7 @@
                         <!-- /.card-header -->
                         <div class="card-body pl-3 pr-3">
                             <div class="row">
-                                <input type="hidden" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" required>
+                                <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
@@ -136,7 +136,7 @@
                                         <th>Ukuran</th>
                                         <th>Qty</th>
                                         <th>Satuan</th>
-                                        <th>Harga</th>
+                                        <th>Harga Satuan</th>
                                         <th>Sub Total</th>
                                         <th>Desain</th>
                                         <th></th>
@@ -146,64 +146,71 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-body pl-3 pr-3">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
-                                        <input type="date" id="tglDeadline" name="tglDeadline" class="form-control" dateISO="true">
-                                    </div>
+                            <form id="form-transaksi" method="post" class="pl-3 pr-3">
+                                <?= csrf_field(); ?>
+                                <div class="row">
+                                    <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
+                                            <input type="datetime-local" id="tglDeadline" name="tglDeadline" class="form-control" required>
+                                        </div>
 
-                                    <div class="form-group">
-                                        <label for="keterangan"> Keterangan tambahan: </label>
-                                        <textarea cols="40" rows="5" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
+                                        <div class="form-group">
+                                            <label for="keterangan"> Keterangan tambahan: </label>
+                                            <textarea cols="40" rows="5" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pembayaranJenis"> Jenis Pembayaran: <span class="text-danger">*</span></label>
+                                            <select id="pembayaranJenis" name="pembayaranJenis" class="form-control" style="width: 100%;" required>
+                                                <option value="cash">Cash</option>
+                                                <option value="transfer">Transfer</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="pilihBank" style="display:none;">
+                                            <label for="pembayaranIdBank"> Pilih Bank: </label>
+                                            <select id="pembayaranIdBank" name="pembayaranIdBank" class="form-control select2" style="width: 100%;">
+                                                <option></option>
+                                                <?php foreach ($bank as $bnk) : ?>
+                                                    <option value="<?= $bnk->id_bank ?>">
+                                                        <?= $bnk->nama_bank . ' - ' . $bnk->atas_nama . ' (' . $bnk->norek . ')' ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <!-- <div class="form-group" id="namaBank" style="display:none;">
+                                            <label for="pembayaranNamaBank"> Nama Bank: </label>
+                                            <textarea disabled id="pembayaranNamaBank" name="pembayaranNamaBank" class="form-control" placeholder="Nama pelanggan" maxlength="255"></textarea>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="totalBayarRupiah"> Total bayar: </label>
+                                            <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
+                                            <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span></label>
+                                            <input type="number" id="dibayar" name="dibayar" class="form-control" placeholder="Dibayar" maxlength="10" number="true" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="kembalian"> Kembalian: </label>
+                                            <input type="text" disabled id="kembalian" name="kembalian" class="form-control" placeholder="Kembalian" maxlength="50">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="pembayaranJenis"> Jenis Pembayaran: </label>
-                                        <select id="pembayaranJenis" name="pembayaranJenis" class="form-control" style="width: 100%;" required>
-                                            <option value="cash">Cash</option>
-                                            <option value="transfer">Transfer</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" id="pilihBank" style="display:none;">
-                                        <label for="pembayaranId"> Pilih Bank: </label>
-                                        <select id="pembayaranId" name="pembayaranId" class="form-control select2" style="width: 100%;" required>
-                                            <option></option>
-                                            <?php foreach ($bank as $bnk) : ?>
-                                                <option value="<?= $bnk->id_bank ?>">
-                                                    <?= $bnk->nama_bank . ' - ' . $bnk->atas_nama . ' (' . $bnk->norek . ')' ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" id="namaBank" style="display:none;">
-                                        <label for="pembayaranNamaBank"> Nama Bank: </label>
-                                        <textarea disabled id="pembayaranNamaBank" name="pembayaranNamaBank" class="form-control" placeholder="Nama pelanggan" maxlength="255"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="totalBayar"> Total bayar: <span class="text-danger">*</span> </label>
-                                        <input type="number" disabled id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span> </label>
-                                        <input type="number" id="dibayar" name="dibayar" class="form-control" placeholder="Dibayar" maxlength="10" number="true">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="kembalian"> Kembalian: <span class="text-danger">*</span> </label>
-                                        <input type="number" disabled id="kembalian" name="kembalian" class="form-control" placeholder="Kembalian" maxlength="10" number="true">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="form-group text-center">
-                                <div class="btn-group">
-                                    <button type="submit" class="btn btn-lg btn-success" id="add-form-btn">Simpan</button>
-                                    <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">Batal</button>
+                                <div class="form-group text-center">
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-lg btn-success" id="form-transaksi-save-button" onclick="saveTransaksi()">Simpan</button>
+                                        <button type="button" class="btn btn-lg btn-danger" onclick="removeTransaksi()">Batal</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -253,13 +260,21 @@
         tags: true
     });
 
+    var currencyFormatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+    });
+
     $(function() {
         refreshDataTransaksi();
+
+        bsCustomFileInput.init();
 
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox({
-                alwaysShowClose: true
+                alwaysShowClose: true,
+                showArrows: false
             });
         });
     });
@@ -275,25 +290,29 @@
             success: function(response) {
                 if (response.success === true) {
 
-                    $('#idTransaksi').val(response.id_transaksi);
+                    // $('#idTransaksi').val(response.id_transaksi);
                     $('#noFaktur').val(response.no_faktur);
                     if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
                     $('#idPelanggan').val(response.id_pelanggan);
                     $('#namaPelanggan').val(response.nama_pelanggan);
                     $('#noWa').val(response.no_wa);
-                    if (response.tgl_deadline) $('#tglDeadline').val(response.tgl_deadline.substring(0, 10));
+                    if (response.tgl_deadline) $('#tglDeadline').val(response.tgl_deadline.replace(/\s+/g, 'T'));
                     $('#kasir').val(response.kasir);
                     $('#keterangan').val(response.keterangan);
                     $('#pembayaranJenis').val(response.pembayaran_jenis);
+                    $('#pembayaranIdBank').val(response.pembayaran_id_bank).trigger('change');
                     if (response.pembayaran_jenis == 'transfer') {
-                        var nama_bank = response.pembayaran_nama_bank + ' - ' + response.pembayaran + ' (' + response.pembayaran_atas_nama + ')'
+                        // var nama_bank = response.pembayaran_nama_bank + ' - ' + response.pembayaran + ' (' + response.pembayaran_atas_nama + ')'
                         $('#pilihBank').show();
-                        $('#namaBank').show();
-                        $('#pembayaranNamaBank').val(nama_bank);
+                        // $('#namaBank').show();
+                        // $('#pembayaranNamaBank').val(nama_bank);
                     } else {
                         $('#pilihBank').hide();
-                        $('#namaBank').hide();
+                        // $('#namaBank').hide();
+                        // $('#pembayaranNamaBank').val("");
                     }
+                    $('#totalBayar').val(response.total_bayar);
+                    $('#totalBayarRupiah').val(currencyFormatter.format(response.total_bayar));
 
                 } else {
 
@@ -350,6 +369,118 @@
         });
     });
 
+    $('#pembayaranJenis').change(function() {
+        if ($(this).val() == 'transfer') {
+            $('#pilihBank').show();
+            $('#namaBank').show();
+        } else {
+            $('#pilihBank').hide();
+            $('#namaBank').hide();
+        }
+    })
+
+    $('#dibayar').change(function() {
+        var dibayar = $(this).val();
+        var totalBayar = $('#totalBayar').val();
+        var kembalian = dibayar - totalBayar;
+        var kembalianRupiah
+        if (kembalian > 0) {
+            kembalianRupiah = currencyFormatter.format(kembalian);
+        } else {
+            kembalianRupiah = undefined
+        }
+        $('#kembalian').val(kembalianRupiah);
+    })
+
+    function saveTransaksi() {
+        $.validator.setDefaults({
+            highlight: function(element) {
+                $(element).addClass('is-invalid').removeClass('is-valid');
+            },
+            unhighlight: function(element) {
+                $(element).removeClass('is-invalid').addClass('is-valid');
+            },
+            errorElement: 'div ',
+            errorClass: 'invalid-feedback',
+            errorPlacement: function(error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else if ($(element).is('.select')) {
+                    element.next().after(error);
+                } else if (element.hasClass('select2')) {
+                    //error.insertAfter(element);
+                    error.insertAfter(element.next());
+                } else if (element.hasClass('selectpicker')) {
+                    error.insertAfter(element.next());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+
+            submitHandler: function(form) {
+
+                var form = $('#form-transaksi').serialize();
+                // remove the text-danger
+                $(".text-danger").remove();
+
+                $.ajax({
+                    url: '<?php echo base_url('transaksi/save') ?>',
+                    type: 'post',
+                    data: form, // /converting the form data into array and sending it to server
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#form-transaksi-save-button').html('<i class="fa fa-spinner fa-spin"></i>');
+                    },
+                    success: function(response) {
+
+                        if (response.success === true) {
+
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'success',
+                                title: response.messages,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                // go to print invoice
+                                refreshDataTransaksi();
+                            })
+
+                        } else {
+
+                            if (response.messages instanceof Object) {
+                                $.each(response.messages, function(index, value) {
+                                    var id = $("#" + index);
+
+                                    id.closest('.form-control')
+                                        .removeClass('is-invalid')
+                                        .removeClass('is-valid')
+                                        .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
+
+                                    id.after(value);
+
+                                });
+                            } else {
+                                Swal.fire({
+                                    position: 'bottom-end',
+                                    icon: 'error',
+                                    title: response.messages,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                            }
+                        }
+                        $('#form-transaksi-save-button').html('Simpan');
+                    }
+                });
+
+                return false;
+            }
+        });
+        $('#form-transaksi').validate();
+    }
+
     // ITEM
 
     $(function() {
@@ -371,36 +502,7 @@
                 async: "true"
             }
         })
-        // .on('draw.dt', function() {
-        //     table_item.rows().every(function() {
-        //         this.child(format(this.data())).show();
-        //         this.nodes().to$().addClass('shown');
-        //     });
-        // });
     })
-
-    // function format(rowData) {
-    //     var div = $('<div/>')
-    //         .addClass('loading')
-    //         .text('Loading...');
-
-    //     console.log(rowData[0]);
-    //     $.ajax({
-    //         url: '<?= site_url('transaksiItem/getBarang') ?>',
-    //         data: {
-    //             id_transaksi_item: rowData[0]
-    //         },
-    //         type: 'POST',
-    //         dataType: 'json',
-    //         success: function(json) {
-    //             div
-    //                 .html(json.html)
-    //                 .removeClass('loading');
-    //         }
-    //     });
-
-    //     return div;
-    // }
 
     // END ITEM
 
@@ -429,7 +531,7 @@
             },
             dataType: 'json',
             success: function(response) {
-                $('#modal-item-barang #namaItemModalTitle').val(response.nama_item);
+                $('#modal-item-barang #namaItemModalTitle').html(response.nama_item);
             }
         })
 

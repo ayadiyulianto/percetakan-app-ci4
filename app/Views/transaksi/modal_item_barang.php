@@ -21,7 +21,7 @@
                             <th>Panjang</th>
                             <th>Lebar</th>
                             <th>Jumlah</th>
-                            <th>Harga</th>
+                            <th>Harga Satuan</th>
                             <th>Sub Total</th>
                             <th></th>
                         </tr>
@@ -94,7 +94,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="harga"> Harga: <span class="text-danger">*</span> </label>
+                                    <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
                                     <input readonly type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="idBarangg"> Id barang: </label>
-                                    <select id="idBarangg" name="idBarang" class="form-control select2" style="width: 100%;" required>
+                                    <select id="idBarangg" name="idBarang" class="form-control select2" style="width: 100%;">
                                         <option></option>
                                         <?php foreach ($barang as $brg) : ?>
                                             <option value="<?= $brg->id_barang ?>"><?= $brg->nama_barang ?></option>
@@ -181,7 +181,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="harga"> Harga: <span class="text-danger">*</span> </label>
+                                    <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
                                     <input readonly type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>

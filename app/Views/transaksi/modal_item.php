@@ -6,7 +6,7 @@
                 <h4 class="modal-title text-white" id="info-header-modalLabel">Tambah</h4>
             </div>
             <div class="modal-body">
-                <form id="add-form-item" class="pl-3 pr-3">
+                <form id="add-form-item" enctype="multipart/form-data" class="pl-3 pr-3">
                     <?= csrf_field(); ?>
                     <div class="row">
                         <input type="hidden" id="idTransaksiItem" name="idTransaksiItem" class="form-control" placeholder="Id transaksi item" maxlength="10" required>
@@ -57,23 +57,11 @@
                             <div class="form-group">
                                 <label for="fileGambar"> File gambar: </label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileGambar">
-                                    <label class="custom-file-label" for="fileGambar">Choose file</label>
+                                    <input type="file" name="fileGambar" accept="image/*" class="custom-file-input" id="fileGambar">
+                                    <label class="custom-file-label" for="fileGambar">Pilih file</label>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="hargaSatuan"> Harga satuan: </label>
-                                <input  type="number" id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="subTotalHarga"> Sub total harga: </label>
-                                <input type="number" id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
-                            </div>
-                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -106,7 +94,7 @@
                 <h4 class="modal-title text-white" id="info-header-modalLabel">Update</h4>
             </div>
             <div class="modal-body">
-                <form id="edit-form-item" class="pl-3 pr-3">
+                <form id="edit-form-item" enctype="multipart/form-data" class="pl-3 pr-3">
                     <?= csrf_field(); ?>
                     <div class="row">
                         <input type="hidden" id="idTransaksiItem" name="idTransaksiItem" class="form-control" placeholder="Id transaksi item" maxlength="10" required>
@@ -157,9 +145,14 @@
                             <div class="form-group">
                                 <label for="fileGambar"> File gambar: </label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileGambar">
-                                    <label class="custom-file-label" for="fileGambar">Choose file</label>
+                                    <input type="file" name="fileGambar" accept="image/*" class="custom-file-input" id="fileGambar">
+                                    <label class="custom-file-label" for="fileGambar">Pilih file</label>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <a id="uploadedFileGambar" style="display: none;" class="btn btn-sm btn-info" href="#" data-toggle="lightbox" data-title="Title" data-gallery="gallery">
+                                    <i class="fa fa-image"></i> Lihat
+                                </a>
                             </div>
                         </div>
                     </div>

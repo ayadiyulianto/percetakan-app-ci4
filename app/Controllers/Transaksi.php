@@ -19,10 +19,12 @@ class Transaksi extends BaseController
     protected $satuanModel;
     protected $barangModel;
     protected $bankModel;
+    protected $db;
 
     public function __construct()
     {
         $this->auth = service('auth');
+        $this->db = \Config\Database::connect();
         $this->pelangganModel = new PelangganModel();
         $this->transaksiModel = new TransaksiModel();
         $this->satuanModel = new SatuanModel();
@@ -100,39 +102,10 @@ class Transaksi extends BaseController
     {
         $response = array();
 
-        // $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
-        // $fields['no_faktur'] = $this->request->getPost('noFaktur');
-        // $fields['tgl_order'] = $this->request->getPost('tglOrder');
-        // $fields['id_pelanggan'] = $this->request->getPost('idPelanggan');
-        // $fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
-        // $fields['no_wa'] = $this->request->getPost('noWa');
-        // $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
         $fields['kasir'] = current_user()->first_name;
         $fields['status_transaksi'] = 'draft';
         $fields['created_by'] = current_user()->id;
         $fields['updated_by'] = current_user()->id;
-        // $fields['total_bayar'] = $this->request->getPost('totalBayar');
-        // $fields['keterangan'] = $this->request->getPost('keterangan');
-
-
-        // $this->validation->setRules([
-        //     'no_faktur' => ['label' => 'No faktur', 'rules' => 'permit_empty|max_length[50]'],
-        //     'tgl_order' => ['label' => 'Tgl order', 'rules' => 'permit_empty|valid_date'],
-        //     'id_pelanggan' => ['label' => 'Id pelanggan', 'rules' => 'permit_empty|numeric|max_length[10]'],
-        //     'nama_pelanggan' => ['label' => 'Nama pelanggan', 'rules' => 'permit_empty|max_length[255]'],
-        //     'no_wa' => ['label' => 'No wa', 'rules' => 'permit_empty|max_length[50]'],
-        //     'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'permit_empty|valid_date'],
-        //     'kasir' => ['label' => 'Kasir', 'rules' => 'required|max_length[50]'],
-        //     'total_bayar' => ['label' => 'Total bayar', 'rules' => 'permit_empty|numeric|max_length[10]'],
-        //     'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
-
-        // ]);
-
-        // if ($this->validation->run($fields) == FALSE) {
-
-        //     $response['success'] = false;
-        //     $response['messages'] = $this->validation->listErrors();
-        // } else {
 
         if ($this->transaksiModel->insert($fields)) {
 
@@ -143,9 +116,67 @@ class Transaksi extends BaseController
             $response['success'] = false;
             $response['messages'] = 'Insertion error!';
         }
-        // }
 
         return $this->response->setJSON($response);
+    }
+
+    public function save()
+    {
+        $response = array();
+
+        $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
+        $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
+        $fields['keterangan'] = $this->request->getPost('keterangan');
+        $fields['pembayaran_jenis'] = $this->request->getPost('pembayaranJenis');
+        $fields['pembayaran_id_bank'] = $this->request->getPost('pembayaranIdBank');
+        $fields['dibayar'] = $this->request->getPost('dibayar');
+
+        $this->validation->setRules([
+            'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'required|valid_date'],
+            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
+            'pembayaran_jenis' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
+            'pembayaran_id_bank' => ['label' => 'Pilih Bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            'dibayar' => ['label' => 'DIBAYAR', 'rules' => 'required|numeric|max_length[10]'],
+
+        ]);
+
+        if ($this->validation->run($fields) == FALSE) {
+
+            $response['success'] = false;
+            $response['messages'] = $this->validation->listErrors();
+        } else {
+
+            $transaksi = $this->getTransaksiOr404($fields['id_transaksi']);
+
+            if (empty($transaksi->no_faktur)) {
+                $fields['no_faktur'] = $this->createNoFaktur();
+                $fields['status_transaksi'] = 'dipesan';
+            }
+            $fields['tgl_order'] = date('Y-m-d H:i:s');
+            $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
+
+            if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = 'Successfully updated';
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = 'Update error!';
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    private function createNoFaktur()
+    {
+        $no_urut = $this->db->table('tb_transaksi')->select('(COUNT(id_transaksi)+1) as no_urut')
+            ->where('MONTH(tgl_order) = MONTH(CURRENT_DATE()) AND no_faktur IS NOT NULL')
+            ->get()
+            ->getRow()
+            ->no_urut;
+        return sprintf('%03d', $no_urut) . '/KaBer/' . number_to_roman(date('n')) . '/' . date('Y');
     }
 
     public function edit()

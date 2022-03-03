@@ -38,33 +38,39 @@ class BuatTableTransaksiItemBarang extends Migration
             ],
             'panjang' => [
                 'type'          => 'DECIMAL',
-                'constraint'    => '6,2',
+                'constraint'    => '10,4',
                 'unsigned'      => true,
                 'null'          => true
             ],
             'lebar' => [
                 'type'          => 'DECIMAL',
-                'constraint'    => '6,2',
+                'constraint'    => '10,4',
                 'unsigned'      => true,
                 'null'          => true
             ],
             'luas' => [
                 'type'          => 'DECIMAL',
-                'constraint'    => '6,2',
+                'constraint'    => '10,4',
                 'unsigned'      => true,
                 'default'       => '1.0'
             ],
             'jumlah' => [
-                'type'           => 'INT',
-                'constraint'     => '10'
+                'type'          => 'INT',
+                'constraint'    => '10',
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'harga'  => [
                 'type'          => 'INT',
                 'constraint'    => '10',
+                'unsigned'      => true,
+                'default'       => '0'
             ],
             'total_harga'  => [
                 'type'          => 'INT',
                 'constraint'    => '10',
+                'unsigned'      => true,
+                'default'       => '0'
             ]
         ]);
         $this->forge->addKey('id', true);

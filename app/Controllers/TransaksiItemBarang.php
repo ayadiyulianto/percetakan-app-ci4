@@ -6,16 +6,21 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BarangModel;
 use App\Models\TransaksiItemBarangModel;
+use App\Models\TransaksiItemModel;
 
 class TransaksiItemBarang extends BaseController
 {
 
+	protected $db;
+	protected $transaksiItemModel;
 	protected $transaksiItemBarangModel;
-	protected $validation;
 	protected $barangModel;
+	protected $validation;
 
 	public function __construct()
 	{
+		$this->db = \Config\Database::connect();
+		$this->transaksiItemModel = new TransaksiItemModel();
 		$this->transaksiItemBarangModel = new TransaksiItemBarangModel();
 		$this->barangModel = new BarangModel();
 		$this->validation =  \Config\Services::validation();
@@ -59,8 +64,8 @@ class TransaksiItemBarang extends BaseController
 				$value->panjang,
 				$value->lebar,
 				$value->jumlah,
-				$value->harga,
-				$value->total_harga,
+				number_to_currency($value->harga, 'IDR', 'id_ID', 2),
+				number_to_currency($value->total_harga, 'IDR', 'id_ID', 2),
 
 				$ops,
 			);
@@ -77,7 +82,7 @@ class TransaksiItemBarang extends BaseController
 
 		if ($this->validation->check($id, 'required|numeric')) {
 
-			$data = $this->transaksiItemBarangModel->where('id', $id)->first();
+			$data = $this->getTransaksiItemBarangOr404($id);
 
 			return $this->response->setJSON($data);
 		} else {
@@ -101,7 +106,7 @@ class TransaksiItemBarang extends BaseController
 		$fields['luas'] = $this->request->getPost('luas');
 		$fields['jumlah'] = $this->request->getPost('jumlah');
 		$fields['harga'] = $this->request->getPost('harga');
-		$fields['total_harga'] = $this->request->getPost('totalHarga');
+		$fields['total_harga'] = $fields['luas'] * $fields['jumlah'] * $fields['harga'];
 
 		$this->validation->setRules([
 			'id_transaksi_item' => ['label' => 'Id transaksi item', 'rules' => 'required|numeric|max_length[10]'],
@@ -124,6 +129,8 @@ class TransaksiItemBarang extends BaseController
 
 			if ($this->transaksiItemBarangModel->insert($fields)) {
 
+				$this->updateTransaksiItem($fields['id_transaksi_item']);
+
 				$response['success'] = true;
 				$response['messages'] = 'Data has been inserted successfully';
 			} else {
@@ -142,17 +149,21 @@ class TransaksiItemBarang extends BaseController
 		$response = array();
 
 		$fields['id'] = $this->request->getPost('id');
-		$fields['id_barang'] = $this->request->getPost('idBarang');
+		$fields['id_transaksi_item'] = $this->request->getPost('idTransaksiItem');
+		$id_barang = $this->request->getPost('idBarang');
+		if ($id_barang) $fields['id_barang'] = $id_barang;
 		$fields['nama_barang'] = $this->request->getPost('namaBarang');
 		$fields['satuan_kecil'] = $this->request->getPost('satuanKecil');
 		$fields['panjang'] = $this->request->getPost('panjang');
 		$fields['lebar'] = $this->request->getPost('lebar');
+		$fields['luas'] = $this->request->getPost('luas');
 		$fields['jumlah'] = $this->request->getPost('jumlah');
 		$fields['harga'] = $this->request->getPost('harga');
-		$fields['total_harga'] = $this->request->getPost('totalHarga');
+		$fields['total_harga'] =  $fields['luas'] * $fields['jumlah'] * $fields['harga'];
 
 
 		$this->validation->setRules([
+			'id_transaksi_item' => ['label' => 'Id transaksi item', 'rules' => 'required|numeric|max_length[10]'],
 			'id_barang' => ['label' => 'Id barang', 'rules' => 'permit_empty|numeric|max_length[10]'],
 			'nama_barang' => ['label' => 'Nama barang', 'rules' => 'permit_empty|max_length[255]'],
 			'satuan_kecil' => ['label' => 'Satuan kecil', 'rules' => 'permit_empty|max_length[50]'],
@@ -171,6 +182,8 @@ class TransaksiItemBarang extends BaseController
 		} else {
 
 			if ($this->transaksiItemBarangModel->update($fields['id'], $fields)) {
+
+				$this->updateTransaksiItem($fields['id_transaksi_item']);
 
 				$response['success'] = true;
 				$response['messages'] = 'Successfully updated';
@@ -195,8 +208,11 @@ class TransaksiItemBarang extends BaseController
 			throw new \CodeIgniter\Exceptions\PageNotFoundException();
 		} else {
 
+			$id_transaksi_item = $this->getTransaksiItemBarangOr404($id)->id_transaksi_item;
+
 			if ($this->transaksiItemBarangModel->where('id', $id)->delete()) {
 
+				$this->updateTransaksiItem($id_transaksi_item);
 				$response['success'] = true;
 				$response['messages'] = 'Deletion succeeded';
 			} else {
@@ -207,5 +223,52 @@ class TransaksiItemBarang extends BaseController
 		}
 
 		return $this->response->setJSON($response);
+	}
+
+	private function getTransaksiItemBarangOr404($id_transaksi_item_barang)
+	{
+		$transaksiItemBarang = $this->transaksiItemBarangModel->find($id_transaksi_item_barang);
+
+		if ($transaksiItemBarang === null) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi_item_barang not found");
+		}
+		return $transaksiItemBarang;
+	}
+
+	private function updateTransaksiItem($id_transaksi_item)
+	{
+		$transaksiItem = $this->transaksiItemModel->find($id_transaksi_item);
+
+		if ($transaksiItem === null) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi_item not found");
+		}
+
+		$harga_satuan = $this->db->table('tb_transaksi_item_barang')->select('SUM(total_harga) as harga_satuan')
+			->where('id_transaksi_item', $id_transaksi_item)
+			->groupBy('id_transaksi_item')
+			->get()
+			->getRow()
+			->harga_satuan;
+		$itemBarang = $this->transaksiItemBarangModel->select('nama_barang')->where('id_transaksi_item', $id_transaksi_item)->findAll();
+		$output = array_map(function ($object) {
+			return $object->nama_barang;
+		}, $itemBarang);
+		$rangkuman = join(", ", $output);
+
+		$transaksiItem->rangkuman = $rangkuman;
+		$transaksiItem->harga_satuan = $harga_satuan;
+		$transaksiItem->sub_total_harga = $transaksiItem->harga_satuan * $transaksiItem->kuantiti;
+
+		$this->transaksiItemModel->save($transaksiItem);
+	}
+
+	public function try()
+	{
+		$itemBarang = $this->transaksiItemBarangModel->select('nama_barang')->where('id_transaksi_item', 2)->findAll();
+		$output = array_map(function ($object) {
+			return $object->nama_barang;
+		}, $itemBarang);
+		echo join(', ', $output);
+		// echo $rangkuman = join(", ", $itemBarang);
 	}
 }

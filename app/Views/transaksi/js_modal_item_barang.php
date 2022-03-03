@@ -2,6 +2,7 @@
     function addItemBarang() {
         // reset the form 
         $("#add-form-item-barang")[0].reset();
+        $("#add-form-item-barang #idBarang").val("").trigger('change');
         $(".form-control").removeClass('is-invalid').removeClass('is-valid');
         $('#add-modal-item-barang').modal('show');
         // submit the add from 
@@ -54,6 +55,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
+                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
                                 $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                                 $('#add-modal-item-barang').modal('hide');
                             })
@@ -108,12 +110,13 @@
                 $('#edit-modal-item-barang').modal('show');
 
                 $("#edit-form-item-barang #id").val(response.id);
-                $("#edit-form-item-barang #idBarang").val(response.id_barang);
+                $("#edit-form-item-barang #idBarangg").val("").trigger('change');
+                $("#edit-form-item-barang #idBarangg").val(response.id_barang);
                 $("#edit-form-item-barang #namaBarang").val(response.nama_barang);
                 $("#edit-form-item-barang #satuanKecil").val(response.satuan_kecil);
                 $("#edit-form-item-barang #panjang").val(response.panjang);
                 $("#edit-form-item-barang #lebar").val(response.lebar);
-                $("#edit-form-item-barang #luas").val(response.luas).trigger('change');
+                $("#edit-form-item-barang #luas").val(response.luas);
                 if (response.satuan_kecil == "m2") {
                     $('#modal-item-barang #formInputPanjang').show();
                     $('#modal-item-barang #formInputLebar').show();
@@ -172,6 +175,7 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then(function() {
+                                        $('#table_item').DataTable().ajax.reload(null, false).draw(false);
                                         $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                                         $('#edit-modal-item-barang').modal('hide');
                                     })
@@ -244,6 +248,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function() {
+                                $('#table_item').DataTable().ajax.reload(null, false).draw(false);
                                 $('#table_item_barang').DataTable().ajax.reload(null, false).draw(false);
                             })
                         } else {
@@ -281,6 +286,8 @@
     })
 
     function idBarangOnChange(id_barang) {
+        // jika id_barang kosong tidak perlu menjalankan fungsi dibawahnya
+        if (!id_barang) return;
         $.ajax({
             url: "<?= site_url('barang/getOneByTransaksi') ?>",
             data: {
@@ -296,7 +303,7 @@
                 $('#modal-item-barang #harga').val(response.harga_by_transaksi);
                 $('#modal-item-barang #panjang').val(undefined);
                 $('#modal-item-barang #lebar').val(undefined);
-                $('#modal-item-barang #luas').val(1);
+                $('#modal-item-barang #luas').val(1).trigger('change');
                 if (response.satuan_kecil == "m2") {
                     $('#modal-item-barang #formInputPanjang').show();
                     $('#modal-item-barang #formInputLebar').show();
@@ -317,41 +324,58 @@
         });
     };
 
-    $('#modal-item-barang #panjang').change(function() {
-        calculateLuas()
+    $('#add-modal-item-barang #panjang').change(function() {
+        calculateLuas("add-modal-item-barang")
     })
 
-    $('#modal-item-barang #lebar').change(function() {
-        calculateLuas()
+    $('#add-modal-item-barang #lebar').change(function() {
+        calculateLuas("add-modal-item-barang")
     })
 
-    function calculateLuas() {
-        var p = $('#modal-item-barang #panjang').val();
-        var l = $('#modal-item-barang #lebar').val()
+    $('#edit-modal-item-barang #panjang').change(function() {
+        calculateLuas("edit-modal-item-barang")
+    })
+
+    $('#edit-modal-item-barang #lebar').change(function() {
+        calculateLuas("edit-modal-item-barang")
+    })
+
+    function calculateLuas(modalId) {
+        var p = $('#' + modalId + ' #panjang').val();
+        var l = $('#' + modalId + ' #lebar').val()
         if (p && l) {
-            $('#modal-item-barang #luas').val(p * l).trigger('change');
+            $('#' + modalId + ' #luas').val(p * l).trigger('change');
         } else {
-            $('#modal-item-barang #luas').val(1).trigger('change');
+            $('#' + modalId + ' #luas').val(1).trigger('change');
         }
     }
 
-    $('#modal-item-barang #luas').change(function() {
-        calculateTotalHarga()
+    $('#add-modal-item-barang #luas').change(function() {
+        calculateTotalHarga("add-modal-item-barang")
     })
 
-    $('#modal-item-barang #jumlah').change(function() {
-        calculateTotalHarga()
+    $('#add-modal-item-barang #jumlah').change(function() {
+        calculateTotalHarga("add-modal-item-barang")
     })
 
-    function calculateTotalHarga() {
-        var luas = $('#modal-item-barang #luas').val();
-        var jumlah = $('#modal-item-barang #jumlah').val();
-        var harga = $('#modal-item-barang #harga').val();
+    $('#edit-modal-item-barang #luas').change(function() {
+        calculateTotalHarga("edit-modal-item-barang")
+    })
+
+    $('#edit-modal-item-barang #jumlah').change(function() {
+        calculateTotalHarga("edit-modal-item-barang")
+    })
+
+    function calculateTotalHarga(modalId) {
+        var luas = $('#' + modalId + ' #luas').val();
+        var jumlah = $('#' + modalId + ' #jumlah').val();
+        var harga = $('#' + modalId + ' #harga').val();
+        console.log('luas=' + luas + '; jumlah:' + jumlah + '; harga:' + harga);
         if (luas && jumlah) {
             var totalHarga = Math.ceil(luas * jumlah * harga);
-            $('#modal-item-barang #totalHarga').val(totalHarga);
+            $('#' + modalId + ' #totalHarga').val(totalHarga);
         } else {
-            $('#modal-item-barang #totalHarga').val(0);
+            $('#' + modalId + ' #totalHarga').val(0);
         }
     }
 </script>
