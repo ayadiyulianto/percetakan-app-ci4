@@ -116,7 +116,6 @@ class TransaksiItem extends BaseController
             'fileGambar' => [
                 'label' => 'File Gambar',
                 'rules' => [
-                    'uploaded[fileGambar]',
                     'mime_in[fileGambar,image/jpg,image/jpeg,image/png,image/gif]',
                 ]
             ],
@@ -171,7 +170,6 @@ class TransaksiItem extends BaseController
             'fileGambar' => [
                 'label' => 'File Gambar',
                 'rules' => [
-                    'uploaded[fileGambar]',
                     'mime_in[fileGambar,image/jpg,image/jpeg,image/png,image/gif]',
                 ]
             ],

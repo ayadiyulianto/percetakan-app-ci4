@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ukuran"> Ukuran: <span class="text-danger">*</span> </label>
+                                <label for="ukuran"> Ukuran: </label>
                                 <input type="text" id="ukuran" name="ukuran" class="form-control" placeholder="Ukuran" maxlength="50">
                             </div>
                         </div>
