@@ -326,9 +326,9 @@ class Transaksi extends BaseController
         }
     }
 
-    public function detail()
+    public function detail($id_transaksi)
     {
-        $id_transaksi = $this->request->getPost('id_transaksi');
+        // $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
 
         $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
@@ -383,17 +383,30 @@ class Transaksi extends BaseController
 
     private function getTransaksiOr404($id_transaksi)
     {
-        // $transaksi = $this->transaksiModel->find($id_transaksi);
-        $transaksi = $this->db->table('tb_transaksi')
+        $transaksi = $this->transaksiModel
             ->select('tb_transaksi.*, SUM(tb_transaksi_item.sub_total_harga) as harus_bayar')
             ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi')
-            ->where('tb_transaksi.id_transaksi', $id_transaksi)
-            ->get()
-            ->getRow();
+            ->find($id_transaksi);
 
         if ($transaksi === null) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
         }
         return $transaksi;
+    }
+
+    public function get404($id_transaksi)
+    {
+        $transaksi = $this->transaksiModel
+            ->select('tb_transaksi.*, SUM(tb_transaksi_item.sub_total_harga) as harus_bayar')
+            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi')
+            ->find($id_transaksi);
+
+        if ($transaksi->countAllResults() == 0) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
+        }
+        // foreach ($transaksi as $trx) {
+        //     echo "<br>" . $trx->id_transaksi;
+        // }
+        print_r($transaksi);
     }
 }

@@ -35,8 +35,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item <?php if ($menu == "kerjaan") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "kerjaan") echo "active"; ?>"">
+                <li class="nav-item <?php if ($menu == "daftarKerjaan") echo "menu-open"; ?>">
+                    <a href="<?= site_url('/daftarKerjaan') ?>" class="nav-link <?php if ($menu == "daftarKerjaan") echo "active"; ?>"">
                         <i class=" nav-icon fas fa-th"></i>
                         <p>
                             DAFTAR KERJAAN

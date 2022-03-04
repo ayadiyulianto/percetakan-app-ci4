@@ -43,9 +43,6 @@
                             <div class="col-md-8 mt-2">
                                 <h3 class="card-title">Transaksi</h3>
                             </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
-                            </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -53,13 +50,11 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <!-- <th>Id transaksi</th> -->
-                                    <th>No faktur</th>
-                                    <th>Tgl order</th>
-                                    <th>Nama pelanggan</th>
-                                    <th>Tgl deadline</th>
-                                    <th>Kasir</th>
-                                    <th>Total bayar</th>
+                                    <th>Nama Item</th>
+                                    <th>Ukuran</th>
+                                    <th>Qty</th>
+                                    <th>Satuan</th>
+                                    <th>Desain</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -100,96 +95,13 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('transaksi/getAll') ?>',
+                "url": '<?php echo base_url('daftarKerjaan/getAll') ?>',
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
             }
         });
     });
-
-    function add() {
-        $.ajax({
-            url: '<?php echo base_url('transaksi/add') ?>',
-            type: 'post',
-            dataType: 'json',
-            success: function(response) {
-
-                if (response.success === true) {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'success',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        location.href = "<?= site_url('transaksi/baru') ?>"
-                    })
-
-                } else {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'error',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-
-                }
-            }
-        });
-    }
-
-    function remove(id_transaksi) {
-        Swal.fire({
-            title: 'Are you sure of the deleting process?',
-            text: "You cannot back after confirmation",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-
-            if (result.value) {
-                $.ajax({
-                    url: '<?php echo base_url('transaksi/remove') ?>',
-                    type: 'post',
-                    data: {
-                        id_transaksi: id_transaksi
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-
-                        if (response.success === true) {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'success',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                $('#data_table').DataTable().ajax.reload(null, false).draw(false);
-                            })
-                        } else {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'error',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-
-
-                        }
-                    }
-                });
-            }
-        })
-    }
 </script>
 
 <?= $this->endSection() ?>
