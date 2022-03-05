@@ -54,6 +54,12 @@
     <script src="<?= base_url(); ?>/admin-lte/dist/js/adminlte.min.js"></script>
 
     <script type="text/javascript">
+        $(function() {
+
+            // Fix modal auto-focus to make select2 working inside modal
+            $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+        })
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
