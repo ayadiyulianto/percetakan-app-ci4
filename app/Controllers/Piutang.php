@@ -105,7 +105,7 @@ class Piutang extends BaseController
 
         if ($this->validation->check($id, 'required|numeric')) {
 
-            $data = $this->getTransaksiOr404($id);
+            $data = $this->getPiutangOr404($id);
 
             $data->success = true;
             return $this->response->setJSON($data);
@@ -115,207 +115,58 @@ class Piutang extends BaseController
         }
     }
 
-    public function save()
+    public function bayar()
     {
         $response = array();
 
         $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
-        $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
-        $fields['keterangan'] = $this->request->getPost('keterangan');
-        $fields['pembayaran_jenis'] = $this->request->getPost('pembayaranJenis');
+        $fields['jenis_pembayaran'] = $this->request->getPost('pembayaranJenis');
         $fields['pembayaran_id_bank'] = $this->request->getPost('pembayaranIdBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
 
         $this->validation->setRules([
-            'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'required|valid_date'],
-            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
-            'pembayaran_jenis' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
+            'id_transaksi' => ['label' => 'ID Transaksi', 'rules' => 'required|max_length[10]'],
+            'jenis_pembayaran' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
             'pembayaran_id_bank' => ['label' => 'Pilih Bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'dibayar' => ['label' => 'DIBAYAR', 'rules' => 'required|numeric|max_length[10]'],
 
         ]);
 
-        if ($this->validation->run($fields) == FALSE) {
-
-            $response['success'] = false;
-            $response['messages'] = $this->validation->listErrors();
-        } else {
-
-            $transaksi = $this->getTransaksiOr404($fields['id_transaksi']);
-
-            if (empty($transaksi->no_faktur)) {
-                $fields['no_faktur'] = 'no_faktur';
-                $fields['status_transaksi'] = 'dipesan';
-                $bayar = $this->bayar($transaksi, $fields);
-                if (!$bayar) {
-
-                    $response['success'] = false;
-                    $response['messages'] = 'Pembayaran Gagal.';
-
-                    return $this->response->setJSON($response);
-                }
-            }
-            $fields['tgl_order'] = date('Y-m-d H:i:s');
-            $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
-
-            if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
-
-                $response['success'] = true;
-                $response['messages'] = 'Successfully updated';
-            } else {
-
-                $response['success'] = false;
-                $response['messages'] = 'Update error!';
-            }
-        }
-
-        return $this->response->setJSON($response);
-    }
-
-    private function bayar($transaksi, $fields)
-    {
-        $data['id_transaksi'] = $fields['id_transaksi'];
-        $data['jenis_pembayaran'] = $fields['pembayaran_jenis'];
         if ($fields['pembayaran_id_bank'] > 0) {
-            $data['id_bank'] = $fields['pembayaran_id_bank'];
-            $bank = $this->bankModel->find($data['id_bank']);
+            $fields['id_bank'] = $fields['pembayaran_id_bank'];
+            $bank = $this->bankModel->find($fields['id_bank']);
             if ($bank != null) {
-                $data['nama_bank'] = $bank->nama_bank;
-                $data['norek'] = $bank->norek;
-                $data['atas_nama'] = $bank->atas_nama;
+                $fields['nama_bank'] = $bank->nama_bank;
+                $fields['norek'] = $bank->norek;
+                $fields['atas_nama'] = $bank->atas_nama;
             }
         }
-        if ($fields['dibayar'] > $transaksi->harus_bayar) {
-            $data['jumlah_dibayar'] = $transaksi->harus_bayar;
-        } else {
-            $data['jumlah_dibayar'] = $fields['dibayar'];
-        }
-        $data['kasir'] = current_user()->first_name;
-        $data['created_by'] = current_user()->id;
-        $data['updated_by'] = current_user()->id;
 
-        if ($this->pembayaranModel->insert($data)) {
+        $piutang = $this->getPiutangOr404($fields['id_transaksi']);
+
+        if ($fields['dibayar'] > $piutang->kurang) {
+            $fields['jumlah_dibayar'] = $piutang->kurang;
+        } else {
+            $fields['jumlah_dibayar'] = $fields['dibayar'];
+        }
+        $fields['kasir'] = current_user()->first_name;
+        $fields['created_by'] = current_user()->id;
+        $fields['updated_by'] = current_user()->id;
+
+        if ($this->pembayaranModel->insert($fields)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function edit()
+    private function getPiutangOr404($id_transaksi)
     {
-
-        $response = array();
-
-        $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
-        $fields['no_faktur'] = $this->request->getPost('noFaktur');
-        $fields['tgl_order'] = $this->request->getPost('tglOrder');
-        $fields['id_pelanggan'] = $this->request->getPost('idPelanggan');
-        $fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
-        $fields['no_wa'] = $this->request->getPost('noWa');
-        $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
-        $fields['kasir'] = $this->request->getPost('kasir');
-        $fields['total_bayar'] = $this->request->getPost('totalBayar');
-        $fields['keterangan'] = $this->request->getPost('keterangan');
-
-
-        $this->validation->setRules([
-            'no_faktur' => ['label' => 'No faktur', 'rules' => 'permit_empty|max_length[50]'],
-            'tgl_order' => ['label' => 'Tgl order', 'rules' => 'permit_empty|valid_date'],
-            'id_pelanggan' => ['label' => 'Id pelanggan', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'nama_pelanggan' => ['label' => 'Nama pelanggan', 'rules' => 'permit_empty|max_length[255]'],
-            'no_wa' => ['label' => 'No wa', 'rules' => 'permit_empty|max_length[50]'],
-            'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'permit_empty|valid_date'],
-            'kasir' => ['label' => 'Kasir', 'rules' => 'required|max_length[50]'],
-            'total_bayar' => ['label' => 'Total bayar', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
-
-        ]);
-
-        if ($this->validation->run($fields) == FALSE) {
-
-            $response['success'] = false;
-            $response['messages'] = $this->validation->listErrors();
-        } else {
-
-            if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
-
-                $response['success'] = true;
-                $response['messages'] = 'Successfully updated';
-            } else {
-
-                $response['success'] = false;
-                $response['messages'] = 'Update error!';
-            }
+        if ($id_transaksi === null) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi not found");
         }
 
-        return $this->response->setJSON($response);
-    }
-
-
-    public function detail()
-    {
-        $id_transaksi = $this->request->getPost('id_transaksi');
-        $transaksi = $this->getTransaksiOr404($id_transaksi);
-
-        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
-
-        $data = [
-            'menu'              => 'transaksi',
-            'title'             => 'Transaksi Baru',
-            'pelanggan'         => $pelanggan,
-            'transaksi'         => $transaksi,
-            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
-            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
-            'bank'              => $this->bankModel->findAll()
-        ];
-        return view('transaksi/detail', $data);
-    }
-
-    public function pilihPelanggan()
-    {
-        $response = array();
-
-        $id_transaksi = $this->request->getPost('idTransaksi');
-        $transaksi = $this->getTransaksiOr404($id_transaksi);
-
-        $id_pelanggan = $this->request->getPost('idPelanggan');
-        if ($this->validation->check($id_pelanggan, 'required|numeric')) {
-            $pelanggan = $this->pelangganModel->find($id_pelanggan);
-        } else {
-            $pelanggan = new \App\Entities\Pelanggan();
-            $pelanggan->id_pelanggan = null;
-            $pelanggan->tipe_pelanggan = null;
-            $pelanggan->nama_pelanggan = $id_pelanggan;
-            $pelanggan->no_wa = null;
-        }
-
-        $transaksi->id_pelanggan = $pelanggan->id_pelanggan;
-        $transaksi->tipe_pelanggan = $pelanggan->tipe_pelanggan;
-        $transaksi->nama_pelanggan = $pelanggan->nama_pelanggan;
-        $transaksi->no_wa = $pelanggan->no_wa;
-
-        if ($this->transaksiModel->save($transaksi)) {
-
-            $response['success'] = true;
-            $response['messages'] = 'Berhasil memilih pelanggan';
-        } else {
-
-            $response['success'] = false;
-            $response['messages'] = 'Pilih pelanggan gagal!';
-        }
-
-        return $this->response->setJSON($response);
-    }
-
-    private function getTransaksiOr404($id_transaksi)
-    {
-        // $transaksi = $this->transaksiModel->find($id_transaksi);
-        $transaksi = $this->db->table('tb_transaksi')
-            ->select('tb_transaksi.*, SUM(tb_transaksi_item.sub_total_harga) as harus_bayar')
-            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi')
-            ->where('tb_transaksi.id_transaksi', $id_transaksi)
-            ->get()
-            ->getRow();
+        $transaksi = $this->transaksiModel->findWithPiutang($id_transaksi);
 
         if ($transaksi === null) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");

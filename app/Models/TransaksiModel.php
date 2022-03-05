@@ -70,4 +70,22 @@ class TransaksiModel extends Model
 			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi')
 			->findAll();
 	}
+
+	public function findWithPiutang($id_transaksi)
+	{
+		$item = $this->db->table('tb_transaksi_item')
+			->select('id_transaksi, SUM(kuantiti*harga_satuan) as harus_bayar')
+			->where('id_transaksi', $id_transaksi)
+			->groupBy('id_transaksi')
+			->getCompiledSelect();
+		$pembayaran = $this->db->table('tb_transaksi_pembayaran')
+			->select('id_transaksi, SUM(jumlah_dibayar) as telah_bayar')
+			->where('id_transaksi', $id_transaksi)
+			->groupBy('id_transaksi')
+			->getCompiledSelect();
+		return $this->select('tb_transaksi.*, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
+			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi')
+			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi')
+			->find($id_transaksi);
+	}
 }

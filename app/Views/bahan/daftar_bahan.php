@@ -108,7 +108,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="stokSatuanKecil"> Stok satuan kecil: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="stokSatuanKecil" name="stokSatuanKecil" class="form-control" placeholder="Stok satuan kecil" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="stokSatuanKecil" name="stokSatuanKecil" class="form-control" placeholder="Stok satuan kecil" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -126,13 +126,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="isiSatuanBesar"> Isi satuan besar: </label>
-                                    <input type="number" id="isiSatuanBesar" name="isiSatuanBesar" class="form-control" placeholder="Isi satuan besar" maxlength="10" number="true">
+                                    <input type="number" min="0" id="isiSatuanBesar" name="isiSatuanBesar" class="form-control" placeholder="Isi satuan besar" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="modalBahanSatuanKecil"> Modal bahan satuan kecil: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="modalBahanSatuanKecil" name="modalBahanSatuanKecil" class="form-control" placeholder="Modal bahan satuan kecil" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="modalBahanSatuanKecil" name="modalBahanSatuanKecil" class="form-control" placeholder="Modal bahan satuan kecil" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="stokSatuanKecil"> Stok satuan kecil: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="stokSatuanKecil" name="stokSatuanKecil" class="form-control" placeholder="Stok satuan kecil" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="stokSatuanKecil" name="stokSatuanKecil" class="form-control" placeholder="Stok satuan kecil" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -202,13 +202,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="isiSatuanBesar"> Isi satuan besar: </label>
-                                    <input type="number" id="isiSatuanBesar" name="isiSatuanBesar" class="form-control" placeholder="Isi satuan besar" maxlength="10" number="true">
+                                    <input type="number" min="0" id="isiSatuanBesar" name="isiSatuanBesar" class="form-control" placeholder="Isi satuan besar" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="modalBahanSatuanKecil"> Modal bahan satuan kecil: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="modalBahanSatuanKecil" name="modalBahanSatuanKecil" class="form-control" placeholder="Modal bahan satuan kecil" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="modalBahanSatuanKecil" name="modalBahanSatuanKecil" class="form-control" placeholder="Modal bahan satuan kecil" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>

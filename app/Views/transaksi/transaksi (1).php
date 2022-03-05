@@ -108,7 +108,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="idPelanggan"> Id pelanggan: </label>
-                  <input type="number" id="idPelanggan" name="idPelanggan" class="form-control" placeholder="Id pelanggan" maxlength="10" number="true">
+                  <input type="number" min="0" id="idPelanggan" name="idPelanggan" class="form-control" placeholder="Id pelanggan" maxlength="10" number="true">
                 </div>
               </div>
             </div>
@@ -142,7 +142,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="totalBayar"> Total bayar: </label>
-                  <input type="number" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                  <input type="number" min="0" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
                 </div>
               </div>
               <div class="col-md-4">
@@ -196,7 +196,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="idPelanggan"> Id pelanggan: </label>
-                  <input type="number" id="idPelanggan" name="idPelanggan" class="form-control" placeholder="Id pelanggan" maxlength="10" number="true">
+                  <input type="number" min="0" id="idPelanggan" name="idPelanggan" class="form-control" placeholder="Id pelanggan" maxlength="10" number="true">
                 </div>
               </div>
             </div>
@@ -230,7 +230,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="totalBayar"> Total bayar: </label>
-                  <input type="number" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                  <input type="number" min="0" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
                 </div>
               </div>
               <div class="col-md-4">

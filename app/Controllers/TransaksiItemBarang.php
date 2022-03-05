@@ -163,6 +163,7 @@ class TransaksiItemBarang extends BaseController
 
 
 		$this->validation->setRules([
+			'id' => ['label' => 'ID', 'rules' => 'required|max_length[10]'],
 			'id_transaksi_item' => ['label' => 'Id transaksi item', 'rules' => 'required|numeric|max_length[10]'],
 			'id_barang' => ['label' => 'Id barang', 'rules' => 'permit_empty|numeric|max_length[10]'],
 			'nama_barang' => ['label' => 'Nama barang', 'rules' => 'permit_empty|max_length[255]'],

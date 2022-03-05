@@ -141,6 +141,7 @@ class Transaksi extends BaseController
         $fields['dibayar'] = $this->request->getPost('dibayar');
 
         $this->validation->setRules([
+            'id_transaksi' => ['label' => 'ID Transaksi', 'rules' => 'required|max_length[10]'],
             'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'required|valid_date'],
             'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
             'pembayaran_jenis' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
@@ -225,56 +226,6 @@ class Transaksi extends BaseController
         }
     }
 
-    public function edit()
-    {
-
-        $response = array();
-
-        $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
-        $fields['no_faktur'] = $this->request->getPost('noFaktur');
-        $fields['tgl_order'] = $this->request->getPost('tglOrder');
-        $fields['id_pelanggan'] = $this->request->getPost('idPelanggan');
-        $fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
-        $fields['no_wa'] = $this->request->getPost('noWa');
-        $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
-        $fields['kasir'] = $this->request->getPost('kasir');
-        $fields['total_bayar'] = $this->request->getPost('totalBayar');
-        $fields['keterangan'] = $this->request->getPost('keterangan');
-
-
-        $this->validation->setRules([
-            'no_faktur' => ['label' => 'No faktur', 'rules' => 'permit_empty|max_length[50]'],
-            'tgl_order' => ['label' => 'Tgl order', 'rules' => 'permit_empty|valid_date'],
-            'id_pelanggan' => ['label' => 'Id pelanggan', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'nama_pelanggan' => ['label' => 'Nama pelanggan', 'rules' => 'permit_empty|max_length[255]'],
-            'no_wa' => ['label' => 'No wa', 'rules' => 'permit_empty|max_length[50]'],
-            'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'permit_empty|valid_date'],
-            'kasir' => ['label' => 'Kasir', 'rules' => 'required|max_length[50]'],
-            'total_bayar' => ['label' => 'Total bayar', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
-
-        ]);
-
-        if ($this->validation->run($fields) == FALSE) {
-
-            $response['success'] = false;
-            $response['messages'] = $this->validation->listErrors();
-        } else {
-
-            if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
-
-                $response['success'] = true;
-                $response['messages'] = 'Successfully updated';
-            } else {
-
-                $response['success'] = false;
-                $response['messages'] = 'Update error!';
-            }
-        }
-
-        return $this->response->setJSON($response);
-    }
-
     public function remove()
     {
         $response = array();
@@ -299,29 +250,6 @@ class Transaksi extends BaseController
 
         return $this->response->setJSON($response);
     }
-
-    // public function baru()
-    // {
-    //     $transaksiBaru = $this->transaksiModel->select('id_transaksi')
-    //         ->where('no_faktur IS NULL')
-    //         ->where('created_by', current_user()->id)
-    //         ->orderBy('id_transaksi', 'desc')
-    //         ->first();
-
-    //     if (!empty($transaksiBaru)) {
-    //         return redirect()->to('transaksi/detail/' . $transaksiBaru->id_transaksi);
-    //     } else {
-    //         $fields['kasir'] = current_user()->first_name;
-    //         $fields['status_transaksi'] = 'draft';
-    //         $fields['created_by'] = current_user()->id;
-    //         $fields['updated_by'] = current_user()->id;
-
-    //         if ($this->transaksiModel->insert($fields)) {
-    //             $newId = $this->transaksiModel->getInsertID();
-    //             return redirect()->to('transaksi/detail/' . $newId);
-    //         }
-    //     }
-    // }
 
     public function baru()
     {

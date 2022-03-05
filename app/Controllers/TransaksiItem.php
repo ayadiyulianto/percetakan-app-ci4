@@ -162,6 +162,7 @@ class TransaksiItem extends BaseController
         $fields['keterangan'] = $this->request->getPost('keterangan');
 
         $this->validation->setRules([
+            'id_transaksi_item' => ['label' => 'ID Transaksi Item', 'rules' => 'required|max_length[10]'],
             'namaItem' => ['label' => 'Nama item', 'rules' => 'required|max_length[255]'],
             'ukuran' => ['label' => 'Ukuran', 'rules' => 'permit_empty|max_length[50]'],
             'kuantiti' => ['label' => 'Kuantiti', 'rules' => 'permit_empty|numeric|max_length[10]'],

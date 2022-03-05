@@ -79,7 +79,6 @@ class Pelanggan extends BaseController
 
 		$response = array();
 
-		$fields['id_pelanggan'] = $this->request->getPost('idPelanggan');
 		$fields['tipe_pelanggan'] = $this->request->getPost('tipePelanggan');
 		$fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
 		$fields['no_wa'] = $this->request->getPost('noWa');
@@ -133,6 +132,7 @@ class Pelanggan extends BaseController
 
 
 		$this->validation->setRules([
+			'id_pelanggan' => ['label' => 'ID Pelanggan', 'rules' => 'required|max_length[10]'],
 			'tipe_pelanggan' => ['label' => 'Tipe pelanggan', 'rules' => 'required|max_length[50]'],
 			'nama_pelanggan' => ['label' => 'Nama pelanggan', 'rules' => 'required|max_length[255]'],
 			'no_wa' => ['label' => 'No WA', 'rules' => 'permit_empty|max_length[50]'],

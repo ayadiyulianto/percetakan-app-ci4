@@ -28,7 +28,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="kuantiti"> Kuantiti: <span class="text-danger">*</span> </label>
-                                <input type="number" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true" required>
+                                <input type="number" min="0" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true" required>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="kuantiti"> Kuantiti: </label>
-                                <input type="number" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true">
+                                <input type="number" min="0" id="kuantiti" name="kuantiti" class="form-control" placeholder="Kuantiti" maxlength="10" number="true">
                             </div>
                         </div>
                     </div>
@@ -166,13 +166,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="hargaSatuan"> Harga satuan: </label>
-                                <input type="number" disabled id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
+                                <input type="number" min="0" disabled id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="subTotalHarga"> Sub total harga: </label>
-                                <input type="number" disabled id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
+                                <input type="number" min="0" disabled id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
                             </div>
                         </div>
                     </div>

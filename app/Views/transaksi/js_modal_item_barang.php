@@ -301,6 +301,7 @@
                 $('#modal-item-barang #namaBarang').val(response.nama_barang);
                 $('#modal-item-barang #satuanKecil').val(response.satuan_kecil);
                 $('#modal-item-barang #harga').val(response.harga_by_transaksi);
+                $('#modal-item-barang #harga').attr('min', response.harga_terendah);
                 $('#modal-item-barang #panjang').val(undefined);
                 $('#modal-item-barang #lebar').val(undefined);
                 $('#modal-item-barang #luas').val(1).trigger('change');

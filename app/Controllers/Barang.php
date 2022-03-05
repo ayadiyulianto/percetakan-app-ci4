@@ -78,7 +78,7 @@ class Barang extends BaseController
 
 		if ($this->validation->check($id, 'required|numeric')) {
 
-			$data = $this->barangModel->where('id_barang', $id)->first();
+			$data = $this->getBarangOr404($id);
 
 			return $this->response->setJSON($data);
 		} else {
@@ -96,13 +96,16 @@ class Barang extends BaseController
 
 		if ($this->validation->check($id_barang, 'required|numeric') && $this->validation->check($id_transaksi, 'required|numeric')) {
 
-			$data = $this->barangModel->where('id_barang', $id_barang)->first();
+			$data = $this->getBarangOr404($id_barang);
+
 			$transaksi = $this->transaksiModel->find($id_transaksi);
 			if ($transaksi->tipe_pelanggan == 'agent') {
 				$data->harga_by_transaksi = $data->harga_jual_reseller;
 			} else {
 				$data->harga_by_transaksi = $data->harga_jual_umum;
 			}
+			$data->harga_terendah = $data->harga_jual_terendah;
+
 			return $this->response->setJSON($data);
 		} else {
 
@@ -115,7 +118,6 @@ class Barang extends BaseController
 
 		$response = array();
 
-		$fields['id_barang'] = $this->request->getPost('idBarang');
 		$fields['kategori_barang'] = $this->request->getPost('kategoriBarang');
 		$fields['nama_barang'] = $this->request->getPost('namaBarang');
 		$fields['deskripsi'] = $this->request->getPost('deskripsi');
@@ -172,6 +174,7 @@ class Barang extends BaseController
 
 
 		$this->validation->setRules([
+			'id_barang' => ['label' => 'ID Barang', 'rules' => 'required|max_length[10]'],
 			'kategori_barang' => ['label' => 'Jenis barang', 'rules' => 'required|max_length[50]'],
 			'nama_barang' => ['label' => 'Nama barang', 'rules' => 'required|max_length[255]'],
 			'deskripsi' => ['label' => 'Deskripsi', 'rules' => 'permit_empty|max_length[255]'],
@@ -225,5 +228,19 @@ class Barang extends BaseController
 		}
 
 		return $this->response->setJSON($response);
+	}
+
+	private function getBarangOr404($id_barang)
+	{
+		if ($id_barang === null) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Barang not found");
+		}
+
+		$barang = $this->barangModel->find($id_barang);
+
+		if ($barang === null) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_barang not found");
+		}
+		return $barang;
 	}
 }

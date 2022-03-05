@@ -126,13 +126,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualUmum"> Harga jual umum: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualUmum" name="hargaJualUmum" class="form-control" placeholder="Harga jual umum" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualUmum" name="hargaJualUmum" class="form-control" placeholder="Harga jual umum" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualReseller"> Harga jual reseller: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualReseller" name="hargaJualReseller" class="form-control" placeholder="Harga jual reseller" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualReseller" name="hargaJualReseller" class="form-control" placeholder="Harga jual reseller" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualReseller"> Harga jual terendah: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualTerendah" name="hargaJualTerendah" class="form-control" placeholder="Harga jual terendah" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualTerendah" name="hargaJualTerendah" class="form-control" placeholder="Harga jual terendah" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -208,13 +208,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualUmum"> Harga jual umum: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualUmum" name="hargaJualUmum" class="form-control" placeholder="Harga jual umum" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualUmum" name="hargaJualUmum" class="form-control" placeholder="Harga jual umum" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualReseller"> Harga jual reseller: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualReseller" name="hargaJualReseller" class="form-control" placeholder="Harga jual reseller" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualReseller" name="hargaJualReseller" class="form-control" placeholder="Harga jual reseller" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="hargaJualReseller"> Harga jual terendah: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="hargaJualTerendah" name="hargaJualTerendah" class="form-control" placeholder="Harga jual terendah" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="hargaJualTerendah" name="hargaJualTerendah" class="form-control" placeholder="Harga jual terendah" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>

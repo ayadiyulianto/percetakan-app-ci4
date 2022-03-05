@@ -80,7 +80,6 @@ class Bank extends BaseController
 
 		$response = array();
 
-		$fields['id_bank'] = $this->request->getPost('idBank');
 		$fields['nama_bank'] = $this->request->getPost('namaBank');
 		$fields['norek'] = $this->request->getPost('norek');
 		$fields['atas_nama'] = $this->request->getPost('atasNama');
@@ -125,6 +124,7 @@ class Bank extends BaseController
 
 
 		$this->validation->setRules([
+			'id_bank' => ['label' => 'ID Bank', 'rules' => 'required|max_length[10]'],
 			'nama_bank' => ['label' => 'Nama bank', 'rules' => 'required|max_length[50]'],
 			'norek' => ['label' => 'No Rekening', 'rules' => 'required|max_length[50]'],
 			'atas_nama' => ['label' => 'Atas nama', 'rules' => 'required|max_length[50]'],

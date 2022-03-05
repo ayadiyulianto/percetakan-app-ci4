@@ -10,19 +10,8 @@
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/select2/css/select2.min.css">
-<!-- Ekko Lightbox -->
+<!-- Ekko Lightbox Modal Image-->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.css">
-
-<!-- <style>
-    /* modal backdrop fix */
-    .modal:nth-of-type(even) {
-        z-index: 1052 !important;
-    }
-
-    .modal-backdrop.show:nth-of-type(even) {
-        z-index: 1051 !important;
-    }
-</style> -->
 
 <?= $this->endSection() ?>
 
@@ -191,7 +180,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span></label>
-                                            <input type="number" id="dibayar" name="dibayar" class="form-control" oninput="onDibayarInputChange()" placeholder="Dibayar" maxlength="10" number="true" required>
+                                            <input type="number" min="0" id="dibayar" name="dibayar" class="form-control" oninput="onDibayarInputChange()" placeholder="Dibayar" maxlength="10" number="true" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="kembalian"> Kembalian: </label>
@@ -265,8 +254,10 @@
     $(function() {
         refreshDataTransaksi();
 
+        // init button file upload
         bsCustomFileInput.init();
 
+        // init lightbox modal file gambar
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox({

@@ -78,9 +78,7 @@ class KategoriBarang extends BaseController
 
 		$response = array();
 
-		$fields['id'] = $this->request->getPost('id');
 		$fields['nama_kategori'] = $this->request->getPost('namaKategori');
-
 
 		$this->validation->setRules([
 			'nama_kategori' => ['label' => 'Nama kategori', 'rules' => 'required|max_length[50]'],
@@ -117,6 +115,7 @@ class KategoriBarang extends BaseController
 
 
 		$this->validation->setRules([
+			'id' => ['label' => 'ID', 'rules' => 'required|max_length[10]'],
 			'nama_kategori' => ['label' => 'Nama kategori', 'rules' => 'required|max_length[50]'],
 
 		]);

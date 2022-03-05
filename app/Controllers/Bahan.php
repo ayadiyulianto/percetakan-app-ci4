@@ -87,7 +87,6 @@ class Bahan extends BaseController
 
 		$response = array();
 
-		$fields['id_bahan'] = $this->request->getPost('idBahan');
 		$fields['nama_bahan'] = $this->request->getPost('namaBahan');
 		$fields['satuan_kecil'] = $this->request->getPost('satuanKecil');
 		$fields['stok_satuan_kecil'] = $this->request->getPost('stokSatuanKecil');
@@ -141,6 +140,7 @@ class Bahan extends BaseController
 
 
 		$this->validation->setRules([
+			'id_bahan' => ['label' => 'ID Bahan', 'rules' => 'required|max_length[10]'],
 			'nama_bahan' => ['label' => 'Nama bahan', 'rules' => 'required|max_length[255]'],
 			'satuan_kecil' => ['label' => 'Satuan kecil', 'rules' => 'required|max_length[50]'],
 			'stok_satuan_kecil' => ['label' => 'Stok satuan kecil', 'rules' => 'required|numeric|max_length[10]'],

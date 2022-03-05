@@ -79,20 +79,20 @@
                             <div class="col-md-4" id="formInputPanjang" style="display: none;">
                                 <div class="form-group">
                                     <label for="panjang"> Panjang: </label>
-                                    <input type="number" id="panjang" name="panjang" class="form-control" placeholder="Panjang" maxlength="10" number="true">
+                                    <input type="number" min="0" id="panjang" name="panjang" class="form-control" placeholder="Panjang" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4" id="formInputLebar" style="display: none;">
                                 <div class="form-group">
                                     <label for="lebar"> Lebar: </label>
-                                    <input type="number" id="lebar" name="lebar" class="form-control" placeholder="Lebar" maxlength="10" number="true">
+                                    <input type="number" min="0" id="lebar" name="lebar" class="form-control" placeholder="Lebar" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="jumlah"> Jumlah: <span class="text-danger">*</span> </label>
                                     <input type="hidden" id="luas" name="luas" class="form-control" placeholder="Luas" maxlength="10" number="true" required>
-                                    <input type="number" id="jumlah" name="jumlah" class="form-control" placeholder="Jumlah" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="jumlah" name="jumlah" class="form-control" placeholder="Jumlah" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -166,20 +166,20 @@
                             <div class="col-md-4" id="formInputPanjang" style="display: none;">
                                 <div class="form-group">
                                     <label for="panjang"> Panjang: </label>
-                                    <input type="number" id="panjang" name="panjang" class="form-control" placeholder="Panjang" maxlength="10" number="true">
+                                    <input type="number" min="0" id="panjang" name="panjang" class="form-control" placeholder="Panjang" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4" id="formInputLebar" style="display: none;">
                                 <div class="form-group">
                                     <label for="lebar"> Lebar: </label>
-                                    <input type="number" id="lebar" name="lebar" class="form-control" placeholder="Lebar" maxlength="10" number="true">
+                                    <input type="number" min="0" id="lebar" name="lebar" class="form-control" placeholder="Lebar" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="jumlah"> Jumlah: <span class="text-danger">*</span> </label>
                                     <input type="hidden" id="luas" name="luas" class="form-control" placeholder="Luas" maxlength="10" number="true" required>
-                                    <input type="number" id="jumlah" name="jumlah" class="form-control" placeholder="Jumlah" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="jumlah" name="jumlah" class="form-control" placeholder="Jumlah" maxlength="10" number="true" required>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
-                                    <input type="number" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
+                                    <input type="number" min="0" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                 </div>
                             </div>
                             <div class="col-md-4">

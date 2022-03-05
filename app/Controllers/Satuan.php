@@ -78,9 +78,7 @@ class Satuan extends BaseController
 
 		$response = array();
 
-		$fields['id'] = $this->request->getPost('id');
 		$fields['nama_satuan'] = $this->request->getPost('namaSatuan');
-
 
 		$this->validation->setRules([
 			'nama_satuan' => ['label' => 'Nama satuan', 'rules' => 'required|max_length[50]'],
@@ -117,6 +115,7 @@ class Satuan extends BaseController
 
 
 		$this->validation->setRules([
+			'id' => ['label' => 'ID', 'rules' => 'required|max_length[10]'],
 			'nama_satuan' => ['label' => 'Nama satuan', 'rules' => 'required|max_length[50]'],
 
 		]);

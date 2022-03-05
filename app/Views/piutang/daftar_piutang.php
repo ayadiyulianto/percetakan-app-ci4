@@ -73,6 +73,75 @@
         </div>
         <!-- /.row -->
     </section>
+
+    <!-- bayar modal content -->
+    <div id="bayar-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="text-center bg-info p-3">
+                    <h4 class="modal-title text-white" id="info-header-modalLabel">Bayar Sisa Piutang</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="bayar-form" class="pl-3 pr-3">
+                        <?= csrf_field(); ?>
+                        <div class="row">
+                            <input type="hidden" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="noFaktur"> No faktur: </label>
+                                    <input disabled type="text" id="noFaktur" name="noFaktur" class="form-control" placeholder="No faktur" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tglOrder"> Tgl order: </label>
+                                    <input disabled type="date" id="tglOrder" name="tglOrder" class="form-control" dateISO="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="namaPelanggan"> Nama pelanggan: </label>
+                                    <input disabled type="text" id="namaPelanggan" name="namaPelanggan" class="form-control" placeholder="Nama pelanggan" maxlength="255">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="kasir"> Kasir: <span class="text-danger">*</span> </label>
+                                    <input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="totalBayar"> Sisa piutang: </label>
+                                    <input disabled type="number" min="0" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="keterangan"> Keterangan: </label>
+                                    <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+
+                        <div class="form-group text-center">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-success" id="edit-form-btn">Update</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 
 <?= $this->endSection() ?>
@@ -107,124 +176,6 @@
             }
         });
     });
-
-    function add() {
-        $.ajax({
-            url: '<?php echo base_url('transaksi/add') ?>',
-            type: 'post',
-            dataType: 'json',
-            success: function(response) {
-
-                if (response.success === true) {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'success',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        location.href = "<?= site_url('transaksi/baru') ?>"
-                    })
-
-                } else {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'error',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-
-                }
-            }
-        });
-    }
-
-    function remove(id_transaksi) {
-        Swal.fire({
-            title: 'Are you sure of the deleting process?',
-            text: "You cannot back after confirmation",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-
-            if (result.value) {
-                $.ajax({
-                    url: '<?php echo base_url('transaksi/remove') ?>',
-                    type: 'post',
-                    data: {
-                        id_transaksi: id_transaksi
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-
-                        if (response.success === true) {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'success',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function() {
-                                $('#data_table').DataTable().ajax.reload(null, false).draw(false);
-                            })
-                        } else {
-                            Swal.fire({
-                                position: 'bottom-end',
-                                icon: 'error',
-                                title: response.messages,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-
-
-                        }
-                    }
-                });
-            }
-        })
-    }
-
-    function detail(id_transaksi) {
-        $.ajax({
-            url: '<?php echo base_url('transaksi/detail') ?>',
-            type: 'post',
-            data: {
-                id_transaksi: id_transaksi
-            },
-            dataType: 'json',
-            success: function(response) {
-
-                if (response.success === true) {
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'success',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        $('#data_table').DataTable().ajax.reload(null, false).draw(false);
-                    })
-                } else {
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'error',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-
-
-                }
-            }
-        });
-    }
 </script>
 
 <?= $this->endSection() ?>
