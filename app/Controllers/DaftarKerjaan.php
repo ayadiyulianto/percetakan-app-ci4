@@ -35,12 +35,9 @@ class DaftarKerjaan extends BaseController
     {
         $response = array();
 
-        $id_transaksi = $this->request->getPost('id_transaksi');
-
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
-            ->where(array('id_transaksi' => $id_transaksi))
+        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, keterangan')
             ->findAll();
 
         foreach ($result as $key => $value) {

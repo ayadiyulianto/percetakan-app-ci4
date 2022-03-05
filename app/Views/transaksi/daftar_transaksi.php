@@ -45,6 +45,10 @@
                             </div>
                             <div class="col-md-4">
                                 <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
+                                <form id="formNewTransaksi" method="post" action="<?= site_url('transaksi/baru') ?>">
+                                    <?= csrf_field() ?>
+                                    <input id="id_transaksi" type="hidden" name="id_transaksi">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -53,7 +57,6 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <!-- <th>Id transaksi</th> -->
                                     <th>No faktur</th>
                                     <th>Tgl order</th>
                                     <th>Nama pelanggan</th>
@@ -124,7 +127,8 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function() {
-                        location.href = "<?= site_url('transaksi/baru') ?>"
+                        $('#formNewTransaksi #id_transaksi').val(response.id_transaksi)
+                        $('#formNewTransaksi').submit()
                     })
 
                 } else {

@@ -182,10 +182,6 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                        <!-- <div class="form-group" id="namaBank" style="display:none;">
-                                            <label for="pembayaranNamaBank"> Nama Bank: </label>
-                                            <textarea disabled id="pembayaranNamaBank" name="pembayaranNamaBank" class="form-control" placeholder="Nama pelanggan" maxlength="255"></textarea>
-                                        </div> -->
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -195,7 +191,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span></label>
-                                            <input type="number" id="dibayar" name="dibayar" class="form-control" placeholder="Dibayar" maxlength="10" number="true" required>
+                                            <input type="number" id="dibayar" name="dibayar" class="form-control" oninput="onDibayarInputChange()" placeholder="Dibayar" maxlength="10" number="true" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="kembalian"> Kembalian: </label>
@@ -206,8 +202,9 @@
 
                                 <div class="form-group text-center">
                                     <div class="btn-group">
-                                        <button type="submit" class="btn btn-lg btn-success" id="form-transaksi-save-button" onclick="saveTransaksi()">Simpan</button>
-                                        <button type="button" class="btn btn-lg btn-danger" onclick="removeTransaksi()">Batal</button>
+                                        <button type="submit" class="btn btn-lg btn-success" id="form-transaksi-save-button" onclick="saveTransaksi()"><i class="fas fa-save"></i> Simpan</button>
+                                        <button type="button" class="btn btn-lg btn-danger" onclick="removeTransaksi()"><i class="fas fa-times"></i> Batalkan</button>
+                                        <a href="<?= site_url('transaksi') ?>" class="btn btn-lg btn-secondary"><i class="fas fa-arrow-up"></i> Kembali</a>
                                     </div>
                                 </div>
                             </form>
@@ -283,14 +280,13 @@
         $.ajax({
             url: "<?= site_url('transaksi/getOne') ?>",
             data: {
-                id_transaksi: "<?= $transaksi->id_transaksi ?>"
+                id_transaksi: $("#idTransaksi").val()
             },
             dataType: "json",
             type: "post",
             success: function(response) {
                 if (response.success === true) {
 
-                    // $('#idTransaksi').val(response.id_transaksi);
                     $('#noFaktur').val(response.no_faktur);
                     if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
                     $('#idPelanggan').val(response.id_pelanggan);
@@ -302,14 +298,9 @@
                     $('#pembayaranJenis').val(response.pembayaran_jenis);
                     $('#pembayaranIdBank').val(response.pembayaran_id_bank).trigger('change');
                     if (response.pembayaran_jenis == 'transfer') {
-                        // var nama_bank = response.pembayaran_nama_bank + ' - ' + response.pembayaran + ' (' + response.pembayaran_atas_nama + ')'
                         $('#pilihBank').show();
-                        // $('#namaBank').show();
-                        // $('#pembayaranNamaBank').val(nama_bank);
                     } else {
                         $('#pilihBank').hide();
-                        // $('#namaBank').hide();
-                        // $('#pembayaranNamaBank').val("");
                     }
                     $('#totalBayar').val(response.harus_bayar);
                     $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
@@ -379,8 +370,9 @@
         }
     })
 
-    $('#dibayar').change(function() {
-        var dibayar = $(this).val();
+    // $('#dibayar').change(function() {
+    function onDibayarInputChange() {
+        var dibayar = $('#dibayar').val();
         var totalBayar = $('#totalBayar').val();
         var kembalian = dibayar - totalBayar;
         var kembalianRupiah
@@ -390,7 +382,7 @@
             kembalianRupiah = currencyFormatter.format(0);
         }
         $('#kembalian').val(kembalianRupiah);
-    })
+    }
 
     function saveTransaksi() {
         $.validator.setDefaults({
@@ -479,6 +471,56 @@
             }
         });
         $('#form-transaksi').validate();
+    }
+
+    function removeTransaksi() {
+        var id_transaksi = $("#idTransaksi").val();
+        Swal.fire({
+            title: 'Yakin ingin membatalkan transaksi?',
+            text: "Transaksi ini dan itemnya akan dihapus.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+
+            if (result.value) {
+                $.ajax({
+                    url: '<?php echo base_url('transaksi/remove') ?>',
+                    type: 'post',
+                    data: {
+                        id_transaksi: id_transaksi
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+
+                        if (response.success === true) {
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'success',
+                                title: response.messages,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function() {
+                                location.href = "<?= site_url('transaksi') ?>"
+                            })
+                        } else {
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'error',
+                                title: response.messages,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+
+                        }
+                    }
+                });
+            }
+        })
     }
 
     function updateTotalBayar() {

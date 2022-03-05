@@ -11,7 +11,10 @@
                         <h5 id="namaItemModalTitle"></h5>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-block btn-success" onclick="addItemBarang()" title="Tambah"> <i class="fa fa-plus"></i> Tambah Barang</button>
+                        <div class="btn-group float-right">
+                            <button type="button" class="btn btn-success" onclick="addItemBarang()" title="Tambah"> <i class="fa fa-plus"></i> Tambah Barang</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+                        </div>
                     </div>
                 </div>
                 <table id="table_item_barang" class="table table-bordered table-striped">

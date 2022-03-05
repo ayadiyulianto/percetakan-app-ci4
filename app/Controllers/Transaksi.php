@@ -53,15 +53,12 @@ class Transaksi extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiModel->select('tb_transaksi.id_transaksi, no_faktur, tgl_order, id_pelanggan, nama_pelanggan, no_wa, tgl_deadline, kasir, SUM(tb_transaksi_item.sub_total_harga) as total_bayar, status_transaksi')
-            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi', 'left')
-            ->groupBy('tb_transaksi.id_transaksi')
-            ->findAll();
+        $result = $this->transaksiModel->findAllWithTotalHarga();
 
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<form method= "post" action="' . site_url('Transaksi/detail') . '" > ';
+            $ops .= '	<form method="post" action="' . site_url('transaksi/baru') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
@@ -71,14 +68,13 @@ class Transaksi extends BaseController
                 $no_faktur = $value->no_faktur;
             }
             $pelanggan = $value->nama_pelanggan . ' (' . $value->no_wa . ')';
-            if (!empty($value->total_bayar)) {
-                $harus_bayar = $value->total_bayar;
+            if (!empty($value->harus_bayar)) {
+                $harus_bayar = $value->harus_bayar;
             } else {
                 $harus_bayar = 0;
             }
 
             $data['data'][$key] = array(
-                // $value->id_transaksi,
                 $no_faktur,
                 $value->tgl_order,
                 $pelanggan,
@@ -121,6 +117,7 @@ class Transaksi extends BaseController
 
         if ($this->transaksiModel->insert($fields)) {
 
+            $response['id_transaksi'] = $this->transaksiModel->getInsertID();
             $response['success'] = true;
             $response['messages'] = 'Data has been inserted successfully';
         } else {
@@ -303,32 +300,32 @@ class Transaksi extends BaseController
         return $this->response->setJSON($response);
     }
 
+    // public function baru()
+    // {
+    //     $transaksiBaru = $this->transaksiModel->select('id_transaksi')
+    //         ->where('no_faktur IS NULL')
+    //         ->where('created_by', current_user()->id)
+    //         ->orderBy('id_transaksi', 'desc')
+    //         ->first();
+
+    //     if (!empty($transaksiBaru)) {
+    //         return redirect()->to('transaksi/detail/' . $transaksiBaru->id_transaksi);
+    //     } else {
+    //         $fields['kasir'] = current_user()->first_name;
+    //         $fields['status_transaksi'] = 'draft';
+    //         $fields['created_by'] = current_user()->id;
+    //         $fields['updated_by'] = current_user()->id;
+
+    //         if ($this->transaksiModel->insert($fields)) {
+    //             $newId = $this->transaksiModel->getInsertID();
+    //             return redirect()->to('transaksi/detail/' . $newId);
+    //         }
+    //     }
+    // }
+
     public function baru()
     {
-        $transaksiBaru = $this->transaksiModel->select('id_transaksi')
-            ->where('no_faktur IS NULL')
-            ->where('created_by', current_user()->id)
-            ->orderBy('id_transaksi', 'desc')
-            ->first();
-
-        if (!empty($transaksiBaru)) {
-            return redirect()->to('transaksi/detail/' . $transaksiBaru->id_transaksi);
-        } else {
-            $fields['kasir'] = current_user()->first_name;
-            $fields['status_transaksi'] = 'draft';
-            $fields['created_by'] = current_user()->id;
-            $fields['updated_by'] = current_user()->id;
-
-            if ($this->transaksiModel->insert($fields)) {
-                $newId = $this->transaksiModel->getInsertID();
-                return redirect()->to('transaksi/detail/' . $newId);
-            }
-        }
-    }
-
-    public function detail($id_transaksi)
-    {
-        // $id_transaksi = $this->request->getPost('id_transaksi');
+        $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
 
         $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
@@ -383,30 +380,15 @@ class Transaksi extends BaseController
 
     private function getTransaksiOr404($id_transaksi)
     {
-        $transaksi = $this->transaksiModel
-            ->select('tb_transaksi.*, SUM(tb_transaksi_item.sub_total_harga) as harus_bayar')
-            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi')
-            ->find($id_transaksi);
+        if ($id_transaksi === null) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi not found");
+        }
+
+        $transaksi = $this->transaksiModel->findWithTotalHarga($id_transaksi);
 
         if ($transaksi === null) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
         }
         return $transaksi;
-    }
-
-    public function get404($id_transaksi)
-    {
-        $transaksi = $this->transaksiModel
-            ->select('tb_transaksi.*, SUM(tb_transaksi_item.sub_total_harga) as harus_bayar')
-            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi')
-            ->find($id_transaksi);
-
-        if ($transaksi->countAllResults() == 0) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
-        }
-        // foreach ($transaksi as $trx) {
-        //     echo "<br>" . $trx->id_transaksi;
-        // }
-        print_r($transaksi);
     }
 }

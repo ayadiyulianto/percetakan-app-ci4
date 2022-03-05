@@ -41,7 +41,7 @@ class Piutang extends BaseController
 
         $data = [
             'menu'              => 'piutang',
-            'title'             => 'piutang',
+            'title'             => 'Piutang Transaksi',
         ];
 
         return view('piutang/daftar_piutang', $data);
@@ -53,17 +53,12 @@ class Piutang extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiModel->select('tb_transaksi.id_transaksi, no_faktur, tgl_order, id_pelanggan, nama_pelanggan, no_wa, tgl_deadline, kasir, SUM(tb_transaksi_item.sub_total_harga) as total_bayar, status_transaksi')
-            ->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi', 'tb_transaksi_pembayaran', 'tb_transaksi_pembayaran.id_transaksi=tb_transaksi.id_transaksi', 'left')
-            ->groupBy('tb_transaksi.id_transaksi')
-            ->findAll();
+        $result = $this->transaksiModel->findAllWithPiutang();
 
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<form method= "post" action="' . site_url('Transaksi/detail') . '" > ';
-            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
+            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="bayar(' . $value->id_transaksi . ')"><i class="fas fa-money-bill-wave"></i> Bayar</button>';
             $ops .= '</div>';
 
             $no_faktur = '<i>' . $value->status_transaksi . '</i>';
@@ -71,20 +66,30 @@ class Piutang extends BaseController
                 $no_faktur = $value->no_faktur;
             }
             $pelanggan = $value->nama_pelanggan . ' (' . $value->no_wa . ')';
-            if (!empty($value->total_bayar)) {
-                $harus_bayar = $value->total_bayar;
+            if (!empty($value->harus_bayar)) {
+                $harus_bayar = $value->harus_bayar;
             } else {
                 $harus_bayar = 0;
             }
+            if (!empty($value->telah_bayar)) {
+                $telah_bayar = $value->telah_bayar;
+            } else {
+                $telah_bayar = 0;
+            }
+            if (!empty($value->kurang)) {
+                $kurang = $value->kurang;
+            } else {
+                continue; // hiraukan dari tampilan jika kurang = 0
+            }
 
             $data['data'][$key] = array(
-                // $value->id_transaksi,
                 $no_faktur,
                 $value->tgl_order,
                 $pelanggan,
-                $value->tgl_deadline,
                 $value->kasir,
                 number_to_currency($harus_bayar, 'IDR', 'id_ID', 2),
+                number_to_currency($telah_bayar, 'IDR', 'id_ID', 2),
+                number_to_currency($kurang, 'IDR', 'id_ID', 2),
                 $ops,
             );
         }
