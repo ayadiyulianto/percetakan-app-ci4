@@ -16,6 +16,7 @@ class TransaksiModel extends Model
 		'tgl_order',
 		'id_pelanggan',
 		'nama_pelanggan',
+		'tipe_pelanggan',
 		'no_wa',
 		'tgl_deadline',
 		'kasir',
