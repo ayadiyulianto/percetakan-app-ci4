@@ -117,7 +117,8 @@
                 $("#edit-form-item-barang #panjang").val(response.panjang);
                 $("#edit-form-item-barang #lebar").val(response.lebar);
                 $("#edit-form-item-barang #luas").val(response.luas);
-                if (response.satuan_kecil == "m2") {
+                if (response.satuan_kecil == "m2" ||
+                    response.satuan_kecil == "cm2") {
                     $('#modal-item-barang #formInputPanjang').show();
                     $('#modal-item-barang #formInputLebar').show();
                 } else {
@@ -305,7 +306,8 @@
                 $('#modal-item-barang #panjang').val(undefined);
                 $('#modal-item-barang #lebar').val(undefined);
                 $('#modal-item-barang #luas').val(1).trigger('change');
-                if (response.satuan_kecil == "m2") {
+                if (response.satuan_kecil == "m2" ||
+                    response.satuan_kecil == "cm2") {
                     $('#modal-item-barang #formInputPanjang').show();
                     $('#modal-item-barang #formInputLebar').show();
                 } else {
