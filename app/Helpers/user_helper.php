@@ -6,7 +6,7 @@ if (!function_exists('current_user')) {
     {
         $auth = service('auth');
 
-        return $auth->users()->row();
+        return $auth->user()->row();
     }
 }
 
@@ -17,6 +17,6 @@ if (!function_exists('has_akses')) {
         $auth = service('auth');
 
         // belum selesai
-        return $auth->users()->row();
+        return $auth->user()->row();
     }
 }
