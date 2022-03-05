@@ -38,4 +38,35 @@ Halaman ini menjelaskan tentang _tools_ apa saja yang perlu diinstall untuk meng
 - _(Optional)_ Untuk memudahkan pencarian folder aplikasi nantinya, pindahkan folder aplikasi ke direktori _C:\xampp\htdocs_. Folder htdocs ini merupakan folder khusus XAMPP yang dapat diakses langsung melalui _localhost/nama_\__folder_.
 - Ubah nama file _env_ menjadi _.env_ , file ini merupakan file environtment untuk mengatur konfigurasi project
 
+## Penyiapan Local Server
+
+### Web Server
+
+Kebutuhan server untuk Codeigniter 4:
+
+- PHP Versi 7.4 ke atas
+- MySQL Versi 5.1 ke atas
+
+Setelah menginstal webserver, kita harus mengaktifkan beberapa ekstension yang dibutuhkan untuk pengembangan CI 4:
+
+```cmd
+192.168.101.34  kaber.printing
+```
+
+```cmd
+<VirtualHost *:80>
+    ServerAdmin admin@kaber.printing
+    DocumentRoot "C:/xampp7.4/htdocs/percetakan-app-ci4/public"
+    ServerName kaber.printing
+    ErrorLog "logs/kaber.printing-error.log"
+    CustomLog "logs/kaber.printing-access.log" common
+    <Directory "C:/xampp7.4/htdocs/percetakan-app-ci4/public">
+        DirectoryIndex index.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+</VirtualHost>
+```
+
 {% include disqus.html %}

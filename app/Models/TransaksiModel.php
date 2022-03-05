@@ -38,4 +38,36 @@ class TransaksiModel extends Model
 	protected $validationRules    = [];
 	protected $validationMessages = [];
 	protected $skipValidation     = true;
+
+	public function findAllWithTotalHarga()
+	{
+		return $this->select('tb_transaksi.*, SUM(tb_transaksi_item.kuantiti*tb_transaksi_item.harga_satuan) as harus_bayar')
+			->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi', 'left')
+			->groupBy('id_transaksi')
+			->findAll();
+	}
+
+	public function findWithTotalHarga($id_transaksi)
+	{
+		return $this->select('tb_transaksi.*, SUM(tb_transaksi_item.kuantiti*tb_transaksi_item.harga_satuan) as harus_bayar')
+			->join('tb_transaksi_item', 'tb_transaksi_item.id_transaksi = tb_transaksi.id_transaksi AND tb_transaksi.id_transaksi = ' . esc($id_transaksi), 'left')
+			->groupBy('id_transaksi')
+			->find($id_transaksi);
+	}
+
+	public function findAllWithPiutang()
+	{
+		$item = $this->db->table('tb_transaksi_item')
+			->select('id_transaksi, SUM(kuantiti*harga_satuan) as harus_bayar')
+			->groupBy('id_transaksi')
+			->getCompiledSelect();
+		$pembayaran = $this->db->table('tb_transaksi_pembayaran')
+			->select('id_transaksi, SUM(jumlah_dibayar) as telah_bayar')
+			->groupBy('id_transaksi')
+			->getCompiledSelect();
+		return $this->select('tb_transaksi.*, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
+			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi')
+			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi')
+			->findAll();
+	}
 }

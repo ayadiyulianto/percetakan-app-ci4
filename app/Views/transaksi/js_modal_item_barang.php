@@ -358,6 +358,10 @@
         calculateTotalHarga("add-modal-item-barang")
     })
 
+    $('#add-modal-item-barang #harga').change(function() {
+        calculateTotalHarga("add-modal-item-barang")
+    })
+
     $('#edit-modal-item-barang #luas').change(function() {
         calculateTotalHarga("edit-modal-item-barang")
     })
@@ -365,6 +369,7 @@
     $('#edit-modal-item-barang #jumlah').change(function() {
         calculateTotalHarga("edit-modal-item-barang")
     })
+
     $('#edit-modal-item-barang #harga').change(function() {
         calculateTotalHarga("edit-modal-item-barang")
     })

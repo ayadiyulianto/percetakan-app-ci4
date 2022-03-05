@@ -44,7 +44,7 @@
                                 <h3 class="card-title">Transaksi</h3>
                             </div>
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
+                                <!-- <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button> -->
                             </div>
                         </div>
                     </div>
@@ -53,13 +53,13 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <!-- <th>Id transaksi</th> -->
                                     <th>No faktur</th>
                                     <th>Tgl order</th>
                                     <th>Nama pelanggan</th>
-                                    <th>Tgl deadline</th>
                                     <th>Kasir</th>
                                     <th>Total bayar</th>
+                                    <th>Telah bayar</th>
+                                    <th>Kurang</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -100,7 +100,7 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('transaksi/getAll') ?>',
+                "url": '<?php echo base_url('piutang/getAll') ?>',
                 "type": "POST",
                 "dataType": "json",
                 async: "true"

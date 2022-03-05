@@ -44,11 +44,11 @@ class TransaksiItemBarang extends BaseController
 
 		$data['data'] = array();
 
-		$result = $this->transaksiItemBarangModel->select('id, id_barang, nama_barang, satuan_kecil, panjang, lebar, jumlah, harga, total_harga');
+		$builder = $this->transaksiItemBarangModel->select('id, id_barang, nama_barang, satuan_kecil, panjang, lebar, jumlah, harga, total_harga');
 		if ($id_transaksi_item != null) {
-			$result = $result->where(array('id_transaksi_item' => $id_transaksi_item));
+			$builder->where(array('id_transaksi_item' => $id_transaksi_item));
 		}
-		$result = $result->findAll();
+		$result = $builder->findAll();
 
 		foreach ($result as $key => $value) {
 

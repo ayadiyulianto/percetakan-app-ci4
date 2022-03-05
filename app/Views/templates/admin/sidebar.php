@@ -35,8 +35,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item <?php if ($menu == "kerjaan") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "kerjaan") echo "active"; ?>"">
+                <li class="nav-item <?php if ($menu == "daftarKerjaan") echo "menu-open"; ?>">
+                    <a href="<?= site_url('/daftarKerjaan') ?>" class="nav-link <?php if ($menu == "daftarKerjaan") echo "active"; ?>"">
                         <i class=" nav-icon fas fa-th"></i>
                         <p>
                             DAFTAR KERJAAN
@@ -137,23 +137,22 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url('/transaksi/baru') ?>" class="nav-link <?php if ($title == "Transaksi Baru") echo "active"; ?>">
+                            <a href="#" class="nav-link <?php if ($title == "Menu Lain") echo "active"; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Transaksi Baru</p>
+                                <p>Menu Lain</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item <?php if ($menu == "transaksi") echo "menu-open"; ?>">
-                    <a href="<?= site_url('/piutang') ?>" class="nav-link <?php if ($menu == "transaksi") echo "active"; ?>">
+                <li class="nav-item <?php if ($menu == "piutang") echo "menu-open"; ?>">
+                    <a href="<?= site_url('/piutang') ?>" class="nav-link <?php if ($menu == "piutang") echo "active"; ?>">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             TRANSAKSI PIUTANG
                             <i class="right fas "></i>
                         </p>
                     </a>
-
                 <li class="nav-header">TOOLS</li>
 
                 <li class="nav-item <?php if ($menu == "satuan") echo "menu-open"; ?>">
