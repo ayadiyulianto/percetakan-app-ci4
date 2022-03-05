@@ -3,6 +3,12 @@
 <!-- ADDITIONAL CSS -->
 <?= $this->section('css') ?>
 
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
 <?= $this->endSection() ?>
 
 <!-- PAGE-CONTENT -->
@@ -41,6 +47,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
+                                    <form id="formNewTransaksi" method="post" action="<?= site_url('transaksi/baru') ?>">
+                                        <?= csrf_field() ?>
+                                        <input id="id_transaksi" type="hidden" name="id_transaksi">
                                 </div>
                             </div>
                         </div>
@@ -66,6 +75,50 @@
 <!-- ADDITIONAL JS -->
 <?= $this->section('javascript') ?>
 
+<!-- DataTables -->
+<script src="https://adminlte.io/themes/v3/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="<?= base_url() ?>/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+    function add() {
+        $.ajax({
+            url: '<?php echo base_url('transaksi/add') ?>',
+            type: 'post',
+            dataType: 'json',
+            success: function(response) {
+
+                if (response.success === true) {
+
+                    Swal.fire({
+                        position: 'bottom-end',
+                        icon: 'success',
+                        title: response.messages,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        $('#formNewTransaksi #id_transaksi').val(response.id_transaksi)
+                        $('#formNewTransaksi').submit()
+                    })
+
+                } else {
+
+                    Swal.fire({
+                        position: 'bottom-end',
+                        icon: 'error',
+                        title: response.messages,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+                }
+            }
+        });
+    }
+</Script>
 
 
 <?= $this->endSection() ?>
