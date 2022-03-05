@@ -58,7 +58,7 @@ class TransaksiItemBarang extends BaseController
 			$ops .= '</div>';
 
 			$data['data'][$key] = array(
-				$value->id_barang,
+				// $value->id_barang,
 				$value->nama_barang,
 				$value->satuan_kecil,
 				$value->panjang,
