@@ -42,6 +42,7 @@ class Piutang extends BaseController
         $data = [
             'menu'              => 'piutang',
             'title'             => 'Piutang Transaksi',
+            'bank'              => $this->bankModel->findAll()
         ];
 
         return view('piutang/daftar_piutang', $data);
@@ -120,44 +121,57 @@ class Piutang extends BaseController
         $response = array();
 
         $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
-        $fields['jenis_pembayaran'] = $this->request->getPost('pembayaranJenis');
-        $fields['pembayaran_id_bank'] = $this->request->getPost('pembayaranIdBank');
+        $fields['jenis_pembayaran'] = $this->request->getPost('jenisPembayaran');
+        $fields['id_bank'] = $this->request->getPost('idBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
 
         $this->validation->setRules([
             'id_transaksi' => ['label' => 'ID Transaksi', 'rules' => 'required|max_length[10]'],
             'jenis_pembayaran' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
-            'pembayaran_id_bank' => ['label' => 'Pilih Bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
+            'id_bank' => ['label' => 'Pilih Bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'dibayar' => ['label' => 'DIBAYAR', 'rules' => 'required|numeric|max_length[10]'],
 
         ]);
 
-        if ($fields['pembayaran_id_bank'] > 0) {
-            $fields['id_bank'] = $fields['pembayaran_id_bank'];
-            $bank = $this->bankModel->find($fields['id_bank']);
-            if ($bank != null) {
-                $fields['nama_bank'] = $bank->nama_bank;
-                $fields['norek'] = $bank->norek;
-                $fields['atas_nama'] = $bank->atas_nama;
+        if ($this->validation->run($fields) == FALSE) {
+
+            $response['success'] = false;
+            $response['messages'] = $this->validation->listErrors();
+        } else {
+
+            if ($fields['id_bank'] > 0) {
+                $fields['id_bank'] = $fields['id_bank'];
+                $bank = $this->bankModel->find($fields['id_bank']);
+                if ($bank != null) {
+                    $fields['nama_bank'] = $bank->nama_bank;
+                    $fields['norek'] = $bank->norek;
+                    $fields['atas_nama'] = $bank->atas_nama;
+                }
+            }
+
+            $piutang = $this->getPiutangOr404($fields['id_transaksi']);
+
+            if ($fields['dibayar'] > $piutang->kurang) {
+                $fields['jumlah_dibayar'] = $piutang->kurang;
+            } else {
+                $fields['jumlah_dibayar'] = $fields['dibayar'];
+            }
+            $fields['kasir'] = current_user()->first_name;
+            $fields['created_by'] = current_user()->id;
+            $fields['updated_by'] = current_user()->id;
+
+            if ($this->pembayaranModel->insert($fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = 'Paid successfully.';
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = 'Payment error!';
             }
         }
 
-        $piutang = $this->getPiutangOr404($fields['id_transaksi']);
-
-        if ($fields['dibayar'] > $piutang->kurang) {
-            $fields['jumlah_dibayar'] = $piutang->kurang;
-        } else {
-            $fields['jumlah_dibayar'] = $fields['dibayar'];
-        }
-        $fields['kasir'] = current_user()->first_name;
-        $fields['created_by'] = current_user()->id;
-        $fields['updated_by'] = current_user()->id;
-
-        if ($this->pembayaranModel->insert($fields)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->response->setJSON($response);
     }
 
     private function getPiutangOr404($id_transaksi)

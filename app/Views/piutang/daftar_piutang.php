@@ -8,6 +8,8 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/select2/css/select2.min.css">
 
 <?= $this->endSection() ?>
 
@@ -97,7 +99,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="tglOrder"> Tgl order: </label>
-                                    <input disabled type="date" id="tglOrder" name="tglOrder" class="form-control" dateISO="true">
+                                    <input disabled type="date" id="tglOrder" name="tglOrder" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -110,29 +112,58 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="kasir"> Kasir: <span class="text-danger">*</span> </label>
-                                    <input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50" required>
+                                    <label for="kasir"> Kasir: </label>
+                                    <input disabled type="text" id="kasir" name="kasir" value="<?= current_user()->first_name ?>" class="form-control" placeholder="Kasir" maxlength="50" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="totalBayar"> Sisa piutang: </label>
-                                    <input disabled type="number" min="0" id="totalBayar" name="totalBayar" class="form-control" placeholder="Total bayar" maxlength="10" number="true">
+                                    <label for="sisaPiutangRupiah"> Sisa piutang: </label>
+                                    <input type="hidden" id="sisaPiutang" name="sisaPiutang" maxlength="10" number="true">
+                                    <input type="text" disabled id="sisaPiutangRupiah" name="sisaPiutangRupiah" class="form-control" placeholder="Sisa Piutang" maxlength="50">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="keterangan"> Keterangan: </label>
-                                    <input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255">
+                                    <label for="jenisPembayaran"> Jenis Pembayaran: <span class="text-danger">*</span></label>
+                                    <select id="jenisPembayaran" name="jenisPembayaran" class="form-control" style="width: 100%;" required>
+                                        <option value="cash">Cash</option>
+                                        <option value="transfer">Transfer</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group" id="pilihBank" style="display:none;">
+                                    <label for="idBank"> Pilih Bank: </label>
+                                    <select id="idBank" name="idBank" class="form-control select2" style="width: 100%;">
+                                        <option></option>
+                                        <?php foreach ($bank as $bnk) : ?>
+                                            <option value="<?= $bnk->id_bank ?>">
+                                                <?= $bnk->nama_bank . ' - ' . $bnk->atas_nama . ' (' . $bnk->norek . ')' ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span></label>
+                                    <input type="number" min="0" id="dibayar" name="dibayar" class="form-control" oninput="onDibayarInputChange()" placeholder="Dibayar" maxlength="10" number="true" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="kembalian"> Kembalian: </label>
+                                    <input type="text" disabled id="kembalian" name="kembalian" class="form-control" placeholder="Kembalian" maxlength="50">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group text-center">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-success" id="edit-form-btn">Update</button>
+                                <button type="submit" class="btn btn-success" id="bayar-form-btn">Bayar</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                             </div>
                         </div>
@@ -149,6 +180,9 @@
 <!-- ADDITIONAL JS -->
 <?= $this->section('javascript') ?>
 
+<!-- jquery-validation -->
+<script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- DataTables -->
 <script src="https://adminlte.io/themes/v3/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="https://adminlte.io/themes/v3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -156,9 +190,19 @@
 <script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?= base_url() ?>/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Select2 -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/select2/js/select2.full.min.js"></script>
 
 <!-- page script -->
 <script>
+    // Select2
+    $('.select2').select2();
+
+    var currencyFormatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+    });
+
     $(function() {
         $('#data_table').DataTable({
             "paging": true,
@@ -176,6 +220,139 @@
             }
         });
     });
+
+    function bayar(id_transaksi) {
+        $.ajax({
+            url: '<?php echo base_url('piutang/getOne') ?>',
+            type: 'post',
+            data: {
+                id_transaksi: id_transaksi
+            },
+            dataType: 'json',
+            success: function(response) {
+                // reset the form 
+                $("#bayar-form")[0].reset();
+                $(".form-control").removeClass('is-invalid').removeClass('is-valid');
+                $('#bayar-modal').modal('show');
+
+                $("#bayar-form #idTransaksi").val(response.id_transaksi);
+                $("#bayar-form #noFaktur").val(response.no_faktur);
+                if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
+                $("#bayar-form #namaPelanggan").val(response.nama_pelanggan);
+                $("#bayar-form #sisaPiutang").val(response.kurang);
+                $("#bayar-form #sisaPiutangRupiah").val(currencyFormatter.format(response.kurang));
+
+                // submit the edit from 
+                $.validator.setDefaults({
+                    highlight: function(element) {
+                        $(element).addClass('is-invalid').removeClass('is-valid');
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass('is-invalid').addClass('is-valid');
+                    },
+                    errorElement: 'div ',
+                    errorClass: 'invalid-feedback',
+                    errorPlacement: function(error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else if ($(element).is('.select')) {
+                            element.next().after(error);
+                        } else if (element.hasClass('select2')) {
+                            //error.insertAfter(element);
+                            error.insertAfter(element.next());
+                        } else if (element.hasClass('selectpicker')) {
+                            error.insertAfter(element.next());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+
+                    submitHandler: function(form) {
+                        var form = $('#bayar-form');
+                        $(".text-danger").remove();
+                        $.ajax({
+                            url: '<?php echo base_url('piutang/bayar') ?>',
+                            type: 'post',
+                            data: form.serialize(),
+                            dataType: 'json',
+                            beforeSend: function() {
+                                $('#bayar-form-btn').html('<i class="fa fa-spinner fa-spin"></i>');
+                            },
+                            success: function(response) {
+
+                                if (response.success === true) {
+
+                                    Swal.fire({
+                                        position: 'bottom-end',
+                                        icon: 'success',
+                                        title: response.messages,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function() {
+                                        $('#data_table').DataTable().ajax.reload(null, false).draw(false);
+                                        $('#bayar-modal').modal('hide');
+                                    })
+
+                                } else {
+
+                                    if (response.messages instanceof Object) {
+                                        $.each(response.messages, function(index, value) {
+                                            var id = $("#" + index);
+
+                                            id.closest('.form-control')
+                                                .removeClass('is-invalid')
+                                                .removeClass('is-valid')
+                                                .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
+
+                                            id.after(value);
+
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            position: 'bottom-end',
+                                            icon: 'error',
+                                            title: response.messages,
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+
+                                    }
+                                }
+                                $('#bayar-form-btn').html('Bayar');
+                            }
+                        });
+
+                        return false;
+                    }
+                });
+                $('#bayar-form').validate();
+
+            }
+        });
+    }
+
+    $('#jenisPembayaran').change(function() {
+        if ($(this).val() == 'transfer') {
+            $('#pilihBank').show();
+            $('#namaBank').show();
+        } else {
+            $('#pilihBank').hide();
+            $('#namaBank').hide();
+        }
+    })
+
+    function onDibayarInputChange() {
+        var dibayar = $('#dibayar').val();
+        var sisaPiutang = $('#sisaPiutang').val();
+        var kembalian = dibayar - sisaPiutang;
+        var kembalianRupiah
+        if (kembalian > 0) {
+            kembalianRupiah = currencyFormatter.format(kembalian);
+        } else {
+            kembalianRupiah = currencyFormatter.format(0);
+        }
+        $('#kembalian').val(kembalianRupiah);
+    }
 </script>
 
 <?= $this->endSection() ?>

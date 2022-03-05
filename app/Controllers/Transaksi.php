@@ -53,7 +53,7 @@ class Transaksi extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiModel->findAllWithTotalHarga();
+        $result = $this->transaksiModel->findAllWithPiutang();
 
         foreach ($result as $key => $value) {
 
@@ -73,6 +73,13 @@ class Transaksi extends BaseController
             } else {
                 $harus_bayar = 0;
             }
+            if ($value->telah_bayar >= $value->harus_bayar) {
+                $telah_bayar = '<strong class="text-success">LUNAS</strong>';
+            } else if (!empty($value->telah_bayar)) {
+                $telah_bayar = number_to_currency($value->telah_bayar, 'IDR', 'id_ID', 2);
+            } else {
+                $telah_bayar = number_to_currency(0, 'IDR', 'id_ID', 2);
+            }
 
             $data['data'][$key] = array(
                 $no_faktur,
@@ -81,6 +88,7 @@ class Transaksi extends BaseController
                 $value->tgl_deadline,
                 $value->kasir,
                 number_to_currency($harus_bayar, 'IDR', 'id_ID', 2),
+                $telah_bayar,
                 $ops,
             );
         }
@@ -127,6 +135,25 @@ class Transaksi extends BaseController
         }
 
         return $this->response->setJSON($response);
+    }
+
+    public function baru()
+    {
+        $id_transaksi = $this->request->getPost('id_transaksi');
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
+
+        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+
+        $data = [
+            'menu'              => 'transaksi',
+            'title'             => 'Transaksi Baru',
+            'pelanggan'         => $pelanggan,
+            'transaksi'         => $transaksi,
+            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
+            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
+            'bank'              => $this->bankModel->findAll()
+        ];
+        return view('transaksi/baru', $data);
     }
 
     public function save()
@@ -249,25 +276,6 @@ class Transaksi extends BaseController
         }
 
         return $this->response->setJSON($response);
-    }
-
-    public function baru()
-    {
-        $id_transaksi = $this->request->getPost('id_transaksi');
-        $transaksi = $this->getTransaksiOr404($id_transaksi);
-
-        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
-
-        $data = [
-            'menu'              => 'transaksi',
-            'title'             => 'Transaksi Baru',
-            'pelanggan'         => $pelanggan,
-            'transaksi'         => $transaksi,
-            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
-            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
-            'bank'              => $this->bankModel->findAll()
-        ];
-        return view('transaksi/detail', $data);
     }
 
     public function pilihPelanggan()

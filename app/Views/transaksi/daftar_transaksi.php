@@ -62,7 +62,8 @@
                                     <th>Nama pelanggan</th>
                                     <th>Tgl deadline</th>
                                     <th>Kasir</th>
-                                    <th>Total bayar</th>
+                                    <th>Total</th>
+                                    <th>Dibayar</th>
                                     <th></th>
                                 </tr>
                             </thead>

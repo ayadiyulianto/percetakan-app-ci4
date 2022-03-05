@@ -361,7 +361,6 @@
         }
     })
 
-    // $('#dibayar').change(function() {
     function onDibayarInputChange() {
         var dibayar = $('#dibayar').val();
         var totalBayar = $('#totalBayar').val();
