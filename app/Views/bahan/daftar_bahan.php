@@ -75,6 +75,7 @@
         </div>
         <!-- /.row -->
     </section>
+
     <!-- Tambah modal content -->
     <div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">

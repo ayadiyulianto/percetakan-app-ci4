@@ -52,12 +52,14 @@ class TransaksiItem extends BaseController
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
-            $desain = $value->status_desain;
+            $desain = '<div class="btn-group">';
+            $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
             if ($value->file_gambar) {
-                $desain .= ' <a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="Title" data-gallery="gallery">';
+                $desain .= '<a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
                 $desain .= '  <i class="fa fa-image"></i>';
                 $desain .= '</a>';
             }
+            $desain .= '</div>';
 
             $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
 
@@ -84,7 +86,7 @@ class TransaksiItem extends BaseController
 
         if ($this->validation->check($id, 'required|numeric')) {
 
-            $data = $this->transaksiItemModel->where('id_transaksi_item', $id)->first();
+            $data = $this->getTransaksiItemOr404($id);
 
             return $this->response->setJSON($data);
         } else {
@@ -162,7 +164,7 @@ class TransaksiItem extends BaseController
         $fields['keterangan'] = $this->request->getPost('keterangan');
 
         $this->validation->setRules([
-            'id_transaksi_item' => ['label' => 'ID Transaksi Item', 'rules' => 'required|max_length[10]'],
+            'idTransaksiItem' => ['label' => 'ID Transaksi Item', 'rules' => 'required|max_length[10]'],
             'namaItem' => ['label' => 'Nama item', 'rules' => 'required|max_length[255]'],
             'ukuran' => ['label' => 'Ukuran', 'rules' => 'permit_empty|max_length[50]'],
             'kuantiti' => ['label' => 'Kuantiti', 'rules' => 'permit_empty|numeric|max_length[10]'],
@@ -191,6 +193,86 @@ class TransaksiItem extends BaseController
             if (!empty($filePath)) {
                 $fields['file_gambar'] = $filePath;
             }
+
+            if ($this->transaksiItemModel->update($fields['id_transaksi_item'], $fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = 'Successfully updated';
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = 'Update error!';
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    public function uploadGambar()
+    {
+
+        $response = array();
+
+        $fields['id_transaksi_item'] = $this->request->getPost('idTransaksiItem');
+        $fields['status_desain'] = $this->request->getPost('statusDesain');
+
+        $this->validation->setRules([
+            'idTransaksiItem' => ['label' => 'ID Transaksi Item', 'rules' => 'required|max_length[10]'],
+            'statusDesain' => ['label' => 'Status desain', 'rules' => 'permit_empty|max_length[50]'],
+            'fileGambar' => [
+                'label' => 'File Gambar',
+                'rules' => [
+                    'mime_in[fileGambar,image/jpg,image/jpeg,image/png,image/gif]',
+                ]
+            ],
+        ]);
+
+        if ($this->validation->withRequest($this->request)->run() == FALSE) { //->run($fields) == FALSE) {
+
+            $response['success'] = false;
+            $response['messages'] = $this->validation->listErrors();
+        } else {
+
+            $transaksiItem = $this->getTransaksiItemOr404($fields['id_transaksi_item']);
+
+            $filePath = $this->uploadFile($this->request->getFile('fileGambar'), $transaksiItem->file_gambar);
+            if (!empty($filePath)) {
+                $fields['file_gambar'] = $filePath;
+            }
+
+            if ($this->transaksiItemModel->update($fields['id_transaksi_item'], $fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = 'Successfully updated';
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = 'Update error!';
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    public function updateStatus()
+    {
+
+        $response = array();
+
+        $fields['id_transaksi_item'] = $this->request->getPost('idTransaksiItem');
+        $fields['status_produksi'] = $this->request->getPost('statusProduksi');
+
+        $this->validation->setRules([
+            'id_transaksi_item' => ['label' => 'Id transaksi item', 'rules' => 'required|numeric|max_length[10]'],
+            'status_produksi' => ['label' => 'Status Produksi', 'rules' => 'required|max_length[50]'],
+
+        ]);
+
+        if ($this->validation->run($fields) == FALSE) {
+
+            $response['success'] = false;
+            $response['messages'] = $this->validation->listErrors();
+        } else {
 
             if ($this->transaksiItemModel->update($fields['id_transaksi_item'], $fields)) {
 

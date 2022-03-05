@@ -1,4 +1,16 @@
 <script>
+    $(function() {
+        $('#table_item_barang').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    })
+
     function addItemBarang() {
         // reset the form 
         $("#add-form-item-barang")[0].reset();

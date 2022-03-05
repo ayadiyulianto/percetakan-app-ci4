@@ -199,6 +199,7 @@ class Transaksi extends BaseController
             }
             $fields['tgl_order'] = date('Y-m-d H:i:s');
             $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
+            $fields['status_produksi'] = 'dipesan';
 
             if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
 

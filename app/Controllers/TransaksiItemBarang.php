@@ -52,6 +52,33 @@ class TransaksiItemBarang extends BaseController
 
 		foreach ($result as $key => $value) {
 
+			$data['data'][$key] = array(
+				$value->nama_barang,
+				$value->satuan_kecil,
+				$value->panjang,
+				$value->lebar,
+				$value->jumlah,
+
+			);
+		}
+
+		return $this->response->setJSON($data);
+	}
+
+	public function getAllForTransaksiBaru($id_transaksi_item = null)
+	{
+		$response = array();
+
+		$data['data'] = array();
+
+		$builder = $this->transaksiItemBarangModel->select('id, id_barang, nama_barang, satuan_kecil, panjang, lebar, jumlah, harga, total_harga');
+		if ($id_transaksi_item != null) {
+			$builder->where(array('id_transaksi_item' => $id_transaksi_item));
+		}
+		$result = $builder->findAll();
+
+		foreach ($result as $key => $value) {
+
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="editItemBarang(' . $value->id . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItemBarang(' . $value->id . ')"><i class="fa fa-trash"></i></button>';

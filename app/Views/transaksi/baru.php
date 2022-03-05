@@ -569,18 +569,6 @@
 
     // ITEM BARANG
 
-    $(function() {
-        $('#table_item_barang').DataTable({
-            "paging": false,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    })
-
     function itemBarang(id_transaksi_item) {
         $('#modal-item-barang').modal('show');
         $('#modal-item-barang #idTransaksiItem').val(id_transaksi_item);
@@ -593,11 +581,11 @@
             dataType: 'json',
             success: function(response) {
                 var namaItem = "Nama item : " + response.nama_item;
-                $('#modal-item-barang #namaItemModalTitle').html();
+                $('#modal-item-barang #namaItemModalTitle').html(namaItem);
             }
         })
 
-        $('#table_item_barang').DataTable().ajax.url("<?= site_url('transaksiItemBarang/getAll/') ?>" + id_transaksi_item).load();
+        $('#table_item_barang').DataTable().ajax.url("<?= site_url('transaksiItemBarang/getAllForTransaksiBaru/') ?>" + id_transaksi_item).load();
     }
 </script>
 

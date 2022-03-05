@@ -120,9 +120,10 @@
                 if (response.file_gambar) {
                     $("#edit-form-item #uploadedFileGambar").show();
                     $("#edit-form-item #uploadedFileGambar").attr('href', "<?= base_url() ?>/" + response.file_gambar);
+                    $("#edit-form-item #uploadedFileGambar").data('title', response.nama_item).attr('data-title', response.nama_item);
                 } else {
                     $("#edit-form-item #uploadedFileGambar").hide();
-                    $("#edit-form-item #uploadedFileGambar").href = "";
+                    $("#edit-form-item #uploadedFileGambar").data('title', "").attr('data-title', response.nama_item);
                 }
                 $("#edit-form-item #keterangan").val(response.keterangan);
 

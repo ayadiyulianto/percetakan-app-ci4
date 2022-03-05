@@ -37,21 +37,25 @@ class DaftarKerjaan extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, keterangan')
+        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, keterangan, status_produksi')
             ->findAll();
 
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
+            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="uploadGambar(' . $value->id_transaksi_item . ')"><i class="fa fa-upload"></i></button>';
+            $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
+            $ops .= '	<button type="button" class="btn btn-sm btn-warning" onclick="statusProduksi(' . $value->id_transaksi_item . ')"><i class="fa fa-clipboard-check"></i></button>';
             $ops .= '</div>';
 
-            $desain = $value->status_desain;
+            $desain = '<div class="btn-group">';
+            $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
             if ($value->file_gambar) {
-                $desain .= ' <a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="Title" data-gallery="gallery">';
-                $desain .= '  <i class="fa fa-image"></i>';
-                $desain .= '</a>';
+                $desain .= '    <a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
+                $desain .= '        <i class="fa fa-image"></i>';
+                $desain .= '    </a>';
             }
+            $desain .= '</div>';
 
             $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
 
@@ -61,6 +65,7 @@ class DaftarKerjaan extends BaseController
                 $value->kuantiti,
                 $value->satuan,
                 $desain,
+                $value->status_produksi,
                 $ops,
             );
         }
