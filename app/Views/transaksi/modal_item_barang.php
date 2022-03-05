@@ -20,7 +20,6 @@
                 <table id="table_item_barang" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Id barang</th>
                             <th>Nama barang</th>
                             <th>Satuan</th>
                             <th>Panjang</th>
