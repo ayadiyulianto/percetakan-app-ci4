@@ -140,13 +140,14 @@ class Piutang extends BaseController
         } else {
 
             if ($fields['id_bank'] > 0) {
-                $fields['id_bank'] = $fields['id_bank'];
                 $bank = $this->bankModel->find($fields['id_bank']);
                 if ($bank != null) {
                     $fields['nama_bank'] = $bank->nama_bank;
                     $fields['norek'] = $bank->norek;
                     $fields['atas_nama'] = $bank->atas_nama;
                 }
+            } else {
+                $fields['id_bank'] = NULL;
             }
 
             $piutang = $this->getPiutangOr404($fields['id_transaksi']);
