@@ -49,7 +49,15 @@ Kebutuhan server untuk Codeigniter 4:
 
 Setelah menginstal webserver, kita harus mengaktifkan beberapa ekstension yang dibutuhkan untuk pengembangan CI 4:
 
+Buka XAMPP Control Panel, klik apache -> Config -> PHP (php.ini)
+Cari "intl" dibaris yg depannya ada #extension, hilangkan tanda pagarnya
+Cari "curl" dibaris yg depannya ada #extension, hilangkan tanda pagarnya
+Cari "mbstring" dibaris yg depannya ada #extension, hilangkan tanda pagarnya
+
 ### Pembuatan Virtual Host
+
+Buka XAMPP Control Panel, klik apache -> Config -> Apache (httpd.conf)
+Cari "vhost" di baris yg depannya ada #LoadModulde, hilangkan tanda pagarnya.
 
 Tambah virtual host ke C:\xampp\apache\conf\extra\httpd-vhosts.conf
 ```cmd
@@ -68,11 +76,14 @@ Tambah virtual host ke C:\xampp\apache\conf\extra\httpd-vhosts.conf
 </VirtualHost>
 ```
 
+0. Buka C:\Windows\System32\drivers\etc, klik kanan file hosts -> properties -> hilangkan cheklist Read Only -> Apply;
 1. Buka notepad as administrator
-2. Buka C:\Windows\System32\drivers\etc\hosts
+2. Buka C:\Windows\System32\drivers\etc, pilih file hosts
 3. Tambahkan ip address dan ServerName di virtual host yg ditambahkan di atas.
 ```cmd
 192.168.101.34  kaber.printing
 ```
+
+Jangan lupa restart Apache di XAMPP Control Panel.
 
 {% include disqus.html %}
