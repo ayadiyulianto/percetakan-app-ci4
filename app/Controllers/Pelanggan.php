@@ -37,14 +37,14 @@ class Pelanggan extends BaseController
 
 		$result = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan, no_wa')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_pelanggan . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_pelanggan . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
-			$data['data'][$key] = array(
+			$data['data'][] = array(
 				$value->id_pelanggan,
 				$value->tipe_pelanggan,
 				$value->nama_pelanggan,

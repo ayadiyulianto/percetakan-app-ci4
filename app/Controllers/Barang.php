@@ -48,14 +48,14 @@ class Barang extends BaseController
 
 		$result = $this->barangModel->select('id_barang, kategori_barang, nama_barang, satuan_kecil, harga_jual_umum, harga_jual_reseller')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_barang . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_barang . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
-			$data['data'][$key] = array(
+			$data['data'][] = array(
 				$value->id_barang,
 				$value->kategori_barang,
 				$value->nama_barang,

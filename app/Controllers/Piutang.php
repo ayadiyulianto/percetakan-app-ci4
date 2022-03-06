@@ -56,7 +56,7 @@ class Piutang extends BaseController
 
         $result = $this->transaksiModel->findAllWithPiutang();
 
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
             $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="bayar(' . $value->id_transaksi . ')"><i class="fas fa-money-bill-wave"></i> Bayar</button>';
@@ -83,7 +83,7 @@ class Piutang extends BaseController
                 continue; // hiraukan dari tampilan jika kurang = 0
             }
 
-            $data['data'][$key] = array(
+            $data['data'][] = array(
                 $no_faktur,
                 $value->tgl_order,
                 $pelanggan,

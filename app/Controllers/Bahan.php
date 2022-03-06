@@ -44,7 +44,7 @@ class Bahan extends BaseController
 
 		$result = $this->bahanModel->select('id_bahan, nama_bahan, satuan_kecil, stok_satuan_kecil, satuan_besar, isi_satuan_besar, modal_bahan_satuan_kecil')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_bahan . ')"><i class="fa fa-edit"></i></button>';
@@ -53,7 +53,7 @@ class Bahan extends BaseController
 			$satuan_besar = $value->satuan_besar . ' (' . $value->isi_satuan_besar . ' ' . $value->satuan_kecil . ')';
 			$modal_bahan = $value->modal_bahan_satuan_kecil . '/' . $value->satuan_kecil;
 
-			$data['data'][$key] = array(
+			$data['data'][] = array(
 				$value->id_bahan,
 				$value->nama_bahan,
 				$value->satuan_kecil,

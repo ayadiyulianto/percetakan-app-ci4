@@ -55,7 +55,7 @@ class Transaksi extends BaseController
 
         $result = $this->transaksiModel->findAllWithPiutang();
 
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
             $ops .= '	<form method="post" action="' . site_url('transaksi/baru') . '" > ';
@@ -81,7 +81,7 @@ class Transaksi extends BaseController
                 $telah_bayar = number_to_currency(0, 'IDR', 'id_ID', 2);
             }
 
-            $data['data'][$key] = array(
+            $data['data'][] = array(
                 $no_faktur,
                 $value->tgl_order,
                 $pelanggan,

@@ -38,14 +38,14 @@ class Satuan extends BaseController
 
 		$result = $this->satuanModel->select('id, nama_satuan')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
-			$data['data'][$key] = array(
+			$data['data'][] = array(
 				$value->id,
 				$value->nama_satuan,
 

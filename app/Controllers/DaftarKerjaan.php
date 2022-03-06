@@ -40,11 +40,9 @@ class DaftarKerjaan extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, keterangan, status_produksi')
-            ->where('status_produksi !=', 'diambil')
-            ->findAll();
+        $result = $this->transaksiItemModel->getDaftarKerjaan();
 
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
             if (has_akses('uploadGambar', 'u')) {
@@ -67,7 +65,7 @@ class DaftarKerjaan extends BaseController
 
             $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
 
-            $data['data'][$key] = array(
+            $data['data'][] = array(
                 $nama_item,
                 $value->ukuran,
                 $value->kuantiti,

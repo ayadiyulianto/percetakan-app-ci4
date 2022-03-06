@@ -38,14 +38,14 @@ class Pembayaran extends BaseController
 
 		$result = $this->pembayaranModel->select('id_transaksi_pembayaran, id_transaksi, jenis_pembayaran, nama_bank, norek, atas_nama, jumlah_dibayar, kasir')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
-			$data['data'][$key] = array(
+			$data['data'][] = array(
 				$value->id_transaksi_pembayaran,
 				$value->id_transaksi,
 				$value->jenis_pembayaran,

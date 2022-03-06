@@ -44,7 +44,7 @@ class TransaksiItem extends BaseController
             ->where(array('id_transaksi' => $id_transaksi))
             ->findAll();
 
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
             $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
@@ -63,7 +63,7 @@ class TransaksiItem extends BaseController
 
             $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
 
-            $data['data'][$key] = array(
+            $data['data'][] = array(
                 $nama_item,
                 $value->ukuran,
                 $value->kuantiti,
