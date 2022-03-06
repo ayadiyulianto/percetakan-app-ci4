@@ -38,7 +38,9 @@ class Piutang extends BaseController
 
     public function index()
     {
-
+        if (!has_akses('piutang', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $data = [
             'menu'              => 'piutang',
             'title'             => 'Piutang Transaksi',

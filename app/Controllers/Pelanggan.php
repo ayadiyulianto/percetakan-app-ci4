@@ -21,6 +21,9 @@ class Pelanggan extends BaseController
 
 	public function index()
 	{
+		if (!has_akses('pelanggan', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$data = [
 			'menu' 				=> 'pelanggan',
 			'title'     		=> 'Pelanggan'

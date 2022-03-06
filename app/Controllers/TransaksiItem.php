@@ -34,6 +34,9 @@ class TransaksiItem extends BaseController
 
     public function getAll()
     {
+        if (!has_akses('transaksiItem', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $response = array();
 
         $id_transaksi = $this->request->getPost('id_transaksi');

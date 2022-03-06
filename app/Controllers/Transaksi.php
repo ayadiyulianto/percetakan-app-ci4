@@ -38,7 +38,9 @@ class Transaksi extends BaseController
 
     public function index()
     {
-
+        if (!has_akses('transaksi', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $data = [
             'menu'              => 'transaksi',
             'title'             => 'Transaksi',

@@ -21,7 +21,9 @@ class Pembayaran extends BaseController
 
 	public function index()
 	{
-
+		if (!has_akses('pembayaran', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$data = [
 			'menu'    		=> 'pembayaran',
 			'title'     	=> 'Pembayaran'

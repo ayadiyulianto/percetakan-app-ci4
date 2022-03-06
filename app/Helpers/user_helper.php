@@ -49,7 +49,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => ['c', 'r', 'u', 'd'],
                 'transaksi'         => ['c', 'r', 'u', 'd'],
                 'transaksiItem'     => ['c', 'r', 'u', 'd'],
-                'transaksiItemBaang' => ['c', 'r', 'u', 'd']
+                'transaksiItemBarang' => ['c', 'r', 'u', 'd']
             ),
             'desainer' => array(
                 'bahan'             => [],
@@ -65,7 +65,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBaang' => []
+                'transaksiItemBarang' => []
             ),
             'operator' => array(
                 'bahan'             => [],
@@ -81,7 +81,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBaang' => []
+                'transaksiItemBarang' => []
             ),
         );
 

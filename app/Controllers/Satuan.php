@@ -21,7 +21,9 @@ class Satuan extends BaseController
 
 	public function index()
 	{
-
+		if (!has_akses('satuan', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$data = [
 			'menu' 				=> 'satuan',
 			'title'     		=> 'Satuan'

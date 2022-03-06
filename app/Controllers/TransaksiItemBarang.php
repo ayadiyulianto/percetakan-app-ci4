@@ -40,6 +40,10 @@ class TransaksiItemBarang extends BaseController
 
 	public function getAll($id_transaksi_item = null)
 	{
+		if (!has_akses('transaksiItemBarang', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$data['data'] = array();
