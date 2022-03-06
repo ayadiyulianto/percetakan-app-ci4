@@ -62,6 +62,8 @@ class Transaksi extends BaseController
             $ops = '<div class="btn-group">';
             $ops .= '	<form method="post" action="' . site_url('transaksi/baru') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
+            $ops .= '	<form method="post" action="' . site_url('transaksi/nota') . '" > ';
+            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button></form>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
@@ -156,6 +158,24 @@ class Transaksi extends BaseController
             'bank'              => $this->bankModel->findAll()
         ];
         return view('transaksi/baru', $data);
+    }
+    public function nota()
+    {
+        $id_transaksi = $this->request->getPost('id_transaksi');
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
+
+        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+
+        $data = [
+            'menu'              => 'transaksi',
+            'title'             => 'Transaksi Baru',
+            'pelanggan'         => $pelanggan,
+            'transaksi'         => $transaksi,
+            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
+            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
+            'bank'              => $this->bankModel->findAll()
+        ];
+        return view('transaksi/nota', $data);
     }
 
     public function save()

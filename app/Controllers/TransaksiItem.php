@@ -20,17 +20,21 @@ class TransaksiItem extends BaseController
         $this->validation =  \Config\Services::validation();
     }
 
-    // public function index()
-    // {
+    public function index()
+    {
+        $id_transaksi = $this->request->getPost('id_transaksi');
 
-    //     $data = [
-    //             'menu'    		=> 'transaksiItem',
-    //             'title'     	=> 'Item Transaksi'				
-    // 		];
+        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
+            ->where(array('id_transaksi' => $id_transaksi))
+            ->findAll();
 
-    // 	return view('transaksiItem', $data);
+        $data = [
+            'menu'            => 'transaksiItem',
+            'title'         => 'Item Transaksi'
+        ];
 
-    // }
+        return view('nota', $data);
+    }
 
     public function getAll()
     {
@@ -80,7 +84,46 @@ class TransaksiItem extends BaseController
 
         return $this->response->setJSON($data);
     }
+    public function getNota()
+    {
+        if (!has_akses('transaksiItem', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
+        $response = array();
 
+        $id_transaksi = $this->request->getPost('id_transaksi');
+
+        $data['data'] = array();
+
+        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
+            ->where(array('id_transaksi' => $id_transaksi))
+            ->findAll();
+
+        foreach ($result as $value) {
+
+            $desain = '<div class="btn-group">';
+            $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
+            if ($value->file_gambar) {
+                $desain .= '<a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
+                $desain .= '  <i class="fa fa-image"></i>';
+                $desain .= '</a>';
+            }
+            $desain .= '</div>';
+
+            $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
+
+            $data['data'][] = array(
+                $nama_item,
+                $value->ukuran,
+                $value->kuantiti,
+                $value->satuan,
+                number_to_currency($value->harga_satuan, 'IDR', 'id_ID', 2),
+                number_to_currency($value->sub_total_harga, 'IDR', 'id_ID', 2),
+            );
+        }
+
+        return $this->response->setJSON($data);
+    }
     public function getOne()
     {
         $response = array();
