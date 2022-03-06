@@ -23,7 +23,7 @@
 
 <!-- layout-navbar-fixed layout-fixed -->
 
-<body class="hold-transition sidebar-mini  layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -35,7 +35,15 @@
         <?= $this->include('templates/navbar'); ?>
 
         <!-- SIDEBAR -->
-        <?= $this->include('templates/admin/sidebar'); ?>
+        <?php
+        if (in_group('admin')) {
+            echo $this->include('templates/admin/sidebar');
+        } else if (in_group('desainer')) {
+            echo $this->include('templates/desainer/sidebar');
+        } else {
+            echo $this->include('templates/operator/sidebar');
+        }
+        ?>
 
         <!-- PAGE CONTENT -->
         <?= $this->renderSection('page-content') ?>
