@@ -49,10 +49,9 @@ Kebutuhan server untuk Codeigniter 4:
 
 Setelah menginstal webserver, kita harus mengaktifkan beberapa ekstension yang dibutuhkan untuk pengembangan CI 4:
 
-```cmd
-192.168.101.34  kaber.printing
-```
+### Pembuatan Virtual Host
 
+Tambah virtual host ke C:\xampp\apache\conf\extra\httpd-vhosts.conf
 ```cmd
 <VirtualHost *:80>
     ServerAdmin admin@kaber.printing
@@ -67,6 +66,13 @@ Setelah menginstal webserver, kita harus mengaktifkan beberapa ekstension yang d
         Allow from all
     </Directory>
 </VirtualHost>
+```
+
+1. Buka notepad as administrator
+2. Buka C:\Windows\System32\drivers\etc\hosts
+3. Tambahkan ip address dan ServerName di virtual host yg ditambahkan di atas.
+```cmd
+192.168.101.34  kaber.printing
 ```
 
 {% include disqus.html %}
