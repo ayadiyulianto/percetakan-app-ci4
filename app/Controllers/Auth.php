@@ -92,11 +92,6 @@ class Auth extends BaseController
         if (!$this->ionAuth->loggedIn()) {
             // redirect them to the login page
             return redirect()->to('/auth/login');
-        } else if (!$this->ionAuth->isAdmin()) // remove this elseif if you want to enable this for non-admins
-        {
-            // redirect them to the home page because they must be an administrator to view this
-            //show_error('You must be an administrator to view this page.');
-            throw new \Exception('You must be an administrator to view this page.');
         } else {
             return redirect()->to('/dashboard');
         }
@@ -522,7 +517,7 @@ class Auth extends BaseController
             // check to see if we are creating the user
             // redirect them back to the admin page
             $this->session->setFlashdata('message', $this->ionAuth->messages());
-            return redirect()->to('/auth');
+            return redirect()->to('/auth/users');
         } else {
             // display the create user form
             // set the flash data error message if there is one
@@ -589,9 +584,9 @@ class Auth extends BaseController
     public function redirectUser()
     {
         if ($this->ionAuth->isAdmin()) {
-            return redirect()->to('/auth');
+            return redirect()->to('/auth/users');
         }
-        return redirect()->to('/');
+        return redirect()->to('/auth');
     }
 
     /**
@@ -617,8 +612,8 @@ class Auth extends BaseController
             // validate form input
             $this->validation->setRule('first_name', lang('Auth.edit_user_validation_fname_label'), 'trim|required');
             $this->validation->setRule('last_name', lang('Auth.edit_user_validation_lname_label'), 'trim|required');
-            $this->validation->setRule('phone', lang('Auth.edit_user_validation_phone_label'), 'trim|required');
-            $this->validation->setRule('company', lang('Auth.edit_user_validation_company_label'), 'trim|required');
+            $this->validation->setRule('phone', lang('Auth.edit_user_validation_phone_label'), 'trim');
+            $this->validation->setRule('company', lang('Auth.edit_user_validation_company_label'), 'trim');
 
             // do we have a valid request?
             if ($id !== $this->request->getPost('id', FILTER_VALIDATE_INT)) {
@@ -741,7 +736,7 @@ class Auth extends BaseController
                 // check to see if we are creating the group
                 // redirect them back to the admin page
                 $this->session->setFlashdata('message', $this->ionAuth->messages());
-                return redirect()->to('/auth');
+                return redirect()->to('/auth/users');
             }
         } else {
             // display the create group form
@@ -799,7 +794,7 @@ class Auth extends BaseController
                 } else {
                     $this->session->setFlashdata('message', $this->ionAuth->errors($this->validationListTemplate));
                 }
-                return redirect()->to('/auth');
+                return redirect()->to('/auth/users');
             }
         }
 

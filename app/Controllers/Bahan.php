@@ -23,6 +23,9 @@ class Bahan extends BaseController
 
 	public function index()
 	{
+		if (!has_akses('bahan', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$data = [
 			'menu' 				=> 'bahan',
@@ -84,6 +87,9 @@ class Bahan extends BaseController
 
 	public function add()
 	{
+		if (!has_akses('bahan', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -127,6 +133,9 @@ class Bahan extends BaseController
 
 	public function edit()
 	{
+		if (!has_akses('bahan', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -172,6 +181,10 @@ class Bahan extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('daftarKerjaan', 'd')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id_bahan');

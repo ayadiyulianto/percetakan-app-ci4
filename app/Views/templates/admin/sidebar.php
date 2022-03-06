@@ -171,6 +171,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item <?php if ($menu == "users") echo "menu-open"; ?>">
+                    <a href="<?= site_url("/auth/users") ?>" class="nav-link <?php if ($menu == "users") echo "active"; ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            USER APLIKASI
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

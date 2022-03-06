@@ -22,6 +22,9 @@ class DaftarKerjaan extends BaseController
 
     public function index()
     {
+        if (!has_akses('daftarKerjaan', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
 
         $data = [
             'menu'          => 'daftarKerjaan',
@@ -38,14 +41,19 @@ class DaftarKerjaan extends BaseController
         $data['data'] = array();
 
         $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, keterangan, status_produksi')
+            ->where('status_produksi !=', 'diambil')
             ->findAll();
 
         foreach ($result as $key => $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="uploadGambar(' . $value->id_transaksi_item . ')"><i class="fa fa-upload"></i></button>';
+            if (has_akses('uploadGambar', 'u')) {
+                $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="uploadGambar(' . $value->id_transaksi_item . ')"><i class="fa fa-upload"></i></button>';
+            }
             $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-warning" onclick="statusProduksi(' . $value->id_transaksi_item . ')"><i class="fa fa-clipboard-check"></i></button>';
+            if (has_akses('daftarKerjaan', 'u')) {
+                $ops .= '	<button type="button" class="btn btn-sm btn-warning" onclick="statusProduksi(' . $value->id_transaksi_item . ')"><i class="fa fa-clipboard-check"></i></button>';
+            }
             $ops .= '</div>';
 
             $desain = '<div class="btn-group">';
@@ -81,102 +89,13 @@ class DaftarKerjaan extends BaseController
 
         if ($this->validation->check($id, 'required|numeric')) {
 
-            $data = $this->transaksiItemModel->where('id_transaksi_item', $id)->first();
+            $data = $this->getTransaksiItemOr404($id);
 
             return $this->response->setJSON($data);
         } else {
 
             throw new \CodeIgniter\Exceptions\PageNotFoundException();
         }
-    }
-
-    public function edit()
-    {
-
-        $response = array();
-
-        $fields['id_transaksi_item'] = $this->request->getPost('idTransaksiItem');
-        $fields['nama_item'] = $this->request->getPost('namaItem');
-        $fields['ukuran'] = $this->request->getPost('ukuran');
-        $fields['kuantiti'] = $this->request->getPost('kuantiti');
-        $fields['satuan'] = $this->request->getPost('satuan');
-        $fields['status_desain'] = $this->request->getPost('statusDesain');
-        $fields['keterangan'] = $this->request->getPost('keterangan');
-
-        $this->validation->setRules([
-            'id_transaksi_item' => ['label' => 'ID Transaksi Item', 'rules' => 'required|max_length[10]'],
-            'namaItem' => ['label' => 'Nama item', 'rules' => 'required|max_length[255]'],
-            'ukuran' => ['label' => 'Ukuran', 'rules' => 'permit_empty|max_length[50]'],
-            'kuantiti' => ['label' => 'Kuantiti', 'rules' => 'permit_empty|numeric|max_length[10]'],
-            'satuan' => ['label' => 'Satuan', 'rules' => 'permit_empty|max_length[50]'],
-            'statusDesain' => ['label' => 'Status desain', 'rules' => 'permit_empty|max_length[50]'],
-            'fileGambar' => [
-                'label' => 'File Gambar',
-                'rules' => [
-                    'mime_in[fileGambar,image/jpg,image/jpeg,image/png,image/gif]',
-                ]
-            ],
-            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
-
-        ]);
-
-        if ($this->validation->withRequest($this->request)->run() == FALSE) { //->run($fields) == FALSE) {
-
-            $response['success'] = false;
-            $response['messages'] = $this->validation->listErrors();
-        } else {
-
-            $transaksiItem = $this->getTransaksiItemOr404($fields['id_transaksi_item']);
-            $fields['sub_total_harga'] = $transaksiItem->harga_satuan * $fields['kuantiti'];
-
-            $filePath = $this->uploadFile($this->request->getFile('fileGambar'), $transaksiItem->file_gambar);
-            if (!empty($filePath)) {
-                $fields['file_gambar'] = $filePath;
-            }
-
-            if ($this->transaksiItemModel->update($fields['id_transaksi_item'], $fields)) {
-
-                $response['success'] = true;
-                $response['messages'] = 'Successfully updated';
-            } else {
-
-                $response['success'] = false;
-                $response['messages'] = 'Update error!';
-            }
-        }
-
-        return $this->response->setJSON($response);
-    }
-
-    private function uploadFile($file, $fileGambarLama = null)
-    {
-        if (!$file->isValid()) return;
-
-        $folder = 'file-gambar';
-
-        $file->move($folder, $file->getRandomName());
-
-        if (!empty($fileGambarLama)) {
-            $path = FCPATH . $fileGambarLama;
-            if (is_file($path)) {
-                unlink($path);
-            }
-        }
-
-        return $folder . '/' . $file->getName();
-
-        // try {
-        // $path = $file->store('file-gambar', $file->getRandomName());
-        // $writablePath = WRITEPATH . 'uploads/' . $path;
-        // $saveTo = FCPATH . 'images/' . $file->getName();
-        // $image = \Config\Services::image()
-        //     ->withFile($writablePath)
-        //     ->resize(1024, 1024, true, 'auto')
-        //     ->save($writablePath);
-        // return $writablePath;
-        // } catch (CodeIgniter\Images\ImageException $e) {
-        //     return "default.jpg";
-        // }
     }
 
     private function getTransaksiItemOr404($id_transaksi_item)

@@ -18,24 +18,10 @@
                 <li class="user-header bg-primary">
                     <img src="<?= base_url() ?>/admin-lte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     <p>
-                        <?= current_user()->first_name . ' ' . current_user()->last_name ?> - ADMIN
-                        <small>Bergabung sejak 2009</small>
+                        <?= current_user()->first_name . ' ' . current_user()->last_name . ' - ' . strtoupper(current_group()->name) ?>
+                        <small><?= current_group()->description ?></small>
                     </p>
                 </li>
-                <!-- Menu Body -->
-                <!-- <li class="user-body">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <a href="#">Followers</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Sales</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Friends</a>
-                        </div>
-                    </div>
-                </li> -->
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <a href="#" class="btn btn-default btn-flat">Profile</a>

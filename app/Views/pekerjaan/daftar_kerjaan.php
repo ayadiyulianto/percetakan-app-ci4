@@ -97,6 +97,10 @@
                     </table>
                     <div class="row">
                         <div class="col-md-12">
+                            <h5>Keterangan :</h5>
+                            <p class="ml-3" id="keteranganItem"></p>
+                        </div>
+                        <div class="col-md-12">
                             <!-- <div class="btn-group"> -->
                             <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
                             <!-- </div> -->
@@ -299,7 +303,8 @@
             dataType: 'json',
             success: function(response) {
                 var namaItem = "Nama item : " + response.nama_item;
-                $('#modal-item-barang #namaItemModalTitle').html();
+                $('#modal-item-barang #namaItemModalTitle').html(namaItem);
+                $('#modal-item-barang #keteranganItem').html(response.keterangan);
             }
         })
 

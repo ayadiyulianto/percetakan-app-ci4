@@ -6,7 +6,7 @@ class IonAuth extends \IonAuth\Config\IonAuth
 {
     public $siteTitle                = 'Example.com';       // Site Title, example.com
     public $adminEmail               = 'admin@example.com'; // Admin Email, admin@example.com
-    public $defaultGroup             = 'members';           // Default group, use name
+    public $defaultGroup             = 'operator';           // Default group, use name
     public $adminGroup               = 'admin';             // Default administrators group, use name
     public $identity                 = 'username';
 
