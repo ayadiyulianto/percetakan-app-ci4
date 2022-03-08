@@ -1,4 +1,4 @@
-<?= $this->extend('templates/index.php') ?>
+<?= $this->extend('templates/nota.php') ?>
 
 <!-- ADDITIONAL CSS -->
 <?= $this->section('css') ?>
@@ -35,11 +35,8 @@
                         <div class="col-md-4">
                             <h1>INVOICE</h1>
                         </div>
-                        <div class="col align-self-end col-md-1 float:left form-control">
-                            <i>Bengkulu, </i>
-                        </div>
-                        <div class="col align-self-end col-md-2 float:left">
-                            <input type="date" disabled id="tglOrder" name="tglOrder" value="<?= date('Y-m-d') ?>" class="form-control" dateISO="true">
+                        <div class=" col align-self-end">
+                            <h5>Bengkulu, <?= date('d M Y', strtotime($transaksi->tgl_order)); ?></h5>
                         </div>
 
                     </div>
@@ -76,13 +73,12 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="row pb-1">
+                            <div class="row ">
                                 <div>
                                     <h3 class="card-title">Item Penjualan</h3>
                                 </div>
-
                             </div>
-                            <table id="table_item" class="table table-bordered table-striped">
+                            <table id="table_item" class="table table-bordered ">
                                 <thead>
                                     <tr>
                                         <th>Nama Item</th>
@@ -91,7 +87,6 @@
                                         <th>Satuan</th>
                                         <th>Harga Satuan</th>
                                         <th>Sub Total</th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -104,40 +99,64 @@
                                 <div class="row">
                                     <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
-                                            <input type="datetime-local" id="tglDeadline" name="tglDeadline" class="form-control" required>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
+                                                <input type="datetime-local" id="tglDeadline" name="tglDeadline" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="totalBayarRupiah"> Total bayar: </label>
+                                                <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="telahBayar"> Panjar: <span class="text-danger">*</span></label>
+                                                <input type="hidden" id="telahBayar" name="telahBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="telahBayarRupiah" name="telahBayarRupiah" class="form-control" placeholder="Panjar" maxlength="50">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="sisaBayarRupiah"> SISA BAYAR: </label>
+                                                <input type="hidden" id="sisaBayar" name="sisaBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="sisaBayarRupiah" name="sisaBayarRupiah" class="form-control" placeholder="Sisa bayar" maxlength="50">
+                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="keterangan"> Keterangan tambahan: </label>
-                                            <textarea cols="60" rows="2" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="totalBayarRupiah"> Total bayar: </label>
-                                            <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
-                                            <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="totalBayarRupiah"> SISA BAYAR: </label>
-                                            <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
-                                            <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="telahBayar"> Panjar: <span class="text-danger">*</span></label>
-                                        <input type="hidden" id="telahBayar" name="telahBayar" maxlength="10" number="true">
-                                        <input type="text" disabled id="telahBayarRupiah" name="telahBayarRupiah" class="form-control" placeholder="Panjar" maxlength="50">
-                                    </div>
-
                                 </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="keterangan"> Keterangan tambahan: </label>
+                                            <textarea cols="4" rows="2" id="keterangan" name="keterangan" class="form-control" placeholder="" maxlength="255"></textarea>
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <label for="keterangan" class="text-center"> Diterima Oleh:
+                                                <br>
+                                                <br>
+                                                <br>
+                                                _________________
+                                            </label>
 
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <label for="keterangan" class="text-center"> Hormat Kami :
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <?= $transaksi->kasir; ?>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
 
                             </form>
                         </div>
@@ -234,7 +253,8 @@
                         $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
                         $('#telahBayar').val(response.telah_bayar);
                         $('#telahBayarRupiah').val(currencyFormatter.format(response.telah_bayar));
-
+                        $('#sisaBayar').val(response.kurang);
+                        $('#sisaBayarRupiah').val(currencyFormatter.format(response.kurang));
                     } else {
 
                         Swal.fire({
@@ -290,15 +310,6 @@
             });
         });
 
-        $('#pembayaranJenis').change(function() {
-            if ($(this).val() == 'transfer') {
-                $('#pilihBank').show();
-                $('#namaBank').show();
-            } else {
-                $('#pilihBank').hide();
-                $('#namaBank').hide();
-            }
-        })
 
         function onDibayarInputChange() {
             var dibayar = $('#dibayar').val();

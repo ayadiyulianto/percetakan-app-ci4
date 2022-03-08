@@ -163,6 +163,7 @@ class Transaksi extends BaseController
     {
         $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
+        $nota = $this->transaksiModel->findAll();
 
         $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
 
@@ -343,7 +344,7 @@ class Transaksi extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi not found");
         }
 
-        $transaksi = $this->transaksiModel->findWithTotalHarga($id_transaksi);
+        $transaksi = $this->transaksiModel->findWithPiutang($id_transaksi);
 
         if ($transaksi === null) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi not found");
