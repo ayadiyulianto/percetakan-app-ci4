@@ -53,6 +53,7 @@
                             <thead>
                                 <tr>
                                     <th>Tgl Order</th>
+                                    <th>Tgl Deadline</th>
                                     <th>Nama Pelanggan</th>
                                     <th>Nama Item</th>
                                     <th>Ukuran</th>

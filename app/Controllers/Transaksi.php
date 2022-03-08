@@ -43,7 +43,7 @@ class Transaksi extends BaseController
         }
         $data = [
             'menu'              => 'transaksi',
-            'title'             => 'Transaksi',
+            'title'             => 'Daftar Transaksi',
         ];
 
         return view('transaksi/daftar_transaksi', $data);
@@ -60,7 +60,7 @@ class Transaksi extends BaseController
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<form method="post" action="' . site_url('transaksi/baru') . '" > ';
+            $ops .= '	<form method="post" action="' . site_url('transaksi/detail') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
             $ops .= '	<form method="post" action="' . site_url('transaksi/nota') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button></form>';
@@ -158,6 +158,24 @@ class Transaksi extends BaseController
             'bank'              => $this->bankModel->findAll()
         ];
         return view('transaksi/baru', $data);
+    }
+    public function detail()
+    {
+        $id_transaksi = $this->request->getPost('id_transaksi');
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
+
+        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+
+        $data = [
+            'menu'              => 'transaksi',
+            'title'             => 'Transaksi',
+            'pelanggan'         => $pelanggan,
+            'transaksi'         => $transaksi,
+            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
+            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
+            'bank'              => $this->bankModel->findAll()
+        ];
+        return view('transaksi/detail', $data);
     }
     public function nota()
     {
