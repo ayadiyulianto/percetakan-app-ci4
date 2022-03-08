@@ -11,12 +11,12 @@ use Exception;
 class DaftarKerjaan extends BaseController
 {
 
-    protected $transaksiItemModel;
+    protected $TransaksiItemModel;
     protected $validation;
 
     public function __construct()
     {
-        $this->transaksiItemModel = new TransaksiItemModel();
+        $this->TransaksiItemModel = new TransaksiItemModel();
         $this->validation =  \Config\Services::validation();
     }
 
@@ -40,7 +40,7 @@ class DaftarKerjaan extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->getDaftarKerjaan();
+        $result = $this->TransaksiItemModel->getDaftarKerjaan();
 
         foreach ($result as $value) {
 
@@ -66,6 +66,8 @@ class DaftarKerjaan extends BaseController
             $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
 
             $data['data'][] = array(
+                $value->tgl_order,
+                $value->nama_pelanggan,
                 $nama_item,
                 $value->ukuran,
                 $value->kuantiti,

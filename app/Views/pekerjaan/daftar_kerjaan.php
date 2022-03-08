@@ -52,6 +52,8 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Tgl Order</th>
+                                    <th>Nama Pelanggan</th>
                                     <th>Nama Item</th>
                                     <th>Ukuran</th>
                                     <th>Qty</th>
@@ -273,7 +275,7 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('daftarKerjaan/getAll') ?>',
+                "url": '<?php echo base_url('DaftarKerjaan/getAll') ?>',
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
