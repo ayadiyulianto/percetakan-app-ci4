@@ -136,14 +136,6 @@
                                 <p>Daftar Transaksi</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-block btn-success" onclick="add()" title="Add"> <i class="fa fa-plus"></i> Transaksi Baru</button>
-                            <form id="formNewTransaksi" method="post" action="<?= site_url('transaksi/baru') ?>">
-                                <?= csrf_field() ?>
-                                <input id="id_transaksi" type="hidden" name="id_transaksi">
-                            </form>
-                            </a>
-                        </li>
                     </ul>
                 </li>
 
@@ -187,43 +179,3 @@
     </div>
     <!-- /.sidebar -->
 </aside>
-
-
-<?= $this->section('javascript') ?>
-<script>
-    function add() {
-        $.ajax({
-            url: '<?php echo base_url('transaksi/add') ?>',
-            type: 'post',
-            dataType: 'json',
-            success: function(response) {
-
-                if (response.success === true) {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'success',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(function() {
-                        $('#formNewTransaksi #id_transaksi').val(response.id_transaksi)
-                        $('#formNewTransaksi').submit()
-                    })
-
-                } else {
-
-                    Swal.fire({
-                        position: 'bottom-end',
-                        icon: 'error',
-                        title: response.messages,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-
-                }
-            }
-        });
-    }
-</script>
-<?= $this->endSection() ?>

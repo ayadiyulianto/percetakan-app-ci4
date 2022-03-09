@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <!-- <div class="card-header">
+                    <div class="card-header">
                         <div class="row">
                             <div class="col-md-8 mt-2">
                                 <h3 class="card-title">Transaksi</h3>
@@ -51,7 +51,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="data_table" class="table table-bordered table-striped">

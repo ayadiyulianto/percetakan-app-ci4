@@ -62,6 +62,8 @@ class Piutang extends BaseController
 
             $ops = '<div class="btn-group">';
             $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="bayar(' . $value->id_transaksi . ')"><i class="fas fa-money-bill-wave"></i> Bayar</button>';
+            $ops .= '<form method="post" action="' . site_url('transaksi/nota') . '" > ';
+            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i class="fas fa-book"></i>Invoice</button></form>';
             $ops .= '</div>';
 
             $no_faktur = '<i>' . $value->status_transaksi . '</i>';
