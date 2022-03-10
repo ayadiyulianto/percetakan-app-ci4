@@ -48,11 +48,16 @@ class TransaksiItemModel extends Model
 			->select('id_transaksi, nama_pelanggan')
 			->groupBy('id_transaksi')
 			->getCompiledSelect();
-		return $this->select('tb_transaksi.*, tgl_order.tgl_order, tgl_deadline.tgl_deadline, pelanggan.nama_pelanggan, id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, tb_transaksi_item.keterangan, status_produksi')
+		$perusahaan = $this->db->table('tb_pelanggan')
+			->select('id_pelanggan, perusahaan')
+			->groupBy('id_pelanggan')
+			->getCompiledSelect();
+		return $this->select('tb_transaksi.*, tgl_order.tgl_order, tgl_deadline.tgl_deadline, pelanggan.nama_pelanggan, perusahaan.perusahaan, id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, status_desain, file_gambar, tb_transaksi_item.keterangan, status_produksi')
 			->join('tb_transaksi', 'tb_transaksi_item.id_transaksi=tb_transaksi.id_transaksi AND tb_transaksi.no_faktur IS NOT NULL AND tb_transaksi.deleted_at IS NULL')
 			->join("($tgl_order) tgl_order", 'tgl_order.id_transaksi = tb_transaksi_item.id_transaksi')
 			->join("($tgl_deadline) tgl_deadline", 'tgl_deadline.id_transaksi = tb_transaksi_item.id_transaksi')
 			->join("($pelanggan) pelanggan", 'pelanggan.id_transaksi = tb_transaksi_item.id_transaksi')
+			->join("($perusahaan) perusahaan", 'perusahaan.id_pelanggan = tb_transaksi.id_pelanggan')
 			->where("status_produksi <> 'diambil' or status_produksi IS NULL")
 			->findAll();
 	}

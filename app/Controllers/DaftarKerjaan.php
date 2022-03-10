@@ -58,6 +58,7 @@ class DaftarKerjaan extends BaseController
             $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
             $tgl_order = date('d M Y - H:i', strtotime($value->tgl_order));
             $tgl_deadline = date('d M Y - H:i', strtotime($value->tgl_deadline));
+            $pelanggan = $value->nama_pelanggan . ' - ' . $value->perusahaan;
             if ($value->file_gambar) {
                 $desain .= '    <a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
                 $desain .= '        <i class="fa fa-image"></i>';
@@ -70,7 +71,7 @@ class DaftarKerjaan extends BaseController
             $data['data'][] = array(
                 $tgl_order,
                 $tgl_deadline,
-                $value->nama_pelanggan,
+                $pelanggan,
                 $nama_item,
                 $value->ukuran,
                 $value->kuantiti,

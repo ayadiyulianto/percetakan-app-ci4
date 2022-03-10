@@ -70,7 +70,7 @@ class Piutang extends BaseController
             if (!empty($value->no_faktur)) {
                 $no_faktur = $value->no_faktur;
             }
-            $pelanggan = $value->nama_pelanggan . ' (' . $value->no_wa . ')';
+            $pelanggan = $value->nama_pelanggan . ' - ' . $value->perusahaan . ' (' . $value->no_wa . ')';
             if (!empty($value->harus_bayar)) {
                 $harus_bayar = $value->harus_bayar;
             } else {

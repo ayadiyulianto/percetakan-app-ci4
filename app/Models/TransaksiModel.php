@@ -66,9 +66,14 @@ class TransaksiModel extends Model
 			->select('id_transaksi, SUM(jumlah_dibayar) as telah_bayar')
 			->groupBy('id_transaksi')
 			->getCompiledSelect();
-		return $this->select('tb_transaksi.*, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
+		$perusahaan = $this->db->table('tb_pelanggan')
+			->select('id_pelanggan, perusahaan')
+			->groupBy('id_pelanggan')
+			->getCompiledSelect();
+		return $this->select('tb_transaksi.*, perusahaan.perusahaan, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
 			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi')
 			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi')
+			->join("($perusahaan) perusahaan", 'perusahaan.id_pelanggan = tb_transaksi.id_pelanggan')
 			->findAll();
 	}
 
