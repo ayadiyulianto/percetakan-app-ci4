@@ -41,55 +41,61 @@
 
                     </div>
                     <div class="card">
-
                         <div class="row ">
                             <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="noFaktur"> No faktur: </label>
-                                    <input type="text" disabled id="noFaktur" name="noFaktur" class="form-control" placeholder="No faktur" maxlength="50">
+                                    <label for="noFaktur"> No faktur: </label><br>
+                                    <h6 class="table-bordered text-center col-10 "><?= $transaksi->no_faktur; ?>
+                                        <!-- <input type="text" disabled id="noFaktur" name="noFaktur" class="form-control" placeholder="No faktur" maxlength="50"> -->
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="kasir"> Kasir: </label>
-                                    <input type="text" disabled id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50" required>
+                                    <label for="kasir"> Kasir: </label><br>
+                                    <h6 class="table-bordered text-center col-10 "><?= $transaksi->kasir; ?>
+                                        <!-- <input type="text" disabled id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50" required> -->
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="namaPelanggan"> Nama pelanggan: </label>
-                                    <input type="text" disabled id="namaPelanggan" name="namaPelanggan" class="form-control" required placeholder="Nama pelanggan" maxlength="255">
+                                    <label for="namaPelanggan"> Nama pelanggan: </label><br>
+                                    <h6 class="text-bold table-bordered text-center col-10 "><?= $transaksi->nama_pelanggan; ?>
+                                        <!-- <input type="text" disabled id="namaPelanggan" name="namaPelanggan" class="form-control" required placeholder="Nama pelanggan" maxlength="255"> -->
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="noWa"> No WA: </label>
-                                    <input type="text" disabled id="noWa" name="noWa" class="form-control" placeholder="No wa" maxlength="50">
+                                    <label for="noWa"> No WA: </label><br>
+                                    <h6 class="table-bordered text-center col-10 "><?= $transaksi->no_wa; ?>
+                                        <!-- <input type="text" disabled id="noWa" name="noWa" class="form-control" placeholder="No wa" maxlength="50"> -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="row ">
-                                <div>
-                                    <h3 class="card-title">Item Penjualan</h3>
+
+                        <div class="card">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div>
+                                        <h6 class="text-bold">Item Penjualan</h6>
+                                    </div>
                                 </div>
+                                <table id="table_item" class="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Item</th>
+                                            <th>Ukuran</th>
+                                            <th>Qty</th>
+                                            <th>Satuan</th>
+                                            <th>Harga Satuan</th>
+                                            <th>Sub Total</th>
+                                        </tr>
+                                    </thead>
+                                </table>
                             </div>
-                            <table id="table_item" class="table table-bordered ">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Item</th>
-                                        <th>Ukuran</th>
-                                        <th>Qty</th>
-                                        <th>Satuan</th>
-                                        <th>Harga Satuan</th>
-                                        <th>Sub Total</th>
-                                    </tr>
-                                </thead>
-                            </table>
 
                         </div>
                         <!-- /.card-body -->
@@ -103,29 +109,41 @@
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="tglDeadline"> Tgl deadline: <span class="text-danger">*</span></label>
-                                                <input type="datetime-local" id="tglDeadline" name="tglDeadline" class="form-control" required>
+                                                <label for="tglDeadline"> Tgl deadline: </label> <br>
+                                                <h6 class="table-bordered text-center col-10 "><?= date('d M Y', strtotime($transaksi->tgl_deadline)); ?>
+                                                    </label>
+                                                    <!-- <input type="datetime-local" disabled id="tglDeadline" name="tglDeadline" class="form-control"> -->
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="totalBayarRupiah"> Total bayar: </label>
-                                                <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
-                                                <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
+                                                <label for="totalBayarRupiah"> Total bayar: </label> <br>
+                                                <h6 class="table-bordered text-center col-10 "><?= "Rp. " . number_format(($transaksi->harus_bayar), 2, ",", "."); ?>
+                                                </h6>
+                                                <!-- <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50"> -->
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
-                                                <label for="telahBayar"> Panjar: <span class="text-danger">*</span></label>
-                                                <input type="hidden" id="telahBayar" name="telahBayar" maxlength="10" number="true">
-                                                <input type="text" disabled id="telahBayarRupiah" name="telahBayarRupiah" class="form-control" placeholder="Panjar" maxlength="50">
+                                                <label for="telahBayar"> Panjar: </label> <br>
+                                                <h6 class="table-bordered text-center col-10 "><?= "Rp. " . number_format(($transaksi->telah_bayar), 2, ",", "."); ?>
+                                                </h6>
+                                                <!-- <input type="hidden" id="telahBayar" name="telahBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="telahBayarRupiah" name="telahBayarRupiah" class="form-control" placeholder="Panjar" maxlength="50"> -->
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="sisaBayarRupiah"> SISA BAYAR: </label>
-                                                <input type="hidden" id="sisaBayar" name="sisaBayar" maxlength="10" number="true">
-                                                <input type="text" disabled id="sisaBayarRupiah" name="sisaBayarRupiah" class="form-control" placeholder="Sisa bayar" maxlength="50">
+                                                <label class="table-bordered text-center col-10 "> <?php if ($transaksi->harus_bayar != $transaksi->telah_bayar) {
+                                                                                                        echo ("Rp. " . number_format(($transaksi->harus_bayar - $transaksi->telah_bayar), 2, ",", "."));
+                                                                                                    } else {
+                                                                                                        echo ("LUNAS");
+                                                                                                    } ?>
+                                                </label>
+                                                <!-- <input type="hidden" id="sisaBayar" name="sisaBayar" maxlength="10" number="true">
+                                                <input type="text" disabled id="sisaBayarRupiah" name="sisaBayarRupiah" class="form-control" placeholder="Sisa bayar" maxlength="50"> -->
                                             </div>
                                         </div>
 
@@ -138,21 +156,21 @@
                                             <textarea cols="4" rows="2" id="keterangan" name="keterangan" class="form-control" placeholder="" maxlength="255"></textarea>
                                         </div>
                                         <div class="col-3 text-center">
-                                            <label for="keterangan" class="text-center"> Diterima Oleh:
+                                            <h6 for="keterangan" class="text-center"> Diterima Oleh:
                                                 <br>
                                                 <br>
                                                 <br>
                                                 _________________
-                                            </label>
+                                            </h6>
 
                                         </div>
                                         <div class="col-3 text-center">
-                                            <label for="keterangan" class="text-center"> Hormat Kami :
+                                            <h6 for="keterangan" class="text-center"> Hormat Kami :
                                                 <br>
                                                 <br>
                                                 <br>
-                                                <?= $transaksi->kasir; ?>
-                                            </label>
+                                                <h6 class=text-bold><?= $transaksi->kasir; ?>
+                                                </h6>
 
                                         </div>
                                     </div>
@@ -253,18 +271,13 @@
                         $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
                         $('#telahBayar').val(response.telah_bayar);
                         $('#telahBayarRupiah').val(currencyFormatter.format(response.telah_bayar));
+                        $('#pilihBank').hide();
                         $('#sisaBayar').val(response.kurang);
+
                         $('#sisaBayarRupiah').val(currencyFormatter.format(response.kurang));
-                    } else {
-
-                        Swal.fire({
-                            position: 'bottom-end',
-                            icon: 'error',
-                            title: "Terjadi kesalahan saat mengambil data.",
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
+                        if (response.kurang == 0) {
+                            $('#sisaBayarRupiah').val('LUNAS');
+                        }
                     }
                 }
             });

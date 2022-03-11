@@ -181,7 +181,6 @@ class Transaksi extends BaseController
     {
         $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
-        $nota = $this->transaksiModel->findAll();
 
         $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
 
