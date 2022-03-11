@@ -62,7 +62,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="namaPelanggan"> Nama pelanggan: </label><br>
-                                    <h6 class="text-bold table-bordered text-center col-10 "><?= $transaksi->nama_pelanggan; ?>
+                                    <h6 class="text-bold table-bordered text-center col-10 "><?= $transaksi->nama_pelanggan; ?> - <?= $transaksi->perusahaan; ?>
                                         <!-- <input type="text" disabled id="namaPelanggan" name="namaPelanggan" class="form-control" required placeholder="Nama pelanggan" maxlength="255"> -->
                                 </div>
                             </div>
@@ -83,15 +83,15 @@
                                         <h6 class="text-bold">Item Penjualan</h6>
                                     </div>
                                 </div>
-                                <table id="table_item" class="table table-bordered ">
+                                <table id="table_item" class="table-bordered table-responsive-lg col-12 row-3">
                                     <thead>
                                         <tr>
-                                            <th>Nama Item</th>
-                                            <th>Ukuran</th>
-                                            <th>Qty</th>
-                                            <th>Satuan</th>
-                                            <th>Harga Satuan</th>
-                                            <th>Sub Total</th>
+                                            <th class="text-center ">Nama Item</th>
+                                            <th class="text-center ">Ukuran</th>
+                                            <th class="text-center ">Qty</th>
+                                            <th class="text-center ">Satuan</th>
+                                            <th class="text-center ">Harga Satuan</th>
+                                            <th class="text-center ">Sub Total</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -539,13 +539,15 @@
 
         $(function() {
             var table_item = $('#table_item').DataTable({
+
                 "paging": false,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": true,
+                "ordering": false,
                 "info": false,
-                "autoWidth": false,
-                "responsive": true,
+                "deferRender": true,
+                "autoWidth": true,
+                "responsive": false,
                 "ajax": {
                     "url": '<?php echo base_url('transaksiItem/getNota') ?>',
                     "data": {

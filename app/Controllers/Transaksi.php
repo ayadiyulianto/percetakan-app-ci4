@@ -182,7 +182,7 @@ class Transaksi extends BaseController
         $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->getTransaksiOr404($id_transaksi);
 
-        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan')->findAll();
+        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan, perusahaan')->findAll();
 
         $data = [
             'menu'              => 'transaksi',
