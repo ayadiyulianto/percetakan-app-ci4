@@ -83,7 +83,7 @@
                                         <h6 class="text-bold">Item Penjualan</h6>
                                     </div>
                                 </div>
-                                <table id="table_item" class="table table-bordered ">
+                                <table id="table_item" class="table-bordered col-10">
                                     <thead>
                                         <tr>
                                             <th class="text-center ">Nama Item</th>
@@ -545,9 +545,8 @@
                 "searching": false,
                 "ordering": false,
                 "info": false,
-                "deferRender": true,
-                "autoWidth": true,
-                "responsive": false,
+                "autoWidth": false,
+                "responsive": true,
                 "ajax": {
                     "url": '<?php echo base_url('transaksiItem/getNota') ?>',
                     "data": {

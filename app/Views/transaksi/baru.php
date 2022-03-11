@@ -89,7 +89,7 @@
                                             <!-- <option value="guest">Guest</option> -->
                                             <?php foreach ($pelanggan as $plg) : ?>
                                                 <option value="<?= $plg->id_pelanggan ?>">
-                                                    <?= $plg->nama_pelanggan . ' (' . $plg->tipe_pelanggan . ')' ?>
+                                                    <?= $plg->nama_pelanggan . ' - ' . $plg->perusahaan  ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
