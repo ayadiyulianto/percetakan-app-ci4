@@ -83,7 +83,7 @@
                                         <h6 class="text-bold">Item Penjualan</h6>
                                     </div>
                                 </div>
-                                <table id="table_item" class="table-bordered table-responsive-lg col-12 row-3">
+                                <table id="table_item" class="table table-bordered ">
                                     <thead>
                                         <tr>
                                             <th class="text-center ">Nama Item</th>
