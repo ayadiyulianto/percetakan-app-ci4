@@ -544,7 +544,7 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('transaksiItem/getAll') ?>',
+                "url": '<?php echo base_url('transaksiItem/getAllForTransaksiBaru') ?>',
                 "data": {
                     "id_transaksi": "<?= $transaksi->id_transaksi ?>"
                 },

@@ -197,6 +197,10 @@
                                     </div>
                                 </div>
                             </form>
+                            <form id="notaTransaksi" method="post" action="<?= site_url('transaksi/nota') ?>">
+                                <?= csrf_field() ?>
+                                <input id="id_transaksi" type="hidden" name="id_transaksi" value="<?= $transaksi->id_transaksi ?>">
+                            </form>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -425,7 +429,7 @@
                                 timer: 1500
                             }).then(function() {
                                 // go to print invoice
-                                refreshDataTransaksi();
+                                $('#notaTransaksi').submit();
                             })
 
                         } else {
@@ -554,7 +558,7 @@
             "autoWidth": false,
             "responsive": true,
             "ajax": {
-                "url": '<?php echo base_url('transaksiItem/getAll') ?>',
+                "url": '<?php echo base_url('transaksiItem/getAllForTransaksiBaru') ?>',
                 "data": {
                     "id_transaksi": "<?= $transaksi->id_transaksi ?>"
                 },

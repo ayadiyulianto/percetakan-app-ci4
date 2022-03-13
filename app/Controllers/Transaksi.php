@@ -10,11 +10,13 @@ use App\Models\PelangganModel;
 use App\Models\PembayaranModel;
 use App\Models\SatuanModel;
 use App\Models\TransaksiModel;
+use App\Models\TransaksiItemModel;
 
 class Transaksi extends BaseController
 {
     protected $auth;
     protected $transaksiModel;
+    protected $transaksiItemModel;
     protected $validation;
     protected $pelangganModel;
     protected $satuanModel;
@@ -29,6 +31,7 @@ class Transaksi extends BaseController
         $this->db = \Config\Database::connect();
         $this->pelangganModel = new PelangganModel();
         $this->transaksiModel = new TransaksiModel();
+        $this->transaksiItemModel = new TransaksiItemModel();
         $this->satuanModel = new SatuanModel();
         $this->barangModel = new BarangModel();
         $this->bankModel = new BankModel();
@@ -60,10 +63,14 @@ class Transaksi extends BaseController
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
+            if (!empty($value->no_faktur)) {
+                $ops .= '	<form method="post" action="' . site_url('transaksi/nota') . '" > ';
+                $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button>';
+                $ops .= '   </form>';
+            }
             $ops .= '	<form method="post" action="' . site_url('transaksi/detail') . '" > ';
-            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></form>';
-            $ops .= '	<form method="post" action="' . site_url('transaksi/nota') . '" > ';
-            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button></form>';
+            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>';
+            $ops .= '   </form>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
@@ -71,13 +78,16 @@ class Transaksi extends BaseController
             if (!empty($value->no_faktur)) {
                 $no_faktur = $value->no_faktur;
             }
+
             $pelanggan = $value->nama_pelanggan . ' - ' . $value->perusahaan . ' (' . $value->no_wa . ')';
+
             if (!empty($value->harus_bayar)) {
                 $harus_bayar = $value->harus_bayar;
             } else {
                 $harus_bayar = 0;
             }
-            if ($value->telah_bayar >= $value->harus_bayar) {
+
+            if ($value->telah_bayar >= $value->harus_bayar && $value->harus_bayar > 0) {
                 $telah_bayar = '<strong class="text-success">LUNAS</strong>';
             } else if (!empty($value->telah_bayar)) {
                 $telah_bayar = number_to_currency($value->telah_bayar, 'IDR', 'id_ID', 2);
@@ -144,8 +154,8 @@ class Transaksi extends BaseController
     public function baru()
     {
         $id_transaksi = $this->request->getPost('id_transaksi');
-        $transaksi = $this->getTransaksiOr404($id_transaksi);
 
+        $transaksi = $this->getTransaksiOr404($id_transaksi);
         $pelanggan = $this->pelangganModel->findAll();
 
         $data = [
@@ -159,13 +169,13 @@ class Transaksi extends BaseController
         ];
         return view('transaksi/baru', $data);
     }
+
     public function detail()
     {
         $id_transaksi = $this->request->getPost('id_transaksi');
+
         $transaksi = $this->getTransaksiOr404($id_transaksi);
-
         $pelanggan = $this->pelangganModel->findAll();
-
         $data = [
             'menu'              => 'transaksi',
             'title'             => 'Transaksi',
@@ -177,23 +187,20 @@ class Transaksi extends BaseController
         ];
         return view('transaksi/detail', $data);
     }
+
     public function nota()
     {
         $id_transaksi = $this->request->getPost('id_transaksi');
+
         $transaksi = $this->getTransaksiOr404($id_transaksi);
-
-        $pelanggan = $this->pelangganModel->select('id_pelanggan, tipe_pelanggan, nama_pelanggan, perusahaan')->findAll();
-
+        $transaksiItem = $this->transaksiItemModel->findAllByIdTransaksi($id_transaksi);
         $data = [
             'menu'              => 'transaksi',
-            'title'             => 'Transaksi Baru',
-            'pelanggan'         => $pelanggan,
+            'title'             => 'Nota Transaksi',
             'transaksi'         => $transaksi,
-            'satuan'            => $this->satuanModel->select('id, nama_satuan')->findAll(),
-            'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
-            'bank'              => $this->bankModel->findAll()
+            'transaksiItem'     => $transaksiItem,
         ];
-        return view('transaksi/nota', $data);
+        return view('transaksi/invoice', $data);
     }
 
     public function save()
@@ -240,6 +247,11 @@ class Transaksi extends BaseController
             $fields['tgl_order'] = date('Y-m-d H:i:s');
             $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
             $fields['status_produksi'] = 'dipesan';
+
+            $bank = $this->bankModel->find($fields['pembayaran_id_bank']);
+            $fields['pembayaran_nama_bank'] = $bank->nama_bank;
+            $fields['pembayaran_norek'] = $bank->norek;
+            $fields['pembayaran_atas_nama'] = $bank->atas_nama;
 
             if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
 
@@ -376,12 +388,14 @@ class Transaksi extends BaseController
             $pelanggan->tipe_pelanggan = null;
             $pelanggan->nama_pelanggan = $id_pelanggan;
             $pelanggan->no_wa = null;
+            $pelanggan->perusahaan = null;
         }
 
         $transaksi->id_pelanggan = $pelanggan->id_pelanggan;
         $transaksi->tipe_pelanggan = $pelanggan->tipe_pelanggan;
         $transaksi->nama_pelanggan = $pelanggan->nama_pelanggan;
         $transaksi->no_wa = $pelanggan->no_wa;
+        $transaksi->perusahaan = $pelanggan->perusahaan;
 
         if ($this->transaksiModel->save($transaksi)) {
 

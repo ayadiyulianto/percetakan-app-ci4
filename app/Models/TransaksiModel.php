@@ -18,6 +18,7 @@ class TransaksiModel extends Model
 		'nama_pelanggan',
 		'tipe_pelanggan',
 		'no_wa',
+		'perusahaan',
 		'tgl_deadline',
 		'kasir',
 		'total_bayar',

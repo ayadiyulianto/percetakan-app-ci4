@@ -20,4 +20,6 @@ class TransaksiItemBarangModel extends Model
 	protected $validationRules    = [];
 	protected $validationMessages = [];
 	protected $skipValidation     = true;
+
+	
 }

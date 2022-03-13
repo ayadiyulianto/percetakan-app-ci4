@@ -71,6 +71,9 @@ class TransaksiItemBarang extends BaseController
 
 	public function getAllForTransaksiBaru($id_transaksi_item = null)
 	{
+		if (!has_akses('transaksiItemBarang', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$data['data'] = array();
@@ -262,7 +265,7 @@ class TransaksiItemBarang extends BaseController
 		$transaksiItemBarang = $this->transaksiItemBarangModel->find($id_transaksi_item_barang);
 
 		if ($transaksiItemBarang === null) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi_item_barang not found");
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi item barang with id $id_transaksi_item_barang not found");
 		}
 		return $transaksiItemBarang;
 	}
@@ -291,6 +294,6 @@ class TransaksiItemBarang extends BaseController
 		$transaksiItem->harga_satuan = $harga_satuan;
 		$transaksiItem->sub_total_harga = $transaksiItem->harga_satuan * $transaksiItem->kuantiti;
 
-		$this->transaksiItemModel->save($transaksiItem);
+		return $this->transaksiItemModel->save($transaksiItem);
 	}
 }

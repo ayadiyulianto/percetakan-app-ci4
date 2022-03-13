@@ -20,47 +20,89 @@ class TransaksiItem extends BaseController
         $this->validation =  \Config\Services::validation();
     }
 
-    public function index()
-    {
-        $id_transaksi = $this->request->getPost('id_transaksi');
+    // public function index()
+    // {
+    //     $id_transaksi = $this->request->getPost('id_transaksi');
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
-            ->where(array('id_transaksi' => $id_transaksi))
-            ->findAll();
+    //     $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
+    //         ->where(array('id_transaksi' => $id_transaksi))
+    //         ->findAll();
 
-        $data = [
-            'menu'            => 'transaksiItem',
-            'title'         => 'Item Transaksi'
-        ];
+    //     $data = [
+    //         'menu'            => 'transaksiItem',
+    //         'title'         => 'Item Transaksi'
+    //     ];
 
-        return view('nota', $data);
-    }
+    //     return view('nota', $data);
+    // }
 
-    public function getAll()
+    public function getAll($id_transaksi = null)
     {
         if (!has_akses('transaksiItem', 'r')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
-        $response = array();
 
-        $id_transaksi = $this->request->getPost('id_transaksi');
+        if (empty($id_transaksi)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("ID Transaksi item cannot be null");
+        }
 
         $data['data'] = array();
 
-        $result = $this->transaksiItemModel->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
-            ->where(array('id_transaksi' => $id_transaksi))
-            ->findAll();
+        $result = $this->transaksiItemModel->findAllByIdTransaksi($id_transaksi);
+
+        foreach ($result as $value) {
+
+            $desain = '<div class="btn-group">';
+            $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
+            if ($value->file_gambar) {
+                $desain .= '<a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
+                $desain .= '  <i class="fa fa-image"></i>';
+                $desain .= '</a>';
+            }
+            $desain .= '</div>';
+
+            $nama_item = $value->nama_item . '<br>(' . $value->rangkuman . ')';
+
+            $data['data'][] = array(
+                $nama_item,
+                $value->ukuran,
+                $value->kuantiti,
+                $value->satuan,
+                number_to_currency($value->harga_satuan, 'IDR', 'id_ID', 2),
+                number_to_currency($value->sub_total_harga, 'IDR', 'id_ID', 2),
+                $desain,
+            );
+        }
+
+        return $this->response->setJSON($data);
+    }
+
+    public function getAllForTransaksiBaru()
+    {
+        if (!has_akses('transaksiItem', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
+
+        $id_transaksi = $this->request->getPost('id_transaksi');
+
+        if (empty($id_transaksi)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("ID Transaksi item cannot be null");
+        }
+
+        $data['data'] = array();
+
+        $result = $this->transaksiItemModel->findAllByIdTransaksi($id_transaksi);
 
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
+            $ops .= '   <button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
+            $ops .= '   <button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
+            $ops .= '   <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';
 
             $desain = '<div class="btn-group">';
-            $desain .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
+            $desain .= '    <button type="button" class="btn btn-sm btn-outline-secondary">' . $value->status_desain . '</button>';
             if ($value->file_gambar) {
                 $desain .= '<a class="btn btn-sm btn-outline-info" href="' . base_url($value->file_gambar) . '" data-toggle="lightbox" data-title="' . $value->nama_item . '" data-gallery="gallery">';
                 $desain .= '  <i class="fa fa-image"></i>';
@@ -84,6 +126,7 @@ class TransaksiItem extends BaseController
 
         return $this->response->setJSON($data);
     }
+
     public function getNota()
     {
         if (!has_akses('transaksiItem', 'r')) {
@@ -124,6 +167,7 @@ class TransaksiItem extends BaseController
 
         return $this->response->setJSON($data);
     }
+
     public function getOne()
     {
         $response = array();
@@ -395,7 +439,7 @@ class TransaksiItem extends BaseController
         $transaksiItem = $this->transaksiItemModel->find($id_transaksi_item);
 
         if ($transaksiItem === null) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi with id $id_transaksi_item not found");
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Transaksi item with id $id_transaksi_item not found");
         }
         return $transaksiItem;
     }
