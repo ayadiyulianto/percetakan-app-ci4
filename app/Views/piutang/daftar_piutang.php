@@ -173,6 +173,49 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="modal-item-barang" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="text-center bg-success p-3">
+                    <h4 class="modal-title text-white" id="info-header-modalLabel">Item Barang</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 id="namaItemModalTitle"></h5>
+                        </div>
+                    </div>
+                    <table id="table_item" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Item</th>
+                                <th>Ukuran</th>
+                                <th>Qty</th>
+                                <th>Satuan</th>
+                                <th>Harga Satuan</th>
+                                <th>Sub Total</th>
+                                <th>Desain</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>Keterangan :</h5>
+                            <p class="ml-3" id="keteranganItem"></p>
+                        </div>
+                        <div class="col-md-12">
+                            <!-- <div class="btn-group"> -->
+                            <button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
 </div>
 
 <?= $this->endSection() ?>
@@ -203,6 +246,46 @@
         currency: 'IDR',
     });
 
+    $(function() {
+        var table_item = $('#table_item').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+            "responsive": true,
+            "ajax": {
+                "url": '<?php echo base_url('transaksiItem/getAll') ?>',
+                "data": {
+                    id_transaksi: id_transaksi
+                },
+                "type": "POST",
+                "dataType": "json",
+                async: "true"
+            }
+        })
+    })
+
+    function itemAllBarang(id_transaksi) {
+        $('#modal-item-barang').modal('show');
+        $('#modal-item-barang').val(id_transaksi);
+        $.ajax({
+            url: '<?php echo base_url('transaksiItem/getAll') ?>',
+            type: 'post',
+            data: {
+                id_transaksi: id_transaksi
+            },
+            dataType: 'json',
+            success: function(response) {
+                var namaItem = "Nama item : " + response.no_faktur;
+                $('#modal-item-barang #namaItemModalTitle').html(namaItem);
+                $('#modal-item-barang #keteranganItem').html(response.keterangan);
+            }
+        })
+
+        $('#table_item_barang').DataTable().ajax.url("<?= site_url('transaksiItemBarang/getAll/') ?>" + id_transaksi_item).load();
+    }
     $(function() {
         $('#data_table').DataTable({
             "paging": true,
