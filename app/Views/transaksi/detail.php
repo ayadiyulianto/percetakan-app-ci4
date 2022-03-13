@@ -152,47 +152,33 @@
                                             <textarea cols="40" rows="5" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" maxlength="255"></textarea>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="pembayaranJenis"> Jenis Pembayaran: <span class="text-danger">*</span></label>
-                                            <select id="pembayaranJenis" name="pembayaranJenis" class="form-control" style="width: 100%;" required>
-                                                <option value="cash">Cash</option>
-                                                <option value="transfer">Transfer</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group" id="pilihBank" style="display:none;">
-                                            <label for="pembayaranIdBank"> Pilih Bank: </label>
-                                            <select id="pembayaranIdBank" name="pembayaranIdBank" class="form-control select2" style="width: 100%;">
-                                                <option></option>
-                                                <?php foreach ($bank as $bnk) : ?>
-                                                    <option value="<?= $bnk->id_bank ?>">
-                                                        <?= $bnk->nama_bank . ' - ' . $bnk->atas_nama . ' (' . $bnk->norek . ')' ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="totalBayarRupiah"> Total bayar: </label>
+                                            <label for="totalBayarRupiah"> Total Harga: </label>
                                             <input type="hidden" id="totalBayar" name="totalBayar" maxlength="10" number="true">
                                             <input type="text" disabled id="totalBayarRupiah" name="totalBayarRupiah" class="form-control" placeholder="Total bayar" maxlength="50">
                                         </div>
+
+
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="dibayar"> DIBAYAR: <span class="text-danger">*</span></label>
-                                            <input type="number" min="0" id="dibayar" name="dibayar" class="form-control" oninput="onDibayarInputChange()" placeholder="Dibayar" maxlength="10" number="true" required>
+                                            <label for="totalBayarRupiah"> Telah bayar: </label>
+                                            <input type="hidden" id="telahBayar" name="telahBayar" maxlength="10" number="true">
+                                            <input type="text" disabled id="telahBayarRupiah" name="telahBayarRupiah" class="form-control" placeholder="Telah bayar" maxlength="50">
                                         </div>
                                         <div class="form-group">
-                                            <label for="kembalian"> Kembalian: </label>
-                                            <input type="text" disabled id="kembalian" name="kembalian" class="form-control" placeholder="Kembalian" maxlength="50">
+                                            <label for="sisaBayarRupiah"> Sisa bayar: </label>
+                                            <input type="hidden" id="sisaBayar" name="sisaBayar" maxlength="10" number="true">
+                                            <input type="text" disabled id="sisaBayarRupiah" name="sisaBayarRupiah" class="form-control" placeholder="Sisa bayar" maxlength="50">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group text-center">
                                     <div class="btn-group">
-                                        <button type="submit" class="btn btn-lg btn-success" id="form-transaksi-save-button" onclick="saveTransaksi()"><i class="fas fa-save"></i> Simpan</button>
-                                        <button type="button" class="btn btn-lg btn-danger" onclick="removeTransaksi()"><i class="fas fa-times"></i> Batalkan</button>
+                                        <button type="submit" class="btn btn-lg btn-success" id="form-transaksi-save-button" onclick="updateTransaksi()"><i class="fas fa-save"></i> Update</button>
                                         <a href="<?= site_url('transaksi') ?>" class="btn btn-lg btn-secondary"><i class="fas fa-arrow-up"></i> Kembali</a>
                                     </div>
                                 </div>
@@ -293,8 +279,12 @@
                     } else {
                         $('#pilihBank').hide();
                     }
+                    $('#telahBayar').val(response.telah_bayar);
+                    $('#telahBayarRupiah').val(currencyFormatter.format(response.telah_bayar));
                     $('#totalBayar').val(response.harus_bayar);
                     $('#totalBayarRupiah').val(currencyFormatter.format(response.harus_bayar));
+                    $('#sisaBayar').val(response.harus_bayar - response.telah_bayar);
+                    $('#sisaBayarRupiah').val(currencyFormatter.format(response.harus_bayar - response.telah_bayar));
 
                 } else {
 
@@ -374,7 +364,7 @@
         $('#kembalian').val(kembalianRupiah);
     }
 
-    function saveTransaksi() {
+    function updateTransaksi() {
         $.validator.setDefaults({
             highlight: function(element) {
                 $(element).addClass('is-invalid').removeClass('is-valid');
@@ -406,7 +396,7 @@
                 $(".text-danger").remove();
 
                 $.ajax({
-                    url: '<?php echo base_url('transaksi/save') ?>',
+                    url: '<?php echo base_url('transaksi/update') ?>',
                     type: 'post',
                     data: form, // /converting the form data into array and sending it to server
                     dataType: 'json',
@@ -453,7 +443,7 @@
 
                             }
                         }
-                        $('#form-transaksi-save-button').html('Simpan');
+                        $('#form-transaksi-save-button').html('detail');
                     }
                 });
 

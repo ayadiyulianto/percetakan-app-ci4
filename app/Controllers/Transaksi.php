@@ -255,6 +255,47 @@ class Transaksi extends BaseController
         return $this->response->setJSON($response);
     }
 
+    public function update()
+    {
+        $response = array();
+
+        $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
+        $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
+        $fields['keterangan'] = $this->request->getPost('keterangan');
+
+
+        $this->validation->setRules([
+            'id_transaksi' => ['label' => 'ID Transaksi', 'rules' => 'required|max_length[10]'],
+            'tgl_deadline' => ['label' => 'Tgl deadline', 'rules' => 'required|valid_date'],
+            'keterangan' => ['label' => 'Keterangan', 'rules' => 'permit_empty|max_length[255]'],
+
+        ]);
+
+        if ($this->validation->run($fields) == FALSE) {
+
+            $response['success'] = false;
+            $response['messages'] = $this->validation->listErrors();
+        } else {
+
+            $transaksi = $this->getTransaksiOr404($fields['id_transaksi']);
+
+            $fields['tgl_order'] = date('Y-m-d H:i:s');
+            $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
+            $fields['status_produksi'] = 'dipesan';
+
+            if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
+
+                $response['success'] = true;
+                $response['messages'] = 'Successfully updated';
+            } else {
+
+                $response['success'] = false;
+                $response['messages'] = 'Update error!';
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
     private function createNoFaktur()
     {
         $no_urut = $this->db->table('tb_transaksi')->select('(COUNT(id_transaksi)+1) as no_urut')
