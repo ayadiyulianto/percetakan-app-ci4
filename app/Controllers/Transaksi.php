@@ -200,7 +200,7 @@ class Transaksi extends BaseController
             'transaksi'         => $transaksi,
             'transaksiItem'     => $transaksiItem,
         ];
-        return view('transaksi/invoice', $data);
+        return view('transaksi/nota', $data);
     }
 
     public function save()
