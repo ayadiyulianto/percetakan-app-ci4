@@ -65,7 +65,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => []
+                'transaksiItemBarang' => ['r']
             ),
             'operator' => array(
                 'bahan'             => [],
@@ -81,12 +81,29 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
+                'transaksiItemBarang' => ['r']
+            ),
+            'kasir' => array(
+                'bahan'             => [],
+                'bank'              => [],
+                'barang'            => [],
+                'daftarKerjaan'     => [],
+                'uploadGambar'      => [],
+                'dashboard'         => [],
+                'kategoriBarang'    => [],
+                'pelanggan'         => ['r', 'u',],
+                'pembayaran'        => ['r', 'u',],
+                'piutang'           => ['r', 'u',],
+                'satuan'            => [],
+                'transaksi'         => [],
+                'transaksiItem'     => [],
                 'transaksiItemBarang' => []
             ),
         );
 
         if (in_group('admin')) $userGroup = 'admin';
         else if (in_group('desainer')) $userGroup = 'desainer';
+        else if (in_group('kasir')) $userGroup = 'kasir';
         else $userGroup = 'operator';
 
         return in_array($crud, $hakAkses[$userGroup][$controller]);

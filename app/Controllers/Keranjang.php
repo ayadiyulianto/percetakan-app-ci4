@@ -12,7 +12,7 @@ use App\Models\SatuanModel;
 use App\Models\TransaksiModel;
 use App\Models\TransaksiItemModel;
 
-class Transaksi extends BaseController
+class Keranjang extends BaseController
 {
     protected $auth;
     protected $transaksiModel;
@@ -46,10 +46,10 @@ class Transaksi extends BaseController
         }
         $data = [
             'menu'              => 'transaksi',
-            'title'             => 'Daftar Transaksi',
+            'title'             => 'Keranjang Pesanan',
         ];
 
-        return view('transaksi/daftar_transaksi', $data);
+        return view('transaksi/keranjang', $data);
     }
 
     public function getAll()
@@ -58,17 +58,17 @@ class Transaksi extends BaseController
 
         $data['data'] = array();
 
-        $result = $this->transaksiModel->findAllWithPiutang();
+        $result = $this->transaksiModel->findAllKeranjang();
 
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
             if (!empty($value->no_faktur)) {
-                $ops .= '	<form method="post" action="' . site_url('transaksi/nota') . '" > ';
+                $ops .= '	<form method="post" action="' . site_url('keranjang/nota') . '" > ';
                 $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button>';
                 $ops .= '   </form>';
             }
-            $ops .= '	<form method="post" action="' . site_url('transaksi/detail') . '" > ';
+            $ops .= '	<form method="post" action="' . site_url('keranjang/detail') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>';
             $ops .= '   </form>';
             $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
@@ -290,10 +290,7 @@ class Transaksi extends BaseController
         } else {
 
             $transaksi = $this->getTransaksiOr404($fields['id_transaksi']);
-            if (empty($transaksi->no_faktur)) {
-                $fields['no_faktur'] = $this->createNoFaktur();
-                $fields['status_transaksi'] = 'dipesan';
-            }
+
             $fields['tgl_order'] = date('Y-m-d H:i:s');
             $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
             $fields['status_produksi'] = 'dipesan';
