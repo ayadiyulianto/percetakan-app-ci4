@@ -88,7 +88,7 @@ class Piutang extends BaseController
                 $telah_bayar = 0;
             }
             if (!empty($value->kurang)) {
-                $kurang = $harus_bayar - $telah_bayar;
+                $kurang = $value->kurang;
             } else {
                 continue; // hiraukan dari tampilan jika kurang = 0
             }

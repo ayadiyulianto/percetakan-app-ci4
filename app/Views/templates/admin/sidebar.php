@@ -135,10 +135,6 @@
                                 <i class=" far fa-circle nav-icon"></i>
                                 <p>Daftar Transaksi</p>
                             </a>
-                            <a href="<?= site_url('/keranjang') ?>" class="nav-link <?php if ($title == "Keranjang") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Keranjang Pesanan</p>
-                            </a>
                         </li>
                     </ul>
                 </li>
