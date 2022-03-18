@@ -65,7 +65,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => []
+                'transaksiItemBarang' => ['r']
             ),
             'operator' => array(
                 'bahan'             => [],
@@ -81,7 +81,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => []
+                'transaksiItemBarang' => ['r']
             ),
         );
 
