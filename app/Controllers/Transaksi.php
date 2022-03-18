@@ -293,6 +293,10 @@ class Transaksi extends BaseController
 
             $transaksi = $this->getTransaksiOr404($fields['id_transaksi']);
 
+            if (empty($transaksi->no_faktur)) {
+                $fields['no_faktur'] = $this->createNoFaktur();
+                $fields['status_transaksi'] = 'dipesan';
+            }
             $fields['tgl_order'] = date('Y-m-d H:i:s');
             $fields['tgl_deadline'] = date('Y-m-d H:i:s', strtotime($fields['tgl_deadline']));
             $fields['status_produksi'] = 'dipesan';

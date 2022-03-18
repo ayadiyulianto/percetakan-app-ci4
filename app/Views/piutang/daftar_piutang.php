@@ -169,6 +169,7 @@
                         </div>
                     </form>
 
+
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -311,8 +312,8 @@
                 $("#bayar-form #noFaktur").val(response.no_faktur);
                 if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
                 $("#bayar-form #namaPelanggan").val(response.nama_pelanggan);
-                $("#bayar-form #sisaPiutang").val(response.kurang);
-                $("#bayar-form #sisaPiutangRupiah").val(currencyFormatter.format(response.kurang));
+                $("#bayar-form #sisaPiutang").val(response.harus_bayar - response.telah_bayar);
+                $("#bayar-form #sisaPiutangRupiah").val(currencyFormatter.format(response.harus_bayar - response.telah_bayar));
 
                 // submit the edit from 
                 $.validator.setDefaults({

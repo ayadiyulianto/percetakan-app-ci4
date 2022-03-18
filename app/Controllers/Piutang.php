@@ -87,8 +87,8 @@ class Piutang extends BaseController
             } else {
                 $telah_bayar = 0;
             }
-            if (!empty($value->kurang)) {
-                $kurang = $value->kurang;
+            if ($harus_bayar - $telah_bayar != 0) {
+                $kurang = $harus_bayar - $telah_bayar;
             } else {
                 continue; // hiraukan dari tampilan jika kurang = 0
             }
@@ -161,9 +161,18 @@ class Piutang extends BaseController
             }
 
             $piutang = $this->getPiutangOr404($fields['id_transaksi']);
-
-            if ($fields['dibayar'] > $piutang->kurang) {
-                $fields['jumlah_dibayar'] = $piutang->kurang;
+            if (!empty($piutang->harus_bayar)) {
+                $harus_bayar = $piutang->harus_bayar;
+            } else {
+                $harus_bayar = 0;
+            }
+            if (!empty($piutang->telah_bayar)) {
+                $telah_bayar = $piutang->telah_bayar;
+            } else {
+                $telah_bayar = 0;
+            }
+            if ($fields['dibayar'] > $harus_bayar - $telah_bayar) {
+                $fields['jumlah_dibayar'] = $harus_bayar - $telah_bayar;
             } else {
                 $fields['jumlah_dibayar'] = $fields['dibayar'];
             }
