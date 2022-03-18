@@ -82,11 +82,31 @@ if (!function_exists('has_akses')) {
                 'transaksi'         => [],
                 'transaksiItem'     => [],
                 'transaksiItemBarang' => ['r']
+<<<<<<< HEAD
+=======
+            ),
+            'kasir' => array(
+                'bahan'             => [],
+                'bank'              => [],
+                'barang'            => [],
+                'daftarKerjaan'     => [],
+                'uploadGambar'      => [],
+                'dashboard'         => [],
+                'kategoriBarang'    => [],
+                'pelanggan'         => ['r', 'u',],
+                'pembayaran'        => ['r', 'u',],
+                'piutang'           => ['r', 'u',],
+                'satuan'            => [],
+                'transaksi'         => [],
+                'transaksiItem'     => [],
+                'transaksiItemBarang' => []
+>>>>>>> 0266492d8f03aab7758e1e2e0900fdb0b2b06a4a
             ),
         );
 
         if (in_group('admin')) $userGroup = 'admin';
         else if (in_group('desainer')) $userGroup = 'desainer';
+        else if (in_group('kasir')) $userGroup = 'kasir';
         else $userGroup = 'operator';
 
         return in_array($crud, $hakAkses[$userGroup][$controller]);
