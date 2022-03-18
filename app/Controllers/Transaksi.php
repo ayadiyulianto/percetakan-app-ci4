@@ -249,9 +249,11 @@ class Transaksi extends BaseController
             $fields['status_produksi'] = 'dipesan';
 
             $bank = $this->bankModel->find($fields['pembayaran_id_bank']);
-            $fields['pembayaran_nama_bank'] = $bank->nama_bank;
-            $fields['pembayaran_norek'] = $bank->norek;
-            $fields['pembayaran_atas_nama'] = $bank->atas_nama;
+            if ($bank != null) {
+                $fields['pembayaran_nama_bank'] = $bank->nama_bank;
+                $fields['pembayaran_norek'] = $bank->norek;
+                $fields['pembayaran_atas_nama'] = $bank->atas_nama;
+            }
 
             if ($this->transaksiModel->update($fields['id_transaksi'], $fields)) {
 
