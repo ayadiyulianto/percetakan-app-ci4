@@ -49,7 +49,7 @@ class Keranjang extends BaseController
             'title'             => 'Keranjang Pesanan',
         ];
 
-        return view('transaksi/keranjang', $data);
+        return view('keranjang/keranjang', $data);
     }
 
     public function getAll()

@@ -110,6 +110,7 @@
                                 <p>Daftar Barang</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="<?= site_url('/kategoribarang') ?>" class="nav-link <?php if ($title == "Kategori Barang") echo "active"; ?>">
                                 <i class=" far fa-circle nav-icon"></i>
@@ -128,6 +129,7 @@
                             TRANSAKSI PENJUALAN
                             <i class="right fas fa-angle-left"></i>
                         </p>
+
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
@@ -135,6 +137,12 @@
                                 <i class=" far fa-circle nav-icon"></i>
                                 <p>Daftar Transaksi</p>
                             </a>
+
+                            <a href="<?= site_url('/keranjang') ?>" class="nav-link <?php if ($title == "Keranjang") echo "active"; ?>">
+                                <i class=" far fa-circle nav-icon"></i>
+                                <p>Keranjang Pesanan</p>
+                            </a>
+
                         </li>
                     </ul>
                 </li>
