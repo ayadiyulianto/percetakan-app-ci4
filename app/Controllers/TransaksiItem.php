@@ -197,6 +197,7 @@ class TransaksiItem extends BaseController
         $fields['kuantiti'] = $this->request->getPost('kuantiti');
         $fields['satuan'] = $this->request->getPost('satuan');
         $fields['status_desain'] = $this->request->getPost('statusDesain');
+        $fields['status_produksi'] = 'dipesan';
         $fields['keterangan'] = $this->request->getPost('keterangan');
 
         $this->validation->setRules([

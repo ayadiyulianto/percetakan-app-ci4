@@ -6,8 +6,8 @@
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 <!-- DataTables -->
-<link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="<?= base_url(); ?>/admin-lte/plugins/select2/css/select2.min.css">
 
@@ -169,11 +169,15 @@
                         </div>
                     </form>
 
-
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <form id="form-transaksi-to-nota" method="post" action="<?= site_url('transaksi/nota') ?>">
+        <?= csrf_field() ?>
+        <input type="hidden" id="id-transaksi-nota" name="id_transaksi">
+    </form>
 
     <div id="modal-item" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -227,10 +231,10 @@
 <script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- DataTables -->
-<script src="https://adminlte.io/themes/v3/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="https://adminlte.io/themes/v3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="https://adminlte.io/themes/v3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?= base_url() ?>/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url() ?>/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?= base_url() ?>/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?= base_url() ?>/admin-lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?= base_url() ?>/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Select2 -->
@@ -247,6 +251,7 @@
     });
 
     $(function() {
+
         $('#data_table').DataTable({
             "paging": true,
             "lengthChange": false,
@@ -364,6 +369,9 @@
                                     }).then(function() {
                                         $('#data_table').DataTable().ajax.reload(null, false).draw(false);
                                         $('#bayar-modal').modal('hide');
+                                        if (response.lunas) {
+                                            gotoNota(response.id_transaksi);
+                                        }
                                     })
 
                                 } else {
@@ -402,6 +410,11 @@
 
             }
         });
+    }
+
+    function gotoNota(idTransaksi) {
+        $('#form-transaksi-to-nota #id-transaksi-nota').val(idTransaksi);
+        $('#form-transaksi-to-nota').submit();
     }
 
     $('#jenisPembayaran').change(function() {

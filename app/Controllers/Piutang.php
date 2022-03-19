@@ -52,6 +52,9 @@ class Piutang extends BaseController
 
     public function getAll()
     {
+        if (!has_akses('piutang', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $response = array();
         $id_transaksi = $this->request->getPost('id_transaksi');
         $transaksi = $this->transaksiModel->findWithPiutang($id_transaksi);
@@ -184,6 +187,12 @@ class Piutang extends BaseController
 
                 $response['success'] = true;
                 $response['messages'] = 'Paid successfully.';
+                $response['id_transaksi'] = $fields['id_transaksi'];
+                if ($harus_bayar - $telah_bayar - $fields['jumlah_dibayar'] == 0) {
+                    $response['lunas'] = true;
+                } else {
+                    $response['lunas'] = false;
+                }
             } else {
 
                 $response['success'] = false;
