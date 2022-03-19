@@ -130,6 +130,9 @@ class Transaksi extends BaseController
 
     public function add()
     {
+        if (!has_akses('transaksi', 'c')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $response = array();
 
         $fields['kasir'] = current_user()->first_name;

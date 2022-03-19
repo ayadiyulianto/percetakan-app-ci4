@@ -85,6 +85,9 @@ class Pembayaran extends BaseController
 
 	public function add()
 	{
+		if (!has_akses('pembayaran', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -134,6 +137,9 @@ class Pembayaran extends BaseController
 
 	public function edit()
 	{
+		if (!has_akses('pembayaran', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -184,6 +190,10 @@ class Pembayaran extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('pembayaran', 'd')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id_transaksi_pembayaran');

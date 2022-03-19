@@ -127,7 +127,9 @@ class TransaksiItemBarang extends BaseController
 
 	public function add()
 	{
-
+		if (!has_akses('transaksiItemBarang', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$fields['id'] = $this->request->getPost('id');
@@ -179,7 +181,9 @@ class TransaksiItemBarang extends BaseController
 
 	public function edit()
 	{
-
+		if (!has_akses('transaksiItemBarang', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$fields['id'] = $this->request->getPost('id');
@@ -234,6 +238,9 @@ class TransaksiItemBarang extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('transaksiItemBarang', 'd')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$id = $this->request->getPost('id');

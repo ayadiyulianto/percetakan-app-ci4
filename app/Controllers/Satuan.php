@@ -77,6 +77,9 @@ class Satuan extends BaseController
 
 	public function add()
 	{
+		if (!has_akses('satuan', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -109,7 +112,9 @@ class Satuan extends BaseController
 
 	public function edit()
 	{
-
+		if (!has_akses('satuan', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$fields['id'] = $this->request->getPost('id');
@@ -144,6 +149,10 @@ class Satuan extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('satuan', 'd')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id');

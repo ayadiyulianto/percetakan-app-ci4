@@ -80,6 +80,9 @@ class Bank extends BaseController
 
 	public function add()
 	{
+		if (!has_akses('bank', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -117,6 +120,9 @@ class Bank extends BaseController
 
 	public function edit()
 	{
+		if (!has_akses('bank', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 
 		$response = array();
 
@@ -156,6 +162,9 @@ class Bank extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('bank', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$id = $this->request->getPost('id_bank');

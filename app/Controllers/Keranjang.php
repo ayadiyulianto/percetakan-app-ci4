@@ -130,6 +130,9 @@ class Keranjang extends BaseController
 
     public function add()
     {
+        if (!has_akses('transaksi', 'c')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $response = array();
 
         $fields['kasir'] = current_user()->first_name;
@@ -153,6 +156,10 @@ class Keranjang extends BaseController
 
     public function baru()
     {
+        if (!has_akses('transaksi', 'c')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
+
         $id_transaksi = $this->request->getPost('id_transaksi');
 
         $transaksi = $this->getTransaksiOr404($id_transaksi);
@@ -172,6 +179,9 @@ class Keranjang extends BaseController
 
     public function detail()
     {
+        if (!has_akses('transaksi', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $id_transaksi = $this->request->getPost('id_transaksi');
 
         $transaksi = $this->getTransaksiOr404($id_transaksi);
@@ -190,6 +200,10 @@ class Keranjang extends BaseController
 
     public function nota()
     {
+        if (!has_akses('transaksi', 'r')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
+
         $id_transaksi = $this->request->getPost('id_transaksi');
 
         $transaksi = $this->getTransaksiOr404($id_transaksi);
@@ -269,6 +283,9 @@ class Keranjang extends BaseController
 
     public function update()
     {
+        if (!has_akses('transaksi', 'u')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
         $response = array();
 
         $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
@@ -349,6 +366,10 @@ class Keranjang extends BaseController
 
     public function remove()
     {
+        if (!has_akses('transaksi', 'd')) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        }
+
         $response = array();
 
         $id = $this->request->getPost('id_transaksi');

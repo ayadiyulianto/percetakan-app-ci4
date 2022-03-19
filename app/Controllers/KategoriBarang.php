@@ -77,7 +77,9 @@ class KategoriBarang extends BaseController
 
 	public function add()
 	{
-
+		if (!has_akses('kategoriBarang', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$fields['nama_kategori'] = $this->request->getPost('namaKategori');
@@ -109,7 +111,9 @@ class KategoriBarang extends BaseController
 
 	public function edit()
 	{
-
+		if (!has_akses('kategoriBarang', 'u')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
 		$response = array();
 
 		$fields['id'] = $this->request->getPost('id');
@@ -144,6 +148,10 @@ class KategoriBarang extends BaseController
 
 	public function remove()
 	{
+		if (!has_akses('kategoriBarang', 'd')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id');

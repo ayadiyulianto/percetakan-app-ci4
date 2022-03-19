@@ -70,6 +70,10 @@ class Bahan extends BaseController
 
 	public function getOne()
 	{
+		if (!has_akses('bahan', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id_bahan');
@@ -133,6 +137,7 @@ class Bahan extends BaseController
 
 	public function edit()
 	{
+
 		if (!has_akses('bahan', 'u')) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
 		}
