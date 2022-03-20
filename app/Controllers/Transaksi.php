@@ -323,9 +323,10 @@ class Transaksi extends BaseController
 
         return $this->response->setJSON($response);
     }
+
     private function createNoFaktur()
     {
-        $no_urut = $this->db->table('tb_transaksi')->select('(COUNT(id_transaksi)+1) as no_urut')
+        $no_urut = $this->transaksiModel->select('(COUNT(id_transaksi)+1) as no_urut')
             ->where('MONTH(tgl_order) = MONTH(CURRENT_DATE()) AND no_faktur IS NOT NULL')
             ->get()
             ->getRow()
@@ -335,6 +336,11 @@ class Transaksi extends BaseController
 
     private function bayar($transaksi, $fields)
     {
+        // tidak perlu input ke tb pembayaran jika dibayar 0
+        if (empty($fields['dibayar'])) {
+            return true;
+        }
+
         $data['id_transaksi'] = $fields['id_transaksi'];
         $data['jenis_pembayaran'] = $fields['pembayaran_jenis'];
         if ($fields['pembayaran_id_bank'] > 0) {
