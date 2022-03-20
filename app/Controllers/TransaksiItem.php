@@ -442,17 +442,6 @@ class TransaksiItem extends BaseController
         // }
     }
 
-    public function createNoSPK()
-    {
-        $no_urut = $this->transaksiItemModel->select('(COUNT(id_transaksi_item)+1) as no_urut')
-            ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi AND MONTH(tb_transaksi.tgl_order) = MONTH(CURRENT_DATE())')
-            ->where('no_spk IS NOT NULL')
-            ->get()
-            ->getRow()
-            ->no_urut;
-        return sprintf('%03d', $no_urut) . '-SPK-' . number_to_roman(date('n')) . '-' . date('Y');
-    }
-
     private function getTransaksiItemOr404($id_transaksi_item)
     {
         $transaksiItem = $this->transaksiItemModel->find($id_transaksi_item);
