@@ -201,6 +201,7 @@ class TransaksiItem extends BaseController
         $fields['status_desain'] = $this->request->getPost('statusDesain');
         $fields['status_produksi'] = 'dipesan';
         $fields['keterangan'] = $this->request->getPost('keterangan');
+        $fields['no_spk'] = $this->createNoSPK();
 
         $this->validation->setRules([
             'namaItem' => ['label' => 'Nama item', 'rules' => 'required|max_length[255]'],
@@ -442,7 +443,7 @@ class TransaksiItem extends BaseController
         // }
     }
 
-    public function createNoSPK()
+    private function createNoSPK()
     {
         $no_urut = $this->transaksiItemModel->select('(COUNT(id_transaksi_item)+1) as no_urut')
             ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi AND MONTH(tb_transaksi.tgl_order) = MONTH(CURRENT_DATE())')
