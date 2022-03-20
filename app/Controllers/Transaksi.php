@@ -317,6 +317,7 @@ class Transaksi extends BaseController
 
         return $this->response->setJSON($response);
     }
+
     private function createNoFaktur()
     {
         $no_urut = $this->transaksiModel->select('(COUNT(id_transaksi)+1) as no_urut')
