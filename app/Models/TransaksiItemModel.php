@@ -24,7 +24,9 @@ class TransaksiItemModel extends Model
 		'status_desain',
 		'file_gambar',
 		'keterangan',
-		'status_produksi'
+		'status_produksi',
+		'nama_pelanggan',
+		'tgl_order'
 	];
 	protected $useTimestamps = false;
 	protected $createdField  = 'created_at';
@@ -37,8 +39,8 @@ class TransaksiItemModel extends Model
 	public function findAllByIdTransaksi($id_transaksi)
 	{
 		return $this->select('id_transaksi_item, nama_item, rangkuman, ukuran, kuantiti, satuan, harga_satuan, sub_total_harga, status_desain, file_gambar, keterangan')
-            ->where(array('id_transaksi' => $id_transaksi))
-            ->findAll();
+			->where(array('id_transaksi' => $id_transaksi))
+			->findAll();
 	}
 
 	public function getDaftarKerjaan()

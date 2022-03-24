@@ -201,7 +201,8 @@ class TransaksiItem extends BaseController
         $fields['status_desain'] = $this->request->getPost('statusDesain');
         $fields['status_produksi'] = 'dipesan';
         $fields['keterangan'] = $this->request->getPost('keterangan');
-        $fields['no_spk'] = $this->createNoSPK();
+        // $fields['no_spk'] = $this->createNoSPK();
+        // $fields['tgl_order'] = date('Y-m-d');
 
         $this->validation->setRules([
             'namaItem' => ['label' => 'Nama item', 'rules' => 'required|max_length[255]'],
@@ -443,16 +444,52 @@ class TransaksiItem extends BaseController
         // }
     }
 
-    private function createNoSPK()
-    {
-        $no_urut = $this->transaksiItemModel->select('(COUNT(id_transaksi_item)+1) as no_urut')
-            ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi AND MONTH(tb_transaksi.tgl_order) = MONTH(CURRENT_DATE())')
-            ->where('no_spk IS NOT NULL')
-            ->get()
-            ->getRow()
-            ->no_urut;
-        return sprintf('%03d', $no_urut) . '-SPK-' . number_to_roman(date('n')) . '-' . date('Y');
-    }
+    // private function namaFile()
+    // {
+    //     $id_transaksi = $this->request->getPost('id_transaksi');
+    //     $satuan = $this->request->getPost('kuantiti');
+    //     if ($satuan = 'm2') {
+    //         $satuan = 'pc';
+    //     }
+
+    //     $pelanggan = $this->transaksiItemModel->select('tb_transaksi.nama_pelanggan')
+    //         ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi')
+    //         ->where(array('id_transaksi' => $id_transaksi))
+    //         ->findAll();;
+
+    //     $perusahaan = $this->transaksiItemModel->select('tb_transaksi.perusahaan')
+    //         ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi')
+    //         ->where('tb_transaksi_item.id_transaksi=tb_transaksi.id_transaksi')
+    //         ->get()
+    //         ->getRow()
+    //         ->perusahaan;
+
+    //     $ukuran = $this->transaksiItemModel->select('tb_transaksi_item.ukuran')
+    //         ->get()
+    //         ->getRow()
+    //         ->ukuran;
+    //     if (empty($ukuran)) {
+    //         $ukuran = $this->request->getPost('ukuran');
+    //     }
+    //     $kuantiti = $this->transaksiItemModel->select('tb_transaksi_item.kuantiti')
+    //         ->get()
+    //         ->getRow()
+    //         ->kuantiti;
+    //     if (empty($kuantiti)) {
+    //         $kuantiti = $this->request->getPost('kuantiti');
+    //     }
+    //     return  $pelanggan . '_' . $perusahaan . '_' . $ukuran . '_' . $kuantiti . $satuan;
+    // }
+
+    // private function createNoSPK()
+    // {
+    //     $no_urut = $this->transaksiItemModel->select('(COUNT(no_spk)+1) as no_urut')
+    //         ->where('MONTH(tgl_order) = MONTH(CURRENT_DATE()) AND no_spk IS NOT NULL')
+    //         ->get()
+    //         ->getRow()
+    //         ->no_urut;
+    //     return sprintf('%03d', $no_urut) . '-SPK-' . number_to_roman(date('n')) . '-' . date('Y');
+    // }
 
     private function getTransaksiItemOr404($id_transaksi_item)
     {
