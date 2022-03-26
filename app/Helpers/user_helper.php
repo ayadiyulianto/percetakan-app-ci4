@@ -49,25 +49,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => ['c', 'r', 'u', 'd'],
                 'transaksi'         => ['c', 'r', 'u', 'd'],
                 'transaksiItem'     => ['c', 'r', 'u', 'd'],
-                'transaksiItemBarang' => ['c', 'r', 'u', 'd'],
-                'pembayaran'        => ['c', 'r', 'u', 'd']
-            ),
-            'kasir' => array(
-                'bahan'             => [],
-                'bank'              => [],
-                'barang'            => [],
-                'daftarKerjaan'     => ['r'],
-                'uploadGambar'      => ['u'],
-                'dashboard'         => [],
-                'kategoriBarang'    => [],
-                'pelanggan'         => [],
-                'pembayaran'        => [],
-                'piutang'           => [],
-                'satuan'            => [],
-                'transaksi'         => [],
-                'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksiItemBarang' => ['c', 'r', 'u', 'd']
             ),
             'desainer' => array(
                 'bahan'             => [],
@@ -83,8 +65,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksiItemBarang' => ['r']
             ),
             'operator' => array(
                 'bahan'             => [],
@@ -100,8 +81,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksiItemBarang' => ['r']
             ),
         );
 

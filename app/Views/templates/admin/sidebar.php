@@ -126,19 +126,19 @@
                     <a href="#" class="nav-link <?php if ($menu == "transaksi") echo "active"; ?>">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
-                            PENJUALAN
+                            TRANSAKSI PENJUALAN
                             <i class="right fas fa-angle-left"></i>
                         </p>
 
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= site_url('/transaksi') ?>" class="nav-link <?php if ($title == "Daftar Transaksi") echo "active"; ?>">
+                            <a href="<?= site_url('/transaksi') ?>" class="nav-link <?php if ($title == "Transaksi") echo "active"; ?>">
                                 <i class=" far fa-circle nav-icon"></i>
                                 <p>Daftar Transaksi</p>
                             </a>
 
-                            <a href="<?= site_url('/keranjang') ?>" class="nav-link <?php if ($title == "Keranjang Pesanan") echo "active"; ?>">
+                            <a href="<?= site_url('/keranjang') ?>" class="nav-link <?php if ($title == "Keranjang") echo "active"; ?>">
                                 <i class=" far fa-circle nav-icon"></i>
                                 <p>Keranjang Pesanan</p>
                             </a>
@@ -151,35 +151,10 @@
                     <a href="<?= site_url('/piutang') ?>" class="nav-link <?php if ($menu == "piutang") echo "active"; ?>">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
-                            PIUTANG
+                            TRANSAKSI PIUTANG
                             <i class="right fas "></i>
                         </p>
                     </a>
-                <li class="nav-item <?php if ($menu == "Pembayaran") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "Pembayaran") echo "active"; ?>">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p>
-                            PEMBAYARAN
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= site_url('/pembayaran') ?>" class="nav-link <?php if ($title == "Daftar Pembayaran") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Daftar Pembayaran</p>
-                            </a>
-
-                            <a href="<?= site_url('/pembayaran/bayarHariIni') ?>" class="nav-link <?php if ($title == "Pembayaran Hari Ini") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Pembayaran Hari Ini</p>
-                            </a>
-
-                            </p>
-                            </a>
-                        </li>
-                    </ul>
                 <li class="nav-header">TOOLS</li>
 
                 <li class="nav-item <?php if ($menu == "satuan") echo "menu-open"; ?>">

@@ -25,76 +25,39 @@ class Pembayaran extends BaseController
 			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
 		}
 		$data = [
-			'menu'    		=> 'Pembayaran',
-			'title'     	=> 'Daftar Pembayaran'
+			'menu'    		=> 'pembayaran',
+			'title'     	=> 'Pembayaran'
 		];
 
-		return view('pembayaran/pembayaran', $data);
+		return view('pembayaran', $data);
 	}
-	public function bayarHariIni()
-	{
-		if (!has_akses('pembayaran', 'r')) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
-		}
-		$data = [
-			'menu'    		=> 'Pembayaran',
-			'title'     	=> 'Pembayaran Hari Ini'
-		];
 
-		return view('pembayaran/hari_ini', $data);
-	}
 	public function getAll()
 	{
 		$response = array();
 
 		$data['data'] = array();
 
-		$result = $this->pembayaranModel->findAllPembayaran();
+		$result = $this->pembayaranModel->select('id_transaksi_pembayaran, id_transaksi, jenis_pembayaran, nama_bank, norek, atas_nama, jumlah_dibayar, kasir')->findAll();
 
-		foreach ($result as $key => $value) {
+		foreach ($result as $value) {
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
-			$data['data'][$key] = array(
-				date('d M Y', strtotime($value->created_at)),
-				$value->kasir,
+			$data['data'][] = array(
+				$value->id_transaksi_pembayaran,
+				$value->id_transaksi,
 				$value->jenis_pembayaran,
 				$value->nama_bank,
 				$value->norek,
 				$value->atas_nama,
-				number_to_currency($value->jumlah_dibayar, 'IDR', 'id_ID', 2),
+				$value->jumlah_dibayar,
+				$value->kasir,
 
 				$ops,
-			);
-		}
-
-		$data['token'] = csrf_hash();
-		return $this->response->setJSON($data);
-	}
-
-	public function hariIni()
-	{
-		$response = array();
-
-		$data['data'] = array();
-
-		$result = $this->pembayaranModel->findHariIniPembayaran();
-
-		foreach ($result as $key => $value) {
-
-
-			$data['data'][$key] = array(
-				date('d M Y', strtotime($value->created_at)),
-				$value->kasir,
-				$value->jenis_pembayaran,
-				$value->nama_bank,
-				$value->norek,
-				$value->atas_nama,
-				number_to_currency($value->jumlah_dibayar, 'IDR', 'id_ID', 2),
-
 			);
 		}
 
@@ -120,32 +83,87 @@ class Pembayaran extends BaseController
 		}
 	}
 
+	public function add()
+	{
+		if (!has_akses('pembayaran', 'c')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+
+		$response = array();
+
+		$fields['id_transaksi_pembayaran'] = $this->request->getPost('idTransaksiPembayaran');
+		$fields['id_transaksi'] = $this->request->getPost('idTransaksi');
+		$fields['jenis_pembayaran'] = $this->request->getPost('jenisPembayaran');
+		$fields['id_bank'] = $this->request->getPost('idBank');
+		$fields['nama_bank'] = $this->request->getPost('namaBank');
+		$fields['norek'] = $this->request->getPost('norek');
+		$fields['atas_nama'] = $this->request->getPost('atasNama');
+		$fields['jumlah_dibayar'] = $this->request->getPost('jumlahDibayar');
+		$fields['kasir'] = $this->request->getPost('kasir');
+
+
+		$this->validation->setRules([
+			'id_transaksi' => ['label' => 'Id transaksi', 'rules' => 'required|numeric|max_length[10]'],
+			'jenis_pembayaran' => ['label' => 'Jenis pembayaran', 'rules' => 'required|max_length[50]'],
+			'id_bank' => ['label' => 'Id bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
+			'nama_bank' => ['label' => 'Nama bank', 'rules' => 'permit_empty|max_length[50]'],
+			'norek' => ['label' => 'Norek', 'rules' => 'permit_empty|max_length[50]'],
+			'atas_nama' => ['label' => 'Atas nama', 'rules' => 'permit_empty|max_length[50]'],
+			'jumlah_dibayar' => ['label' => 'Jumlah dibayar', 'rules' => 'required|numeric|max_length[10]'],
+			'kasir' => ['label' => 'Kasir', 'rules' => 'permit_empty|max_length[50]'],
+
+		]);
+
+		if ($this->validation->run($fields) == FALSE) {
+
+			$response['success'] = false;
+			$response['messages'] = $this->validation->listErrors();
+		} else {
+
+			if ($this->pembayaranModel->insert($fields)) {
+
+				$response['success'] = true;
+				$response['messages'] = 'Data has been inserted successfully';
+			} else {
+
+				$response['success'] = false;
+				$response['messages'] = 'Insertion error!';
+			}
+		}
+
+		$response['token'] = csrf_hash();
+		return $this->response->setJSON($response);
+	}
 
 	public function edit()
 	{
 		if (!has_akses('pembayaran', 'u')) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
 		}
+
 		$response = array();
 
 		$fields['id_transaksi_pembayaran'] = $this->request->getPost('idTransaksiPembayaran');
-		$fields['created_at'] = $this->request->getPost('createdAt');
-		$fields['kasir'] = $this->request->getPost('kasir');
+		$fields['id_transaksi'] = $this->request->getPost('idTransaksi');
 		$fields['jenis_pembayaran'] = $this->request->getPost('jenisPembayaran');
+		$fields['id_bank'] = $this->request->getPost('idBank');
 		$fields['nama_bank'] = $this->request->getPost('namaBank');
 		$fields['norek'] = $this->request->getPost('norek');
 		$fields['atas_nama'] = $this->request->getPost('atasNama');
 		$fields['jumlah_dibayar'] = $this->request->getPost('jumlahDibayar');
+		$fields['kasir'] = $this->request->getPost('kasir');
 
 
 		$this->validation->setRules([
-			'created_at' => ['label' => 'Created at', 'rules' => 'permit_empty|valid_date'],
-			'kasir' => ['label' => 'Kasir', 'rules' => 'permit_empty|max_length[50]'],
-			'jenis_pembayaran' => ['label' => 'Jenis pembayaran', 'rules' => 'permit_empty|max_length[50]'],
+			'id_transaksi_pembayaran' => ['label' => 'ID Transaksi Pembayaran', 'rules' => 'required|max_length[10]'],
+			'id_transaksi' => ['label' => 'Id transaksi', 'rules' => 'required|numeric|max_length[10]'],
+			'jenis_pembayaran' => ['label' => 'Jenis pembayaran', 'rules' => 'required|max_length[50]'],
+			'id_bank' => ['label' => 'Id bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
 			'nama_bank' => ['label' => 'Nama bank', 'rules' => 'permit_empty|max_length[50]'],
 			'norek' => ['label' => 'Norek', 'rules' => 'permit_empty|max_length[50]'],
 			'atas_nama' => ['label' => 'Atas nama', 'rules' => 'permit_empty|max_length[50]'],
-			'jumlah_dibayar' => ['label' => 'Jumlah dibayar', 'rules' => 'permit_empty|numeric|max_length[10]'],
+			'jumlah_dibayar' => ['label' => 'Jumlah dibayar', 'rules' => 'required|numeric|max_length[10]'],
+			'kasir' => ['label' => 'Kasir', 'rules' => 'permit_empty|max_length[50]'],
 
 		]);
 
@@ -175,6 +193,7 @@ class Pembayaran extends BaseController
 		if (!has_akses('pembayaran', 'd')) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
 		}
+
 		$response = array();
 
 		$id = $this->request->getPost('id_transaksi_pembayaran');
