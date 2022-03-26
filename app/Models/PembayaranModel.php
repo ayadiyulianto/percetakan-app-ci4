@@ -16,14 +16,18 @@ class PembayaranModel extends Model
 		'id_transaksi_pembayaran',
 		'id_transaksi',
 		'created_at',
+		'created_by',
+		'updated_by',
+		'deleted_by',
 		'kasir',
 		'jenis_pembayaran',
+		'id_bank',
 		'nama_bank',
 		'norek',
 		'atas_nama',
 		'jumlah_dibayar'
 	];
-	protected $useTimestamps = false;
+	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';
 	protected $updatedField  = 'updated_at';
 	protected $deletedField  = 'deleted_at';
@@ -40,7 +44,7 @@ class PembayaranModel extends Model
 	public function findHariIniPembayaran()
 	{
 		return $this->select('tb_transaksi_pembayaran.*')
-			->where("CURRENT_DATE()")
+			->where("CURRENT_DATE()= DATE(created_at)")
 			->findAll();
 	}
 }
