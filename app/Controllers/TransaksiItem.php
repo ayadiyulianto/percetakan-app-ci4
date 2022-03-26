@@ -454,7 +454,7 @@ class TransaksiItem extends BaseController
 
     //     $pelanggan = $this->transaksiItemModel->select('tb_transaksi.nama_pelanggan')
     //         ->join('tb_transaksi', 'tb_transaksi.id_transaksi=tb_transaksi_item.id_transaksi')
-    //         ->where(array('id_transaksi' => $id_transaksi))
+    //         ->order_by ('tb_transaksi.id_transaksi', 'nama_pelanggan')
     //         ->findAll();;
 
     //     $perusahaan = $this->transaksiItemModel->select('tb_transaksi.perusahaan')

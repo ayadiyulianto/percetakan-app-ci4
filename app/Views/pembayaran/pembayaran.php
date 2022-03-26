@@ -40,29 +40,18 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header">
-						<div class="row">
-							<div class="col-md-8 mt-2">
-								<h3 class="card-title"><?= $title ?></h3>
-							</div>
-							<div class="col-md-4">
-								<button type="button" class="btn btn-block btn-success" onclick="add()" title="Tambah"> <i class="fa fa-plus"></i> Tambah</button>
-							</div>
-						</div>
-					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
 						<table id="data_table" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Id transaksi pembayaran</th>
-									<th>Id transaksi</th>
-									<th>Jenis pembayaran</th>
+									<th>Tgl Bayar</th>
+									<th>Kasir</th>
+									<th>Cara Bayar</th>
 									<th>Nama bank</th>
 									<th>Norek</th>
 									<th>Atas nama</th>
 									<th>Jumlah dibayar</th>
-									<th>Kasir</th>
 
 									<th></th>
 								</tr>
@@ -88,25 +77,25 @@
 					<form id="add-form" class="pl-3 pr-3">
 						<?= csrf_field(); ?>
 						<div class="row">
-							<input type="hidden" id="idTransaksiPembayaran" name="idTransaksiPembayaran" class="form-control" placeholder="Id transaksi pembayaran" maxlength="10" required>
+							<input type="hidden" id="idTransaksiPembayaran" name="idTransaksiPembayaran" class="form-control" placeholder="Id transaksi pembayaran" maxlength="10">
 						</div>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="idTransaksi"> Id transaksi: <span class="text-danger">*</span> </label>
-									<input type="number" min="0" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" number="true" required>
+									<label for="createdAt"> Created at: </label>
+									<input type="date" id="createdAt" name="createdAt" class="form-control" dateISO="true">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="jenisPembayaran"> Jenis pembayaran: <span class="text-danger">*</span> </label>
-									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50" required>
+									<label for="kasir"> Kasir: </label>
+									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="idBank"> Id bank: </label>
-									<input type="number" min="0" id="idBank" name="idBank" class="form-control" placeholder="Id bank" maxlength="10" number="true">
+									<label for="jenisPembayaran"> Jenis pembayaran: </label>
+									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50">
 								</div>
 							</div>
 						</div>
@@ -133,14 +122,8 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="jumlahDibayar"> Jumlah dibayar: <span class="text-danger">*</span> </label>
-									<input type="number" min="0" id="jumlahDibayar" name="jumlahDibayar" class="form-control" placeholder="Jumlah dibayar" maxlength="10" number="true" required>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="kasir"> Kasir: </label>
-									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
+									<label for="jumlahDibayar"> Jumlah dibayar: </label>
+									<input type="number" id="jumlahDibayar" name="jumlahDibayar" class="form-control" placeholder="Jumlah dibayar" maxlength="10" number="true">
 								</div>
 							</div>
 						</div>
@@ -168,25 +151,25 @@
 					<form id="edit-form" class="pl-3 pr-3">
 						<?= csrf_field(); ?>
 						<div class="row">
-							<input type="hidden" id="idTransaksiPembayaran" name="idTransaksiPembayaran" class="form-control" placeholder="Id transaksi pembayaran" maxlength="10" required>
+							<input type="hidden" id="idTransaksiPembayaran" name="idTransaksiPembayaran" class="form-control" placeholder="Id transaksi pembayaran" maxlength="10">
 						</div>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="idTransaksi"> Id transaksi: <span class="text-danger">*</span> </label>
-									<input type="number" min="0" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" number="true" required>
+									<label for="createdAt"> Created at: </label>
+									<input type="date" id="createdAt" name="createdAt" class="form-control" dateISO="true">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="jenisPembayaran"> Jenis pembayaran: <span class="text-danger">*</span> </label>
-									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50" required>
+									<label for="kasir"> Kasir: </label>
+									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="idBank"> Id bank: </label>
-									<input type="number" min="0" id="idBank" name="idBank" class="form-control" placeholder="Id bank" maxlength="10" number="true">
+									<label for="jenisPembayaran"> Jenis pembayaran: </label>
+									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50">
 								</div>
 							</div>
 						</div>
@@ -213,14 +196,8 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label for="jumlahDibayar"> Jumlah dibayar: <span class="text-danger">*</span> </label>
-									<input type="number" min="0" id="jumlahDibayar" name="jumlahDibayar" class="form-control" placeholder="Jumlah dibayar" maxlength="10" number="true" required>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="kasir"> Kasir: </label>
-									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
+									<label for="jumlahDibayar"> Jumlah dibayar: </label>
+									<input type="number" id="jumlahDibayar" name="jumlahDibayar" class="form-control" placeholder="Jumlah dibayar" maxlength="10" number="true">
 								</div>
 							</div>
 						</div>
@@ -389,14 +366,13 @@
 				$('#edit-modal').modal('show');
 
 				$("#edit-form #idTransaksiPembayaran").val(response.id_transaksi_pembayaran);
-				$("#edit-form #idTransaksi").val(response.id_transaksi);
+				$("#edit-form #createdAt").val(response.created_at);
+				$("#edit-form #kasir").val(response.kasir);
 				$("#edit-form #jenisPembayaran").val(response.jenis_pembayaran);
-				$("#edit-form #idBank").val(response.id_bank);
 				$("#edit-form #namaBank").val(response.nama_bank);
 				$("#edit-form #norek").val(response.norek);
 				$("#edit-form #atasNama").val(response.atas_nama);
 				$("#edit-form #jumlahDibayar").val(response.jumlah_dibayar);
-				$("#edit-form #kasir").val(response.kasir);
 
 				// submit the edit from 
 				$.validator.setDefaults({
