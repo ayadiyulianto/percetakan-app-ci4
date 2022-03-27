@@ -84,7 +84,7 @@
                     <h4 class="modal-title text-white" id="info-header-modalLabel">Bayar Sisa Piutang</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="bayar-form" class="pl-3 pr-3">
+                    <form method="post" id="bayar-form" enctype="multipart/form-data" class="pl-3 pr-3">
                         <?= csrf_field(); ?>
                         <div class="row">
                             <input type="hidden" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" required>
@@ -160,7 +160,23 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group" id="formBukti" style="display:none;">
+                                    <label for="bukti"> Upload Bukti </label>
+                                    <div class="custom-file">
+                                        <input type="file" name="bukti" accept="image/*" class="custom-file-input" id="bukti">
+                                        <label class="custom-file-label" for="bukti">Pilih file</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="fileGambar"> File terupload: </label><br> -->
+                                    <a id="uploadedFileGambar" style="display: none;" class="btn btn-sm btn-info" href="#" data-toggle="lightbox" data-title="Title" data-gallery="gallery">
+                                        <i class="fa fa-image"></i> Lihat
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group text-center">
                             <div class="btn-group">
                                 <button type="submit" class="btn btn-success" id="bayar-form-btn">Bayar</button>
@@ -239,6 +255,8 @@
 <script src="<?= base_url() ?>/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 <!-- page script -->
 <script>
@@ -309,6 +327,7 @@
             dataType: 'json',
             success: function(response) {
                 // reset the form 
+
                 $("#bayar-form")[0].reset();
                 $(".form-control").removeClass('is-invalid').removeClass('is-valid');
                 $('#bayar-modal').modal('show');
@@ -320,6 +339,15 @@
                 $("#bayar-form #sisaPiutang").val(response.harus_bayar - response.telah_bayar);
                 $("#bayar-form #sisaPiutangRupiah").val(currencyFormatter.format(response.harus_bayar - response.telah_bayar));
 
+                // modal file gambar yang terupload
+                if (response.file_gambar) {
+                    $("#bayar-form #uploadedFileGambar").show();
+                    $("#bayar-form #uploadedFileGambar").attr('href', "<?= base_url() ?>/" + response.file_gambar);
+                    $("#bayar-form #uploadedFileGambar").data('title', response.nama_item).attr('data-title', response.nama_item);
+                } else {
+                    $("#bayar-form #uploadedFileGambar").hide();
+                    $("#bayar-form #uploadedFileGambar").data('title', "").attr('data-title', response.nama_item);
+                }
                 // submit the edit from 
                 $.validator.setDefaults({
                     highlight: function(element) {
@@ -346,12 +374,14 @@
                     },
 
                     submitHandler: function(form) {
-                        var form = $('#bayar-form');
+                        var form = new FormData($('#bayar-form')[0]);
                         $(".text-danger").remove();
                         $.ajax({
                             url: '<?php echo base_url('piutang/bayar') ?>',
                             type: 'post',
-                            data: form.serialize(),
+                            data: form, //.serialize()
+                            processData: false,
+                            contentType: false,
                             dataType: 'json',
                             beforeSend: function() {
                                 $('#bayar-form-btn').html('<i class="fa fa-spinner fa-spin"></i>');
@@ -421,9 +451,11 @@
         if ($(this).val() == 'transfer') {
             $('#pilihBank').show();
             $('#namaBank').show();
+            $('#formBukti').show();
         } else {
             $('#pilihBank').hide();
             $('#namaBank').hide();
+            $('#formBukti').hide();
         }
     })
 

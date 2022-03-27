@@ -140,12 +140,20 @@ class Piutang extends BaseController
         $fields['jenis_pembayaran'] = $this->request->getPost('jenisPembayaran');
         $fields['id_bank'] = $this->request->getPost('idBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
+        $fields['bukti'] = $this->request->getPost('bukti');
+
 
         $this->validation->setRules([
             'id_transaksi' => ['label' => 'ID Transaksi', 'rules' => 'required|max_length[10]'],
             'jenis_pembayaran' => ['label' => 'Jenis Pembayaran', 'rules' => 'required|max_length[50]'],
             'id_bank' => ['label' => 'Pilih Bank', 'rules' => 'permit_empty|numeric|max_length[10]'],
             'dibayar' => ['label' => 'DIBAYAR', 'rules' => 'required|numeric|max_length[10]'],
+            'bukti' => [
+                'label' => 'bukti',
+                'rules' => [
+                    'mime_in[bukti,image/jpg,image/jpeg,image/png,image/gif]',
+                ]
+            ],
 
         ]);
 
@@ -186,6 +194,16 @@ class Piutang extends BaseController
             $fields['created_by'] = current_user()->id;
             $fields['updated_by'] = current_user()->id;
 
+            if ($fields['jenis_pembayaran'] == 'cash') {
+                $fields['bukti'] = null;
+            }
+            $filePath = $this->uploadFile($this->request->getFile('bukti'));
+            if (!empty($filePath)) {
+                $fields['bukti'] = $filePath;
+            }
+
+
+
             if ($this->pembayaranModel->insert($fields)) {
 
                 $response['success'] = true;
@@ -206,6 +224,23 @@ class Piutang extends BaseController
         return $this->response->setJSON($response);
     }
 
+    private function uploadFile($file, $buktiLama = null)
+    {
+        if (!$file->isValid()) return;
+
+        $folder = 'file-bukti';
+
+        $file->move($folder, $file->getRandomName());
+
+        if (!empty($buktiLama)) {
+            $path = FCPATH . $buktiLama;
+            if (is_file($path)) {
+                unlink($path);
+            }
+        }
+
+        return $folder . '/' . $file->getName();
+    }
     private function getPiutangOr404($id_transaksi)
     {
         if ($id_transaksi === null) {

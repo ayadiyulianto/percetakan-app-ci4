@@ -25,7 +25,8 @@ class PembayaranModel extends Model
 		'nama_bank',
 		'norek',
 		'atas_nama',
-		'jumlah_dibayar'
+		'jumlah_dibayar',
+		'bukti'
 	];
 	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';

@@ -331,6 +331,7 @@
                 $("#upload-form-item #idTransaksiItem").val(response.id_transaksi_item);
                 $("#upload-form-item #namaItem").val(response.nama_item);
                 $("#upload-form-item #statusDesain").val(response.status_desain);
+                // modal file gambar yang terupload
                 if (response.file_gambar) {
                     $("#upload-form-item #uploadedFileGambar").show();
                     $("#upload-form-item #uploadedFileGambar").attr('href', "<?= base_url() ?>/" + response.file_gambar);
