@@ -16,14 +16,6 @@ class TambahKolomPerusahaanKeTabelTransaksi extends Migration
                 'after'         => 'no_wa'
             ]
         ]);
-        $this->forge->addColumn('tb_transaksi_pembayaran', [
-            'bukti' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255',
-                'null'          => true,
-                'after'         => 'kasir'
-            ]
-        ]);
     }
 
     public function down()

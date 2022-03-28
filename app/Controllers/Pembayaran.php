@@ -52,21 +52,37 @@ class Pembayaran extends BaseController
 		$result = $this->pembayaranModel->findAllPembayaran();
 
 		foreach ($result as $key => $value) {
+			$bukti = '<div class="btn-group">';
+			$bukti .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->jenis_pembayaran . '</button>';
 
 			$ops = '<div class="btn-group">';
-			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
+			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="detailPembayaran(' . $value->id_transaksi . ')"><i class="fa fa-list"></i></button>';
+			$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
 			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
 			$ops .= '</div>';
 
+
+			if ($value->bukti) {
+				$bukti .= '    <a class="btn btn-sm btn-outline-info" href="' . base_url($value->bukti) . '" data-toggle="lightbox" data-title="' . $value->nama_bank . '" data-gallery="gallery">';
+				$bukti .= '        <i class="fa fa-image"></i>';
+				$bukti .= '    </a>';
+			}
+			$bukti .= '</div>';
+
+			$bank = $value->nama_bank . ' An. ' . $value->atas_nama;
+			if ($value->jenis_pembayaran != 'transfer') {
+
+				$bank = $value->nama_bank;
+			}
+			$pelanggan = $value->nama_pelanggan . ' (' . $value->perusahaan . ') ';
 			$data['data'][$key] = array(
 				date('d M Y', strtotime($value->created_at)),
+				$value->no_faktur,
+				$pelanggan,
+				$bukti,
+				$bank,
 				$value->kasir,
-				$value->jenis_pembayaran,
-				$value->nama_bank,
-				$value->norek,
-				$value->atas_nama,
 				number_to_currency($value->jumlah_dibayar, 'IDR', 'id_ID', 2),
-
 				$ops,
 			);
 		}
@@ -84,17 +100,38 @@ class Pembayaran extends BaseController
 		$result = $this->pembayaranModel->findHariIniPembayaran();
 
 		foreach ($result as $key => $value) {
+			$bukti = '<div class="btn-group">';
+			$bukti .= '	<button type="button" class="btn btn-sm btn-outline-secondary">' . $value->jenis_pembayaran . '</button>';
+
+			$ops = '<div class="btn-group">';
+			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="detailPembayaran(' . $value->id_transaksi . ')"><i class="fa fa-list"></i></button>';
+			$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
+			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
+			$ops .= '</div>';
 
 
+			if ($value->bukti) {
+				$bukti .= '    <a class="btn btn-sm btn-outline-info" href="' . base_url($value->bukti) . '" data-toggle="lightbox" data-title="' . $value->nama_bank . '" data-gallery="gallery">';
+				$bukti .= '        <i class="fa fa-image"></i>';
+				$bukti .= '    </a>';
+			}
+			$bukti .= '</div>';
+
+			$bank = $value->nama_bank . ' An. ' . $value->atas_nama;
+			if ($value->jenis_pembayaran != 'transfer') {
+
+				$bank = $value->nama_bank;
+			}
+			$pelanggan = $value->nama_pelanggan . ' (' . $value->perusahaan . ') ';
 			$data['data'][$key] = array(
 				date('d M Y', strtotime($value->created_at)),
+				$value->no_faktur,
+				$pelanggan,
+				$bukti,
+				$bank,
 				$value->kasir,
-				$value->jenis_pembayaran,
-				$value->nama_bank,
-				$value->norek,
-				$value->atas_nama,
 				number_to_currency($value->jumlah_dibayar, 'IDR', 'id_ID', 2),
-
+				$ops,
 			);
 		}
 
@@ -122,7 +159,7 @@ class Pembayaran extends BaseController
 
 	public function add()
 	{
-		if (!has_akses('pembayaran', 'u')) {
+		if (!has_akses('pembayaran', 'c')) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
 		}
 		$response = array();

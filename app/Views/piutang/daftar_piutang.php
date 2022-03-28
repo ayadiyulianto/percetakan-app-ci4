@@ -90,6 +90,15 @@
                             <input type="hidden" id="idTransaksi" name="idTransaksi" class="form-control" placeholder="Id transaksi" maxlength="10" required>
                         </div>
                         <div class="row">
+                            <input type="hidden" id="namaPelanggan" name="namaPelanggan" class="form-control" placeholder="Nama Pelanggan" maxlength="50" required>
+                        </div>
+                        <div class="row">
+                            <input type="hidden" id="perusahaan" name="perusahaan" class="form-control" placeholder="Perusahaan" maxlength="50" required>
+                        </div>
+                        <div class="row">
+                            <input type="hidden" id="noFaktur" name="noFaktur" class="form-control" placeholder="noFaktur" maxlength="50" required>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="noFaktur"> No faktur: </label>
@@ -257,6 +266,10 @@
 <script src="<?= base_url(); ?>/admin-lte/plugins/select2/js/select2.full.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 <!-- page script -->
 <script>
@@ -269,6 +282,17 @@
     });
 
     $(function() {
+        // init button file upload
+        bsCustomFileInput.init();
+
+        // init lightbox modal file gambar
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true,
+                showArrows: false
+            });
+        });
 
         $('#data_table').DataTable({
             "paging": true,
@@ -336,6 +360,7 @@
                 $("#bayar-form #noFaktur").val(response.no_faktur);
                 if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
                 $("#bayar-form #namaPelanggan").val(response.nama_pelanggan);
+                $("#bayar-form #perusahaan").val(response.perusahaan);
                 $("#bayar-form #sisaPiutang").val(response.harus_bayar - response.telah_bayar);
                 $("#bayar-form #sisaPiutangRupiah").val(currencyFormatter.format(response.harus_bayar - response.telah_bayar));
 

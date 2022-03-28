@@ -26,7 +26,10 @@ class PembayaranModel extends Model
 		'norek',
 		'atas_nama',
 		'jumlah_dibayar',
-		'bukti'
+		'bukti',
+		'no_faktur',
+		'nama_pelanggan',
+		'perusahaan',
 	];
 	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';
@@ -38,13 +41,13 @@ class PembayaranModel extends Model
 
 	public function findAllPembayaran()
 	{
-		return $this->select('tb_transaksi_pembayaran.*')
+		return $this->select('tb_transaksi_pembayaran.*,')
 			->where("jumlah_dibayar != 0")
 			->findAll();
 	}
 	public function findHariIniPembayaran()
 	{
-		return $this->select('tb_transaksi_pembayaran.*')
+		return $this->select('tb_transaksi_pembayaran.*,')
 			->where("CURRENT_DATE()= DATE(created_at)")
 			->findAll();
 	}

@@ -46,11 +46,11 @@
 							<thead>
 								<tr>
 									<th>Tgl Bayar</th>
-									<th>Kasir</th>
+									<th>No Faktur</th>
+									<th>Nama Pelanggan</th>
 									<th>Cara Bayar</th>
 									<th>Nama bank</th>
-									<th>Norek</th>
-									<th>Atas nama</th>
+									<th>Kasir</th>
 									<th>Jumlah dibayar</th>
 
 									<th></th>
@@ -157,19 +157,19 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="createdAt"> Created at: </label>
-									<input type="date" id="createdAt" name="createdAt" class="form-control" dateISO="true">
+									<input disabled type="date" id="createdAt" name="createdAt" class="form-control" dateISO="true">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="kasir"> Kasir: </label>
-									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
+									<input disabled type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="jenisPembayaran"> Jenis pembayaran: </label>
-									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50">
+									<input disabled type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50">
 								</div>
 							</div>
 						</div>
@@ -177,19 +177,19 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="namaBank"> Nama bank: </label>
-									<input type="text" id="namaBank" name="namaBank" class="form-control" placeholder="Nama bank" maxlength="50">
+									<input disabled type="text" id="namaBank" name="namaBank" class="form-control" placeholder="Nama bank" maxlength="50">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="norek"> Norek: </label>
-									<input type="text" id="norek" name="norek" class="form-control" placeholder="Norek" maxlength="50">
+									<input disabled type="text" id="norek" name="norek" class="form-control" placeholder="Norek" maxlength="50">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="atasNama"> Atas nama: </label>
-									<input type="text" id="atasNama" name="atasNama" class="form-control" placeholder="Atas nama" maxlength="50">
+									<input disabled type="text" id="atasNama" name="atasNama" class="form-control" placeholder="Atas nama" maxlength="50">
 								</div>
 							</div>
 						</div>
@@ -216,6 +216,46 @@
 	</div><!-- /.modal -->
 	<!-- /.content -->
 </div>
+
+
+<div id="modal-detail-pembayaran" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="text-center bg-success p-3">
+				<h4 class="modal-title text-white" id="info-header-modalLabel">Detail Pembayaran</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-8">
+						<h5 id="noFakturModalTitle"></h5>
+					</div>
+				</div>
+				<table id="table_pembayaran" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>Nama Item</th>
+							<th>Ukuran</th>
+							<th>Qty</th>
+							<th>Satuan</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="row">
+					<div class="col-md-12">
+						<h5>Keterangan :</h5>
+						<p class="ml-3" id="keteranganItem"></p>
+					</div>
+					<div class="col-md-12">
+						<!-- <div class="btn-group"> -->
+						<button type="button" class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+						<!-- </div> -->
+					</div>
+				</div>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
 <!-- /.content-wrapper -->
 <?= $this->endSection() ?>
 
@@ -233,10 +273,24 @@
 <script src="<?= base_url() ?>/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 <!-- page script -->
 <script>
 	$(function() {
+
+		// init lightbox modal file gambar
+		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+			event.preventDefault();
+			$(this).ekkoLightbox({
+				alwaysShowClose: true,
+				showArrows: false
+			});
+		});
+
 		$('#data_table').DataTable({
 			"paging": true,
 			"lengthChange": false,
@@ -253,9 +307,39 @@
 			}
 		});
 
+		$('#table_pembayaran').DataTable({
+			"paging": false,
+			"lengthChange": false,
+			"searching": false,
+			"ordering": true,
+			"info": false,
+			"autoWidth": false,
+			"responsive": true,
+		});
+
 		//Initialize Select2 Elements
 		$('.select2').select2();
 	});
+
+	function detailPembayaran(id_transaksi) {
+		$('#modal-detail-pembayaran').modal('show');
+		$('#modal-detail-pembayaran').val(id_transaksi);
+		$.ajax({
+			url: '<?php echo base_url('transaksi/getOne') ?>',
+			type: 'post',
+			data: {
+				id_transaksi: id_transaksi
+			},
+			dataType: 'json',
+			success: function(response) {
+				var noFaktur = "No. Faktur: " + response.no_faktur;
+				$('#modal-detail-pembayaran #noFakturModalTitle').html(noFaktur);
+				$('#modal-detail-pembayaran #keteranganItem').html(response.keterangan);
+			}
+		})
+
+		$('#table_pembayaran').DataTable().ajax.url("<?= site_url('transaksiItem/getAll/') ?>" + id_transaksi).load();
+	}
 
 	function add() {
 		// reset the form 

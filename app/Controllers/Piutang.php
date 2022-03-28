@@ -141,6 +141,9 @@ class Piutang extends BaseController
         $fields['id_bank'] = $this->request->getPost('idBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
         $fields['bukti'] = $this->request->getPost('bukti');
+        $fields['no_faktur'] = $this->request->getPost('noFaktur');
+        $fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
+        $fields['perusahaan'] = $this->request->getPost('perusahaan');
 
 
         $this->validation->setRules([

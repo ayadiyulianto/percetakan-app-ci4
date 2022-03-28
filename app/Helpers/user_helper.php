@@ -49,26 +49,26 @@ if (!function_exists('has_akses')) {
                 'satuan'            => ['c', 'r', 'u', 'd'],
                 'transaksi'         => ['c', 'r', 'u', 'd'],
                 'transaksiItem'     => ['c', 'r', 'u', 'd'],
-                'transaksiItemBarang' => ['c', 'r', 'u', 'd'],
-                'pembayaran'        => ['c', 'r', 'u', 'd']
+                'transaksiItemBarang' => ['c', 'r', 'u', 'd']
             ),
             'kasir' => array(
                 'bahan'             => [],
                 'bank'              => [],
                 'barang'            => [],
-                'daftarKerjaan'     => ['r'],
-                'uploadGambar'      => ['u'],
-                'dashboard'         => [],
+                'daftarKerjaan'     => ['r', 'u',],
+                'uploadGambar'      => ['r', 'u',],
+                'dashboard'         => ['r', 'u',],
                 'kategoriBarang'    => [],
-                'pelanggan'         => [],
-                'pembayaran'        => [],
-                'piutang'           => [],
+                'pelanggan'         => ['c', 'r', 'u'],
+                'pembayaran'        => ['c', 'r'],
+                'piutang'           => ['c', 'r'],
                 'satuan'            => [],
-                'transaksi'         => [],
-                'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksi'         => ['c', 'r'],
+                'transaksiItem'     => ['c', 'r',],
+                'transaksiItemBarang' => ['c', 'r', 'u']
+
             ),
+
             'desainer' => array(
                 'bahan'             => [],
                 'bank'              => [],
@@ -83,8 +83,8 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksiItemBarang' => ['r']
+
             ),
             'operator' => array(
                 'bahan'             => [],
@@ -100,12 +100,12 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r'],
-                'pembayaran'        => []
+                'transaksiItemBarang' => ['r']
             ),
         );
 
         if (in_group('admin')) $userGroup = 'admin';
+        else if (in_group('kasir')) $userGroup = 'kasri';
         else if (in_group('desainer')) $userGroup = 'desainer';
         else $userGroup = 'operator';
 
