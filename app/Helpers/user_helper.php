@@ -63,9 +63,9 @@ if (!function_exists('has_akses')) {
                 'pembayaran'        => ['c', 'r'],
                 'piutang'           => ['c', 'r'],
                 'satuan'            => [],
-                'transaksi'         => ['c', 'r'],
-                'transaksiItem'     => ['c', 'r',],
-                'transaksiItemBarang' => ['c', 'r', 'u']
+                'transaksi'         => ['r'],
+                'transaksiItem'     => ['c', 'r'],
+                'transaksiItemBarang' => ['c', 'r']
 
             ),
 
@@ -105,7 +105,7 @@ if (!function_exists('has_akses')) {
         );
 
         if (in_group('admin')) $userGroup = 'admin';
-        else if (in_group('kasir')) $userGroup = 'kasri';
+        else if (in_group('kasir')) $userGroup = 'kasir';
         else if (in_group('desainer')) $userGroup = 'desainer';
         else $userGroup = 'operator';
 

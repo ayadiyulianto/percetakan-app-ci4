@@ -216,6 +216,8 @@ class Transaksi extends BaseController
         $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
         $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
         $fields['keterangan'] = $this->request->getPost('keterangan');
+        $fields['nama_pelanggan'] = $this->request->getPost('pelanggan');
+        $fields['perusahaan'] = $this->request->getPost('perusahaan');
         $fields['pembayaran_jenis'] = $this->request->getPost('pembayaranJenis');
         $fields['pembayaran_id_bank'] = $this->request->getPost('pembayaranIdBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
@@ -342,6 +344,9 @@ class Transaksi extends BaseController
         }
 
         $data['id_transaksi'] = $fields['id_transaksi'];
+        $data['nama_pelanggan'] =  $fields['nama_pelanggan'];
+        $data['perusahaan'] =  $fields['perusahaan'];
+        $data['no_faktur'] =  $fields['no_faktur'];
         $data['jenis_pembayaran'] = $fields['pembayaran_jenis'];
         if ($fields['pembayaran_id_bank'] > 0) {
             $data['id_bank'] = $fields['pembayaran_id_bank'];
@@ -360,6 +365,7 @@ class Transaksi extends BaseController
         $data['kasir'] = current_user()->first_name;
         $data['created_by'] = current_user()->id;
         $data['updated_by'] = current_user()->id;
+
 
         if ($this->pembayaranModel->insert($data)) {
             return true;

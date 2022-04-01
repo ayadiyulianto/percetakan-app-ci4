@@ -139,7 +139,10 @@
                                 <?= csrf_field(); ?>
                                 <div class="row">
                                     <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
+                                    <input type="hidden" id="pelanggan" name="pelanggan" value="<?= $transaksi->nama_pelanggan ?>" class=" form-control" required placeholder="Nama pelanggan" maxlength="255">
+                                    <input type="hidden" id="perusahaan" name="perusahaan" value="<?= $transaksi->perusahaan ?>" class=" form-control" required placeholder="perusahaan" maxlength="255">
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -286,6 +289,7 @@
                     if (response.tgl_order) $('#tglOrder').val(response.tgl_order.substring(0, 10));
                     $('#idPelanggan').val(response.id_pelanggan);
                     $('#namaPelanggan').val(response.nama_pelanggan);
+                    $('#perusahaan').val(response.perusahaan);
                     $('#noWa').val(response.no_wa);
                     if (response.tgl_deadline) $('#tglDeadline').val(response.tgl_deadline.replace(/\s+/g, 'T'));
                     $('#kasir').val(response.kasir);

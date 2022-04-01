@@ -23,7 +23,8 @@ class DaftarKerjaan extends BaseController
     public function index()
     {
         if (!has_akses('daftarKerjaan', 'r')) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+
+            return redirect()->to('piutang');
         }
 
         $data = [

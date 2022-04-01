@@ -40,6 +40,8 @@
             echo $this->include('templates/admin/sidebar');
         } else if (in_group('desainer')) {
             echo $this->include('templates/desainer/sidebar');
+        } else if (in_group('kasir')) {
+            echo $this->include('templates/kasir/sidebar');
         } else {
             echo $this->include('templates/operator/sidebar');
         }

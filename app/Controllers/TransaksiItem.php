@@ -96,7 +96,9 @@ class TransaksiItem extends BaseController
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
-            $ops .= '   <button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
+            if (has_akses('transaksiItem', 'c')) {
+                $ops .= '   <button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
+            }
             $ops .= '   <button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
             $ops .= '   <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
             $ops .= '</div>';

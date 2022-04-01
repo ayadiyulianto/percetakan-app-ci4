@@ -131,7 +131,7 @@ class Piutang extends BaseController
 
     public function bayar()
     {
-        if (!has_akses('piutang', 'u')) {
+        if (!has_akses('pembayaran', 'c')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
         $response = array();
