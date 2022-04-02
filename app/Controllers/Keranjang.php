@@ -96,8 +96,8 @@ class Keranjang extends BaseController
             }
 
             $data['data'][] = array(
-                $no_faktur,
                 $value->tgl_order,
+                $no_faktur,
                 $pelanggan,
                 $value->tgl_deadline,
                 $value->kasir,

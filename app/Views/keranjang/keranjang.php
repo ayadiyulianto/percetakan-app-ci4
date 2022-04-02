@@ -50,8 +50,8 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>No faktur</th>
                                     <th>Tgl order</th>
+                                    <th>No faktur</th>
                                     <th>Nama pelanggan</th>
                                     <th>Tgl deadline</th>
                                     <th>Kasir</th>

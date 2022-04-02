@@ -97,8 +97,8 @@ class Piutang extends BaseController
             }
 
             $data['data'][] = array(
-                $no_faktur,
                 $value->tgl_order,
+                $no_faktur,
                 $pelanggan,
                 $value->kasir,
                 number_to_currency($harus_bayar, 'IDR', 'id_ID', 2),

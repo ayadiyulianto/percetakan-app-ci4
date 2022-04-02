@@ -76,7 +76,7 @@ class Pembayaran extends BaseController
 			}
 			$pelanggan = $value->nama_pelanggan . ' (' . $value->perusahaan . ') ';
 			$data['data'][$key] = array(
-				date('d M Y', strtotime($value->created_at)),
+				$value->created_at,
 				$value->no_faktur,
 				$pelanggan,
 				$bukti,
@@ -124,7 +124,7 @@ class Pembayaran extends BaseController
 			}
 			$pelanggan = $value->nama_pelanggan . ' (' . $value->perusahaan . ') ';
 			$data['data'][$key] = array(
-				date('d M Y', strtotime($value->created_at)),
+				$value->created_at,
 				$value->no_faktur,
 				$pelanggan,
 				$bukti,

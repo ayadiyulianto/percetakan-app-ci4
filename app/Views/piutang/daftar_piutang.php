@@ -55,8 +55,8 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>No faktur</th>
                                     <th>Tgl order</th>
+                                    <th>No faktur</th>
                                     <th>Nama pelanggan</th>
                                     <th>Kasir</th>
                                     <th>Total bayar</th>
