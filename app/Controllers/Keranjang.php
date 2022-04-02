@@ -41,8 +41,8 @@ class Keranjang extends BaseController
 
     public function index()
     {
-        if (!has_akses('transaksi', 'r')) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+        if (!has_akses('keranjang', 'r')) {
+            return redirect()->to('dashboard');
         }
         $data = [
             'menu'              => 'transaksi',
@@ -71,7 +71,9 @@ class Keranjang extends BaseController
             $ops .= '	<form method="post" action="' . site_url('keranjang/detail') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>';
             $ops .= '   </form>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
+            if (has_akses('keranjang', 'd')) {
+                $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
+            }
             $ops .= '</div>';
 
             $no_faktur = '<i>' . $value->status_transaksi . '</i>';
@@ -96,13 +98,10 @@ class Keranjang extends BaseController
             }
 
             $data['data'][] = array(
-                $value->tgl_order,
+                $value->created_at,
                 $no_faktur,
                 $pelanggan,
-                $value->tgl_deadline,
                 $value->kasir,
-                number_to_currency($harus_bayar, 'IDR', 'id_ID', 2),
-                $telah_bayar,
                 $ops,
             );
         }
@@ -130,7 +129,7 @@ class Keranjang extends BaseController
 
     public function add()
     {
-        if (!has_akses('transaksi', 'c')) {
+        if (!has_akses('keranjang', 'c')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
         $response = array();
@@ -156,7 +155,7 @@ class Keranjang extends BaseController
 
     public function baru()
     {
-        if (!has_akses('transaksi', 'c')) {
+        if (!has_akses('keranjang', 'c')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
 
@@ -179,7 +178,7 @@ class Keranjang extends BaseController
 
     public function detail()
     {
-        if (!has_akses('transaksi', 'r')) {
+        if (!has_akses('keranjang', 'r')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
         $id_transaksi = $this->request->getPost('id_transaksi');
@@ -195,6 +194,10 @@ class Keranjang extends BaseController
             'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
             'bank'              => $this->bankModel->findAll()
         ];
+        if (!has_akses('keranjang', 'u')) {
+
+            return view('transaksi/keranjang', $data);
+        }
         return view('transaksi/detail', $data);
     }
 
@@ -283,7 +286,7 @@ class Keranjang extends BaseController
 
     public function update()
     {
-        if (!has_akses('transaksi', 'u')) {
+        if (!has_akses('keranjang', 'u')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
         $response = array();
@@ -366,7 +369,7 @@ class Keranjang extends BaseController
 
     public function remove()
     {
-        if (!has_akses('transaksi', 'd')) {
+        if (!has_akses('keranjang', 'd')) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
         }
 

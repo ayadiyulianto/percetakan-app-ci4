@@ -38,10 +38,8 @@
         <?php
         if (in_group('admin')) {
             echo $this->include('templates/admin/sidebar');
-        } else if (in_group('desainer')) {
-            echo $this->include('templates/desainer/sidebar');
         } else {
-            echo $this->include('templates/operator/sidebar');
+            echo $this->include('templates/cs/sidebar');
         }
         ?>
 

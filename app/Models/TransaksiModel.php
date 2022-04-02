@@ -67,7 +67,7 @@ class TransaksiModel extends Model
 			->select('id_transaksi, SUM(jumlah_dibayar) as telah_bayar')
 			->groupBy('id_transaksi')
 			->getCompiledSelect();
-		return $this->select('tb_transaksi.*, tb_pelanggan.perusahaan, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
+		return $this->select('tb_transaksi.*, tb_transaksi.nama_pelanggan, tb_pelanggan.perusahaan, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
 			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi', 'left')
 			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi', 'left')
 			->join("tb_pelanggan", 'tb_pelanggan.id_pelanggan = tb_transaksi.id_pelanggan', 'left')
@@ -85,7 +85,7 @@ class TransaksiModel extends Model
 			->select('id_transaksi, SUM(jumlah_dibayar) as telah_bayar')
 			->groupBy('id_transaksi')
 			->getCompiledSelect();
-		return $this->select('tb_transaksi.*, tb_pelanggan.perusahaan, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
+		return $this->select('tb_transaksi.*, tb_transaksi.nama_pelanggan, tb_pelanggan.perusahaan, item.harus_bayar, pembayaran.telah_bayar, (item.harus_bayar-pembayaran.telah_bayar) as kurang')
 			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi', 'left')
 			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi', 'left')
 			->join("tb_pelanggan", 'tb_pelanggan.id_pelanggan = tb_transaksi.id_pelanggan', 'left')
@@ -104,7 +104,7 @@ class TransaksiModel extends Model
 			->where('id_transaksi', $id_transaksi)
 			->groupBy('id_transaksi')
 			->getCompiledSelect();
-		return $this->select('tb_transaksi.*, item.harus_bayar, tb_pelanggan.perusahaan, tb_pelanggan.nama_pelanggan, pembayaran.telah_bayar')
+		return $this->select('tb_transaksi.*, item.harus_bayar, tb_pelanggan.perusahaan, tb_transaksi.nama_pelanggan, pembayaran.telah_bayar')
 			->join("($item) item", 'item.id_transaksi = tb_transaksi.id_transaksi', 'left')
 			->join("tb_pelanggan", 'tb_pelanggan.id_pelanggan = tb_transaksi.id_pelanggan', 'left')
 			->join("($pembayaran) pembayaran", 'pembayaran.id_transaksi = tb_transaksi.id_transaksi', 'left')

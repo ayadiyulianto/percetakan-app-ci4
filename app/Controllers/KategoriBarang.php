@@ -22,7 +22,7 @@ class KategoriBarang extends BaseController
 	public function index()
 	{
 		if (!has_akses('kategoriBarang', 'r')) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+			return redirect()->to('dashboard');
 		}
 		$data = [
 			'menu' 				=> 'barang',

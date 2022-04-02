@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="kasir"> Kasir: </label><br>
+                                    <label for="kasir"> CS-Desk : </label><br>
                                     <h6 class="table-bordered text-center col-10 "><?= $transaksi->kasir; ?>
                                         <!-- <input type="text" disabled id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50" required> -->
                                 </div>

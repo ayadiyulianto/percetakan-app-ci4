@@ -42,8 +42,9 @@ class Transaksi extends BaseController
     public function index()
     {
         if (!has_akses('transaksi', 'r')) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+            return redirect()->to('dashboard');
         }
+
         $data = [
             'menu'              => 'transaksi',
             'title'             => 'Daftar Transaksi',
@@ -68,10 +69,14 @@ class Transaksi extends BaseController
                 $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-success"><i">Invoice</i></button>';
                 $ops .= '   </form>';
             }
-            $ops .= '	<form method="post" action="' . site_url('transaksi/detail') . '" > ';
-            $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>';
-            $ops .= '   </form>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
+            if (has_akses('transaksi', 'u')) {
+                $ops .= '	<form method="post" action="' . site_url('transaksi/detail') . '" > ';
+                $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>';
+                $ops .= '   </form>';
+            }
+            if (has_akses('transaksi', 'd')) {
+                $ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi . ')"><i class="fa fa-trash"></i></button>';
+            }
             $ops .= '</div>';
 
             $no_faktur = '<i>' . $value->status_transaksi . '</i>';
@@ -170,6 +175,10 @@ class Transaksi extends BaseController
             'barang'            => $this->barangModel->select('id_barang, kategori_barang, nama_barang')->findAll(),
             'bank'              => $this->bankModel->findAll()
         ];
+        if (!has_akses('transaksiBaru', 'c')) {
+
+            return view('transaksi/buatKeranjang', $data);
+        }
         return view('transaksi/baru', $data);
     }
 

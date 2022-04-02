@@ -22,7 +22,7 @@ class Pembayaran extends BaseController
 	public function index()
 	{
 		if (!has_akses('pembayaran', 'r')) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+			return redirect()->to('dashboard');
 		}
 		$data = [
 			'menu'    		=> 'Pembayaran',
@@ -34,7 +34,7 @@ class Pembayaran extends BaseController
 	public function bayarHariIni()
 	{
 		if (!has_akses('pembayaran', 'r')) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+			return redirect()->to('dashboard');
 		}
 		$data = [
 			'menu'    		=> 'Pembayaran',
@@ -57,8 +57,12 @@ class Pembayaran extends BaseController
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="detailPembayaran(' . $value->id_transaksi . ')"><i class="fa fa-list"></i></button>';
-			$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
-			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
+			if (has_akses('pembayaran', 'u')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
+			}
+			if (has_akses('pembayaran', 'd')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
+			}
 			$ops .= '</div>';
 
 
@@ -105,8 +109,12 @@ class Pembayaran extends BaseController
 
 			$ops = '<div class="btn-group">';
 			$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="detailPembayaran(' . $value->id_transaksi . ')"><i class="fa fa-list"></i></button>';
-			$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
-			$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
+			if (has_akses('pembayaran', 'u')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="edit(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-edit"></i></button>';
+			}
+			if (has_akses('pembayaran', 'd')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="remove(' . $value->id_transaksi_pembayaran . ')"><i class="fa fa-trash"></i></button>';
+			}
 			$ops .= '</div>';
 
 

@@ -71,54 +71,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item <?php if ($menu == "bahan") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "bahan") echo "active"; ?>">
-                        <i class="nav-icon fas fa-box"></i>
-                        <p>
-                            BAHAN
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= site_url('/bahan') ?>" class="nav-link <?php if ($title == "Bahan") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Bahan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Menu Lain</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
-                <li class="nav-item <?php if ($menu == "barang") echo "menu-open"; ?>">
-                    <a href="#" class="nav-link <?php if ($menu == "barang") echo "active"; ?>">
-                        <i class="nav-icon fas fa-list-alt"></i>
-                        <p>
-                            BARANG
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= site_url('/barang') ?>" class="nav-link <?php if ($title == "Daftar Barang") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Daftar Barang</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?= site_url('/kategoribarang') ?>" class="nav-link <?php if ($title == "Kategori Barang") echo "active"; ?>">
-                                <i class=" far fa-circle nav-icon"></i>
-                                <p>Kategori Barang</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
                 <li class="nav-header">TRANSAKSI</li>
 
@@ -180,32 +133,7 @@
                             </a>
                         </li>
                     </ul>
-                <li class="nav-header">TOOLS</li>
 
-                <li class="nav-item <?php if ($menu == "satuan") echo "menu-open"; ?>">
-                    <a href="<?= site_url("/satuan") ?>" class="nav-link <?php if ($menu == "satuan") echo "active"; ?>">
-                        <i class="nav-icon fas fa-balance-scale"></i>
-                        <p>
-                            SATUAN
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item <?php if ($menu == "bank") echo "menu-open"; ?>">
-                    <a href="<?= site_url("/bank") ?>" class="nav-link <?php if ($menu == "bank") echo "active"; ?>">
-                        <i class="nav-icon fas fa-university"></i>
-                        <p>
-                            BANK
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item <?php if ($menu == "users") echo "menu-open"; ?>">
-                    <a href="<?= site_url("/auth/users") ?>" class="nav-link <?php if ($menu == "users") echo "active"; ?>">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            USER APLIKASI
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

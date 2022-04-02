@@ -96,11 +96,15 @@ class TransaksiItem extends BaseController
         foreach ($result as $value) {
 
             $ops = '<div class="btn-group">';
-            if (has_akses('transaksiItem', 'c')) {
+            if (has_akses('transaksiItemBarang', 'c')) {
                 $ops .= '   <button type="button" class="btn btn-sm btn-success" onclick="itemBarang(' . $value->id_transaksi_item . ')"><i class="fa fa-list"></i></button>';
             }
-            $ops .= '   <button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
-            $ops .= '   <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
+            if (has_akses('transaksiItem', 'u')) {
+                $ops .= '   <button type="button" class="btn btn-sm btn-info" onclick="editItem(' . $value->id_transaksi_item . ')"><i class="fa fa-edit"></i></button>';
+            }
+            if (has_akses('transaksiItem', 'd')) {
+                $ops .= '   <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(' . $value->id_transaksi_item . ')"><i class="fa fa-trash"></i></button>';
+            }
             $ops .= '</div>';
 
             $desain = '<div class="btn-group">';

@@ -49,14 +49,35 @@ if (!function_exists('has_akses')) {
                 'satuan'            => ['c', 'r', 'u', 'd'],
                 'transaksi'         => ['c', 'r', 'u', 'd'],
                 'transaksiItem'     => ['c', 'r', 'u', 'd'],
-                'transaksiItemBarang' => ['c', 'r', 'u', 'd']
+                'transaksiItemBarang' => ['c', 'r', 'u', 'd'],
+                'keranjang' => ['c', 'r', 'u', 'd'],
+                'transaksiBaru' => ['c', 'r', 'u', 'd']
+            ),
+
+            'cs' => array(
+                'bahan'             => [],
+                'bank'              => ['r'],
+                'barang'            => [],
+                'daftarKerjaan'     => ['c', 'r', 'u'],
+                'uploadGambar'      => ['u'],
+                'dashboard'         => ['c', 'r', 'u'],
+                'kategoriBarang'    => ['c', 'r', 'u'],
+                'pelanggan'         => ['c', 'r', 'u'],
+                'pembayaran'        => ['r'],
+                'piutang'           => ['r'],
+                'satuan'            => [],
+                'transaksi'         => ['c', 'r', 'u'],
+                'transaksiItem'     => ['c', 'r', 'u'],
+                'transaksiItemBarang' => ['c', 'r', 'u'],
+                'keranjang' => ['c', 'r', 'u'],
+                'transaksiBaru' => ['c', 'r', 'u', 'd']
             ),
             'kasir' => array(
                 'bahan'             => [],
                 'bank'              => [],
                 'barang'            => [],
                 'daftarKerjaan'     => ['r', 'u',],
-                'uploadGambar'      => ['r', 'u',],
+                'uploadGambar'      => ['u',],
                 'dashboard'         => ['r', 'u',],
                 'kategoriBarang'    => [],
                 'pelanggan'         => ['c', 'r', 'u'],
@@ -64,8 +85,10 @@ if (!function_exists('has_akses')) {
                 'piutang'           => ['c', 'r'],
                 'satuan'            => [],
                 'transaksi'         => ['r'],
-                'transaksiItem'     => ['c', 'r'],
-                'transaksiItemBarang' => ['c', 'r']
+                'transaksiItem'     => ['r'],
+                'transaksiItemBarang' => [],
+                'keranjang' => [],
+                'transaksiBaru'  => []
 
             ),
 
@@ -73,17 +96,19 @@ if (!function_exists('has_akses')) {
                 'bahan'             => [],
                 'bank'              => [],
                 'barang'            => [],
-                'daftarKerjaan'     => ['r'],
+                'daftarKerjaan'     => ['r',],
                 'uploadGambar'      => ['u'],
-                'dashboard'         => [],
+                'dashboard'         => ['r', 'u',],
                 'kategoriBarang'    => [],
                 'pelanggan'         => [],
                 'pembayaran'        => [],
                 'piutang'           => [],
                 'satuan'            => [],
-                'transaksi'         => [],
-                'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r']
+                'transaksi'         => ['c', 'u'],
+                'transaksiItem'     => ['c', 'r', 'u'],
+                'transaksiItemBarang' => ['r'],
+                'keranjang' => ['c', 'r'],
+                'transaksiBaru'  => []
 
             ),
             'operator' => array(
@@ -100,11 +125,14 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => [],
                 'transaksiItem'     => [],
-                'transaksiItemBarang' => ['r']
+                'transaksiItemBarang' => ['r'],
+                'keranjang' => [],
+                'transaksiBaru'  => []
             ),
         );
 
         if (in_group('admin')) $userGroup = 'admin';
+        else if (in_group('cs')) $userGroup = 'cs';
         else if (in_group('kasir')) $userGroup = 'kasir';
         else if (in_group('desainer')) $userGroup = 'desainer';
         else $userGroup = 'operator';

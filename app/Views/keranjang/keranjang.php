@@ -50,13 +50,11 @@
                         <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Tgl order</th>
+                                    <th>Tgl Keranjang</th>
                                     <th>No faktur</th>
                                     <th>Nama pelanggan</th>
-                                    <th>Tgl deadline</th>
-                                    <th>Kasir</th>
-                                    <th>Total</th>
-                                    <th>Dibayar</th>
+                                    <th>CS-Desk</th>
+
                                     <th></th>
                                 </tr>
                             </thead>

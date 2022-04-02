@@ -39,7 +39,7 @@ class Piutang extends BaseController
     public function index()
     {
         if (!has_akses('piutang', 'r')) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+            return redirect()->to('dashboard');
         }
         $data = [
             'menu'              => 'piutang',
@@ -69,7 +69,9 @@ class Piutang extends BaseController
 
             $ops = '<div class=" btn-group">';
             $ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="itemAll(' . $value->id_transaksi . ')"><i class="fa fa-list"> Detail</i></button>';
-            $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="bayar(' . $value->id_transaksi . ')"><i class="fas fa-money-bill-wave"></i> Bayar</button>';
+            if (has_akses('pembayaran', 'c')) {
+                $ops .= '	<button type="button" class="btn btn-sm btn-success" onclick="bayar(' . $value->id_transaksi . ')"><i class="fas fa-money-bill-wave"></i> Bayar</button>';
+            }
             $ops .= '   <form method="post" action="' . site_url('transaksi/nota') . '" > ';
             $ops .= '       <input type="hidden" value = "' . $value->id_transaksi . '" name="id_transaksi"><button type="submit" value="submit" name="_method" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Invoice</button>';
             $ops .= '   </form>';
