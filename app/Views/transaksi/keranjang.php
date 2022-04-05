@@ -143,7 +143,7 @@
                                 <div class="form-group text-center">
                                     <div class="btn-group">
 
-                                        <a href="<?= site_url('transaksi') ?>" class="btn btn-lg btn-secondary"><i class="fas fa-arrow-up"></i> Kembali</a>
+                                        <a href="<?= site_url('transaksi') ?>" class="btn btn-lg btn-success"><i class="fas fa-arrow-up"></i> Simpan</a>
 
 
                                     </div>

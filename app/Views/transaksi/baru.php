@@ -103,6 +103,12 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label for="perusahaan"> Perusahaan : </label>
+                                        <input type="text" disabled id="perusahaan" name="perusahaan" class="form-control" required placeholder="perusahaan" maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label for="noWa"> No WA: </label>
                                         <input type="text" disabled id="noWa" name="noWa" class="form-control" placeholder="No wa" maxlength="50">
                                     </div>
@@ -139,8 +145,8 @@
                                 <?= csrf_field(); ?>
                                 <div class="row">
                                     <input type="hidden" id="idTransaksi" name="idTransaksi" value="<?= $transaksi->id_transaksi ?>" class="form-control" placeholder="Id transaksi" maxlength="10" required>
-                                    <input type="hidden" id="pelanggan" name="pelanggan" value="<?= $transaksi->nama_pelanggan ?>" class=" form-control" required placeholder="Nama pelanggan" maxlength="255">
-                                    <input type="hidden" id="perusahaan" name="perusahaan" value="<?= $transaksi->perusahaan ?>" class=" form-control" required placeholder="perusahaan" maxlength="255">
+                                    <!-- <input type="hidden" id="pelanggan" name="pelanggan" value="<?= $transaksi->nama_pelanggan ?>" class=" form-control" required placeholder="Nama pelanggan" maxlength="255">
+                                    <input type="hidden" id="perusahaan" name="perusahaan" value="<?= $transaksi->perusahaan ?>" class=" form-control" required placeholder="perusahaan" maxlength="255"> -->
                                 </div>
 
                                 <div class="row">

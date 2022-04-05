@@ -145,7 +145,7 @@
 
                                 <div class="form-group text-center">
                                     <button type="button" class="btn btn-lg btn-danger" onclick="removeTransaksi()"><i class="fas fa-times"></i> Batalkan</button>
-                                    <a href="<?= site_url('dashboard') ?>" class="btn btn-lg btn-secondary"><i class="fas fa-arrow-up"></i> Kembali</a>
+                                    <a href="<?= site_url('dashboard') ?>" class="btn btn-lg btn-success"><i class="fas fa-arrow-up"></i> Simpan</a>
                                 </div>
                         </div>
                         </form>

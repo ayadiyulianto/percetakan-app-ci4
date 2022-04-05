@@ -225,8 +225,8 @@ class Transaksi extends BaseController
         $fields['id_transaksi'] = $this->request->getPost('idTransaksi');
         $fields['tgl_deadline'] = $this->request->getPost('tglDeadline');
         $fields['keterangan'] = $this->request->getPost('keterangan');
-        $fields['nama_pelanggan'] = $this->request->getPost('pelanggan');
-        $fields['perusahaan'] = $this->request->getPost('perusahaan');
+        // $fields['nama_pelanggan'] = $this->request->getPost('namaPelanggan');
+        // $fields['perusahaan'] = $this->request->getPost('perusahaan');
         $fields['pembayaran_jenis'] = $this->request->getPost('pembayaranJenis');
         $fields['pembayaran_id_bank'] = $this->request->getPost('pembayaranIdBank');
         $fields['dibayar'] = $this->request->getPost('dibayar');
@@ -353,8 +353,8 @@ class Transaksi extends BaseController
         }
 
         $data['id_transaksi'] = $fields['id_transaksi'];
-        $data['nama_pelanggan'] =  $fields['nama_pelanggan'];
-        $data['perusahaan'] =  $fields['perusahaan'];
+        $data['nama_pelanggan'] =  $transaksi->nama_pelanggan;
+        $data['perusahaan'] =  $transaksi->perusahaan;
         $data['no_faktur'] =  $fields['no_faktur'];
         $data['jenis_pembayaran'] = $fields['pembayaran_jenis'];
         if ($fields['pembayaran_id_bank'] > 0) {
