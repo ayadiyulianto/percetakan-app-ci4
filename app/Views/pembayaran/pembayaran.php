@@ -83,7 +83,7 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="createdAt"> Created at: </label>
-									<input type="date" id="createdAt" name="createdAt" class="form-control" dateISO="true">
+									<input type="date" id="createdAt" name="createdAt" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -450,7 +450,7 @@
 				$('#edit-modal').modal('show');
 
 				$("#edit-form #idTransaksiPembayaran").val(response.id_transaksi_pembayaran);
-				$("#edit-form #createdAt").val(response.created_at);
+				if (response.created_at) $("#edit-form #createdAt").val(response.created_at.substring(0, 10));
 				$("#edit-form #kasir").val(response.kasir);
 				$("#edit-form #jenisPembayaran").val(response.jenis_pembayaran);
 				$("#edit-form #namaBank").val(response.nama_bank);
