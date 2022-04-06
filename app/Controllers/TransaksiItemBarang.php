@@ -111,6 +111,46 @@ class TransaksiItemBarang extends BaseController
 
 		return $this->response->setJSON($data);
 	}
+	public function getAllForTransaksiBaruKeranjang($id_transaksi_item = null)
+	{
+		if (!has_akses('transaksiItemBarang', 'r')) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
+		}
+		$response = array();
+
+		$data['data'] = array();
+
+		$builder = $this->transaksiItemBarangModel->select('id, id_barang, nama_barang, satuan_kecil, panjang, lebar, jumlah, harga, total_harga');
+		if ($id_transaksi_item != null) {
+			$builder->where(array('id_transaksi_item' => $id_transaksi_item));
+		}
+		$result = $builder->findAll();
+
+		foreach ($result as $value) {
+
+			$ops = '<div class="btn-group">';
+			if (has_akses('transaksiItemBarang', 'u')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-info" onclick="editItemBarang(' . $value->id . ')"><i class="fa fa-edit"></i></button>';
+			}
+			if (has_akses('transaksiItemBarang', 'd')) {
+				$ops .= '	<button type="button" class="btn btn-sm btn-danger" onclick="removeItemBarang(' . $value->id . ')"><i class="fa fa-trash"></i></button>';
+			}
+			$ops .= '</div>';
+
+			$data['data'][] = array(
+				// $value->id_barang,
+				$value->nama_barang,
+				$value->satuan_kecil,
+				$value->panjang,
+				$value->lebar,
+				$value->jumlah,
+
+				$ops,
+			);
+		}
+
+		return $this->response->setJSON($data);
+	}
 
 	public function getOne()
 	{

@@ -106,7 +106,7 @@ if (!function_exists('has_akses')) {
                 'satuan'            => [],
                 'transaksi'         => ['c', 'u'],
                 'transaksiItem'     => ['c', 'r', 'u'],
-                'transaksiItemBarang' => ['r'],
+                'transaksiItemBarang' => ['c', 'r', 'u'],
                 'keranjang' => ['c', 'r'],
                 'transaksiBaru'  => []
 
