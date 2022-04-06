@@ -56,7 +56,21 @@
 									<th></th>
 								</tr>
 							</thead>
+							<tfoot>
+								<tr>
+									<th>Tgl Bayar</th>
+									<th>No Faktur</th>
+									<th>Nama Pelanggan</th>
+									<th>Cara Bayar</th>
+									<th>Nama bank</th>
+									<th>Kasir</th>
+									<th>Jumlah dibayar</th>
+
+									<th></th>
+								</tr>
+							</tfoot>
 						</table>
+
 					</div>
 					<!-- /.card-body -->
 				</div>
@@ -66,79 +80,6 @@
 		</div>
 		<!-- /.row -->
 	</section>
-	<!-- Tambah modal content -->
-	<div id="add-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-xl">
-			<div class="modal-content">
-				<div class="text-center bg-info p-3">
-					<h4 class="modal-title text-white" id="info-header-modalLabel">Tambah</h4>
-				</div>
-				<div class="modal-body">
-					<form id="add-form" class="pl-3 pr-3">
-						<?= csrf_field(); ?>
-						<div class="row">
-							<input type="hidden" id="idTransaksiPembayaran" name="idTransaksiPembayaran" class="form-control" placeholder="Id transaksi pembayaran" maxlength="10">
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="createdAt"> Created at: </label>
-									<input type="date" id="createdAt" name="createdAt" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="kasir"> Kasir: </label>
-									<input type="text" id="kasir" name="kasir" class="form-control" placeholder="Kasir" maxlength="50">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="jenisPembayaran"> Jenis pembayaran: </label>
-									<input type="text" id="jenisPembayaran" name="jenisPembayaran" class="form-control" placeholder="Jenis pembayaran" maxlength="50">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="namaBank"> Nama bank: </label>
-									<input type="text" id="namaBank" name="namaBank" class="form-control" placeholder="Nama bank" maxlength="50">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="norek"> Norek: </label>
-									<input type="text" id="norek" name="norek" class="form-control" placeholder="Norek" maxlength="50">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="atasNama"> Atas nama: </label>
-									<input type="text" id="atasNama" name="atasNama" class="form-control" placeholder="Atas nama" maxlength="50">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="jumlahDibayar"> Jumlah dibayar: </label>
-									<input type="number" id="jumlahDibayar" name="jumlahDibayar" class="form-control" placeholder="Jumlah dibayar" maxlength="10" number="true">
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group text-center">
-							<div class="btn-group">
-								<button type="submit" class="btn btn-success" id="add-form-btn">Tambah</button>
-								<button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
 
 	<!-- Edit modal content -->
 	<div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -277,6 +218,8 @@
 <script src="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- sum () coloum  -->
+<script src="<?= base_url(); ?>/Plugins-master/api/sum().js"></script>
 
 <!-- page script -->
 <script>
@@ -305,6 +248,27 @@
 				"dataType": "json",
 				async: "true"
 			}
+		});
+		$(document).ready(function() {
+			var table = $('#data_table').DataTable({
+
+				"footerCallback": function(row, data, start, end, display) {
+					var api = this.api();
+					api.columns(7, {
+						page: 'current'
+					}).every(function() {
+						var sum = this
+							.nodes()
+							.reduce(function(a, b) {
+								var x = parseFloat(a) || 0;
+								var y = parseFloat($(b).attr('data-sort')) || 0;
+								return x + y;
+							}, 0);
+						$(this.footer()).html(sum);
+					});
+				}
+
+			});
 		});
 
 		$('#table_pembayaran').DataTable({
@@ -341,99 +305,7 @@
 		$('#table_pembayaran').DataTable().ajax.url("<?= site_url('transaksiItem/getAll/') ?>" + id_transaksi).load();
 	}
 
-	function add() {
-		// reset the form 
-		$("#add-form")[0].reset();
-		$(".form-control").removeClass('is-invalid').removeClass('is-valid');
-		$('#add-modal').modal('show');
-		// submit the add from 
-		$.validator.setDefaults({
-			highlight: function(element) {
-				$(element).addClass('is-invalid').removeClass('is-valid');
-			},
-			unhighlight: function(element) {
-				$(element).removeClass('is-invalid').addClass('is-valid');
-			},
-			errorElement: 'div ',
-			errorClass: 'invalid-feedback',
-			errorPlacement: function(error, element) {
-				if (element.parent('.input-group').length) {
-					error.insertAfter(element.parent());
-				} else if ($(element).is('.select')) {
-					element.next().after(error);
-				} else if (element.hasClass('select2')) {
-					//error.insertAfter(element);
-					error.insertAfter(element.next());
-				} else if (element.hasClass('selectpicker')) {
-					error.insertAfter(element.next());
-				} else {
-					error.insertAfter(element);
-				}
-			},
 
-			submitHandler: function(form) {
-
-				var form = $('#add-form');
-				// remove the text-danger
-				$(".text-danger").remove();
-
-				$.ajax({
-					url: '<?php echo base_url('pembayaran/add') ?>',
-					type: 'post',
-					data: form.serialize(), // /converting the form data into array and sending it to server
-					dataType: 'json',
-					beforeSend: function() {
-						$('#add-form-btn').html('<i class="fa fa-spinner fa-spin"></i>');
-					},
-					success: function(response) {
-
-						if (response.success === true) {
-
-							Swal.fire({
-								position: 'bottom-end',
-								icon: 'success',
-								title: response.messages,
-								showConfirmButton: false,
-								timer: 1500
-							}).then(function() {
-								$('#data_table').DataTable().ajax.reload(null, false).draw(false);
-								$('#add-modal').modal('hide');
-							})
-
-						} else {
-
-							if (response.messages instanceof Object) {
-								$.each(response.messages, function(index, value) {
-									var id = $("#" + index);
-
-									id.closest('.form-control')
-										.removeClass('is-invalid')
-										.removeClass('is-valid')
-										.addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
-
-									id.after(value);
-
-								});
-							} else {
-								Swal.fire({
-									position: 'bottom-end',
-									icon: 'error',
-									title: response.messages,
-									showConfirmButton: false,
-									timer: 1500
-								})
-
-							}
-						}
-						$('#add-form-btn').html('Tambah');
-					}
-				});
-
-				return false;
-			}
-		});
-		$('#add-form').validate();
-	}
 
 	function edit(id_transaksi_pembayaran) {
 		$.ajax({

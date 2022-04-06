@@ -165,56 +165,6 @@ class Pembayaran extends BaseController
 		}
 	}
 
-	public function add()
-	{
-		if (!has_akses('pembayaran', 'c')) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException("Kamu tidak memiliki akses untuk membuka halaman ini");
-		}
-		$response = array();
-
-		$fields['id_transaksi_pembayaran'] = $this->request->getPost('idTransaksiPembayaran');
-		$fields['created_at'] = $this->request->getPost('createdAt');
-		$fields['kasir'] = $this->request->getPost('kasir');
-		$fields['jenis_pembayaran'] = $this->request->getPost('jenisPembayaran');
-		$fields['nama_bank'] = $this->request->getPost('namaBank');
-		$fields['norek'] = $this->request->getPost('norek');
-		$fields['atas_nama'] = $this->request->getPost('atasNama');
-		$fields['jumlah_dibayar'] = $this->request->getPost('jumlahDibayar');
-
-
-		$this->validation->setRules([
-			'created_at' => ['label' => 'Created at', 'rules' => 'permit_empty|valid_date'],
-			'kasir' => ['label' => 'Kasir', 'rules' => 'permit_empty|max_length[50]'],
-			'jenis_pembayaran' => ['label' => 'Jenis pembayaran', 'rules' => 'permit_empty|max_length[50]'],
-			'nama_bank' => ['label' => 'Nama bank', 'rules' => 'permit_empty|max_length[50]'],
-			'norek' => ['label' => 'Norek', 'rules' => 'permit_empty|max_length[50]'],
-			'atas_nama' => ['label' => 'Atas nama', 'rules' => 'permit_empty|max_length[50]'],
-			'jumlah_dibayar' => ['label' => 'Jumlah dibayar', 'rules' => 'permit_empty|numeric|max_length[10]'],
-
-		]);
-
-		if ($this->validation->run($fields) == FALSE) {
-
-			$response['success'] = false;
-			$response['messages'] = $this->validation->listErrors();
-		} else {
-
-			if ($this->pembayaranModel->insert($fields)) {
-
-				$response['success'] = true;
-				$response['messages'] = 'Data has been inserted successfully';
-			} else {
-
-				$response['success'] = false;
-				$response['messages'] = 'Insertion error!';
-			}
-		}
-
-		$response['token'] = csrf_hash();
-		return $this->response->setJSON($response);
-	}
-
-
 	public function edit()
 	{
 		if (!has_akses('pembayaran', 'u')) {
