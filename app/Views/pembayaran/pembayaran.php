@@ -253,6 +253,13 @@
 				async: "true",
 
 			},
+			"columnDefs": [{
+					"targets": [8],
+					"visible": false,
+
+				},
+
+			],
 			"drawCallback": function() {
 				var api = this.api();
 				$(api.column(6).footer()).html(

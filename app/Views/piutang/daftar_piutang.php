@@ -288,7 +288,8 @@
 <script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- sum () coloum  -->
 <script src="<?= base_url(); ?>/Plugins-master/api/sum().js"></script>
-
+<!-- sum () coloum  -->
+<!-- <script src="<?= base_url(); ?>/Plugins-master/type-detection/formatted-num.js"></script> -->
 <!-- page script -->
 <script>
     // Select2
@@ -313,6 +314,7 @@
         });
 
         $('#data_table').DataTable({
+
             "paging": true,
             "lengthChange": false,
             "searching": true,
@@ -326,6 +328,13 @@
                 "dataType": "json",
                 async: "true"
             },
+            "columnDefs": [{
+                    "targets": [8],
+                    "visible": false,
+
+                },
+
+            ],
             "drawCallback": function() {
                 var api = this.api();
                 $(api.column(6).footer()).html(
@@ -336,6 +345,7 @@
                     }).data().sum()
                 )
             },
+
         });
 
         $('#table_item').DataTable({
