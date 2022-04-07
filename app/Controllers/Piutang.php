@@ -107,6 +107,7 @@ class Piutang extends BaseController
                 number_to_currency($telah_bayar, 'IDR', 'id_ID', 2),
                 number_to_currency($kurang, 'IDR', 'id_ID', 2),
                 $ops,
+                $kurang,
             );
         }
 

@@ -88,6 +88,7 @@ class Pembayaran extends BaseController
 				$value->kasir,
 				number_to_currency($value->jumlah_dibayar, 'IDR', 'id_ID', 2),
 				$ops,
+				$value->jumlah_dibayar,
 			);
 		}
 

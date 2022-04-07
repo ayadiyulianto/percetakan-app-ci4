@@ -63,8 +63,23 @@
                                     <th>Telah bayar</th>
                                     <th>Kurang</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Total Piutang</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -228,6 +243,7 @@
                                 <th>Desain</th>
                             </tr>
                         </thead>
+
                     </table>
                     <div class="row">
                         <div class="col-md-12">
@@ -270,6 +286,8 @@
 <script src="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- sum () coloum  -->
+<script src="<?= base_url(); ?>/Plugins-master/api/sum().js"></script>
 
 <!-- page script -->
 <script>
@@ -307,7 +325,17 @@
                 "type": "POST",
                 "dataType": "json",
                 async: "true"
-            }
+            },
+            "drawCallback": function() {
+                var api = this.api();
+                $(api.column(6).footer()).html(
+                    api.column(8, {
+                        /*page:'current' atau */
+                        filter: 'applied'
+                        // page: 'current'
+                    }).data().sum()
+                )
+            },
         });
 
         $('#table_item').DataTable({

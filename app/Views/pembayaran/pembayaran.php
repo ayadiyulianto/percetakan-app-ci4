@@ -52,19 +52,20 @@
 									<th>Nama bank</th>
 									<th>Kasir</th>
 									<th>Jumlah dibayar</th>
-
 									<th></th>
+									<th id="jumlah2">Jumlah dibayar</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Tgl Bayar</th>
-									<th>No Faktur</th>
-									<th>Nama Pelanggan</th>
-									<th>Cara Bayar</th>
-									<th>Nama bank</th>
-									<th>Kasir</th>
-									<th>Jumlah dibayar</th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th>Total : </th>
+									<th id="total"></th>
+									<th></th>
 
 									<th></th>
 								</tr>
@@ -205,7 +206,7 @@
 <!-- jquery-validation -->
 <script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?= base_url() ?>/admin-lte/plugins/jquery-validation/additional-methods.min.js"></script>
-<!-- DataTables -->
+<!-- DataTables-->
 <script src="<?= base_url() ?>/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>/admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="<?= base_url() ?>/admin-lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -224,7 +225,10 @@
 <!-- page script -->
 <script>
 	$(function() {
-
+		var currencyFormatter = new Intl.NumberFormat('id-ID', {
+			style: 'currency',
+			currency: 'IDR',
+		});
 		// init lightbox modal file gambar
 		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
 			event.preventDefault();
@@ -235,6 +239,7 @@
 		});
 
 		$('#data_table').DataTable({
+			"retrieve": true,
 			"paging": true,
 			"lengthChange": false,
 			"searching": true,
@@ -246,30 +251,20 @@
 				"url": '<?php echo base_url('pembayaran/getAll') ?>',
 				"type": "POST",
 				"dataType": "json",
-				async: "true"
-			}
-		});
-		$(document).ready(function() {
-			var table = $('#data_table').DataTable({
+				async: "true",
 
-				"footerCallback": function(row, data, start, end, display) {
-					var api = this.api();
-					api.columns(7, {
-						page: 'current'
-					}).every(function() {
-						var sum = this
-							.nodes()
-							.reduce(function(a, b) {
-								var x = parseFloat(a) || 0;
-								var y = parseFloat($(b).attr('data-sort')) || 0;
-								return x + y;
-							}, 0);
-						$(this.footer()).html(sum);
-					});
-				}
-
-			});
+			},
+			"drawCallback": function() {
+				var api = this.api();
+				$(api.column(6).footer()).html(
+					api.column(7, {
+						/*page:'current' atau */
+						filter: 'applied'
+					}).data().sum()
+				)
+			},
 		});
+
 
 		$('#table_pembayaran').DataTable({
 			"paging": false,
