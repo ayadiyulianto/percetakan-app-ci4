@@ -52,10 +52,23 @@
 									<th>Nama bank</th>
 									<th>Kasir</th>
 									<th>Jumlah dibayar</th>
-
+									<th></th>
 									<th></th>
 								</tr>
 							</thead>
+							<tfoot>
+								<tr>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th>Total Pembayaran</th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 					<!-- /.card-body -->
@@ -277,6 +290,8 @@
 <script src="<?= base_url(); ?>/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- bs-custom-file-input -->
 <script src="<?= base_url(); ?>/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- sum () coloum  -->
+<script src="<?= base_url(); ?>/Plugins-master/api/sum().js"></script>
 
 <!-- page script -->
 <script>
@@ -304,7 +319,16 @@
 				"type": "POST",
 				"dataType": "json",
 				async: "true"
-			}
+			},
+			"drawCallback": function() {
+				var api = this.api();
+				$(api.column(6).footer()).html(
+					api.column(8, {
+						/*page:'current' atau */
+						filter: 'applied'
+					}).data().sum()
+				)
+			},
 		});
 
 		$('#table_pembayaran').DataTable({
