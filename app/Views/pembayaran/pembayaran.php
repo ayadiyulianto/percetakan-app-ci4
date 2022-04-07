@@ -66,7 +66,6 @@
 									<th>Total : </th>
 									<th id="total"></th>
 									<th></th>
-
 									<th></th>
 								</tr>
 							</tfoot>
@@ -257,7 +256,7 @@
 			"drawCallback": function() {
 				var api = this.api();
 				$(api.column(6).footer()).html(
-					api.column(7, {
+					api.column(8, {
 						/*page:'current' atau */
 						filter: 'applied'
 					}).data().sum()
