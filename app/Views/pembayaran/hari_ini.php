@@ -320,26 +320,23 @@
 				"dataType": "json",
 				async: "true"
 			},
+
+			//hilangkan colom table
 			"columnDefs": [{
-					"targets": [8],
-					"visible": false,
+				"targets": [8],
+				"visible": false,
+			}, ],
 
-				},
-
-			],
+			//total jumlah tabel yang dicari
 			"drawCallback": function() {
 				var api = this.api();
 				$(api.column(6).footer()).html(
-					api.column(8, {
+					'Rp. ' + ubahRupiah(api.column(8, {
 						/*page:'current' atau */
 						filter: 'applied'
-					}).data().sum()
-				)
+					}).data().sum()))
 			},
-			"language": {
-				"decimal": ",",
-				"thousands": "."
-			}
+
 		});
 
 		$('#table_pembayaran').DataTable({
@@ -355,6 +352,13 @@
 		//Initialize Select2 Elements
 		$('.select2').select2();
 	});
+
+	function ubahRupiah(angka) {
+		var reverse = angka.toString().split('').reverse().join(''),
+			ribuan = reverse.match(/\d{1,3}/g);
+		ribuan = ribuan.join('.').split('').reverse().join('');
+		return ribuan;
+	};
 
 	function detailPembayaran(id_transaksi) {
 		$('#modal-detail-pembayaran').modal('show');
