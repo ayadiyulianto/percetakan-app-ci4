@@ -327,14 +327,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="hargaSatuan"> Harga satuan: </label>
-                                    <input type="number" min="0" disabled id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
+                                    <input type="hidden" type="number" min="0" disabled id="hargaSatuan" name="hargaSatuan" class="form-control" placeholder="Harga satuan" maxlength="10" number="true">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="subTotalHarga"> Sub total harga: </label>
-                                    <input type="number" min="0" disabled id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
+                                    <input type="hidden" type="number" min="0" disabled id="subTotalHarga" name="subTotalHarga" class="form-control" placeholder="Sub total harga" maxlength="10" number="true">
                                 </div>
                             </div>
                         </div>
@@ -451,13 +449,11 @@
                             <div type="hidden" class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label type="hidden" for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
                                         <input type="hidden" type="number" min="0" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label type="hidden" for="totalHarga"> Total harga: <span class="text-danger">*</span> </label>
                                         <input type="hidden" readonly type="number" id="totalHarga" name="totalHarga" class="form-control" placeholder="Total harga" maxlength="10" number="true" required>
                                     </div>
                                 </div>
@@ -538,13 +534,11 @@
                             <div type="hidden" class="row">
                                 <div type="hidden" class="col-md-4">
                                     <div class="form-group">
-                                        <label type="hidden" for="harga"> Harga Satuan: <span class="text-danger">*</span> </label>
                                         <input type="hidden" type="number" min="0" id="harga" name="harga" class="form-control" placeholder="Harga" maxlength="10" number="true" required>
                                     </div>
                                 </div>
                                 <div type="hidden" class="col-md-4">
                                     <div class="form-group">
-                                        <label type="hidden" for="totalHarga"> Total harga: <span class="text-danger">*</span> </label>
                                         <input type="hidden" readonly type="number" id="totalHarga" name="totalHarga" class="form-control" placeholder="Total harga" maxlength="10" number="true" required>
                                     </div>
                                 </div>
