@@ -36,7 +36,7 @@ class Migrate extends \CodeIgniter\Controller
 
         $query = $db->query("UPDATE tb_transaksi_pembayaran
         INNER JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_transaksi_pembayaran.id_transaksi
-        SET tb_transaksi_pembayaran.perusahaan = tb_transaksi.perusahaan, ");
+        SET tb_transaksi_pembayaran.perusahaan = tb_transaksi.perusahaan");
 
         if ($query) {
             echo "Berhasil updatePembayaranPerusahaan";
@@ -50,7 +50,7 @@ class Migrate extends \CodeIgniter\Controller
 
         $query = $db->query("UPDATE tb_transaksi_pembayaran
         INNER JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_transaksi_pembayaran.id_transaksi
-        SET tb_transaksi_pembayaran.nama_pelanggan = tb_transaksi.nama_pelanggan, ");
+        SET tb_transaksi_pembayaran.nama_pelanggan = tb_transaksi.nama_pelanggan");
 
         if ($query) {
             echo "Berhasil updatePembayaranPelanggan";
@@ -64,7 +64,7 @@ class Migrate extends \CodeIgniter\Controller
 
         $query = $db->query("UPDATE tb_transaksi_pembayaran
         INNER JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_transaksi_pembayaran.id_transaksi
-        SET tb_transaksi_pembayaran.no_faktur = tb_transaksi.no_faktur, ");
+        SET tb_transaksi_pembayaran.no_faktur = tb_transaksi.no_faktur");
 
         if ($query) {
             echo "Berhasil updatePembayaranNoFaktur";
